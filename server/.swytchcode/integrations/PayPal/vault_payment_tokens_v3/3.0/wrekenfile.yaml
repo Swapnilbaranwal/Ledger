@@ -1,0 +1,425 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  payment_method_tokens.vault.paymentTokens.create:
+    SUMMARY: Create payment token for a given payment source
+    DESC: Creates a Payment Token from the given payment source and adds it to the Vault of the associated customer.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v3/vault/payment-tokens
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(payment_token_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(payment_token_request)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(payment_token_response)
+        RETURNVAR: payment_method_tokens_vault_paymentTokens_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(payment_token_response)
+        RETURNVAR: payment_method_tokens_vault_paymentTokens_create_201
+        STATUS: 201
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Request contains reference to resources that do not exist. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.paymentTokens.create
+  payment_method_tokens.vault.paymentTokens.list:
+    SUMMARY: List all payment tokens
+    DESC: Returns all payment tokens for a customer.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v3/vault/payment-tokens
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - customer_id:
+          TYPE: STRING
+          LOCATION: query
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 5
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+    RETURNS:
+      - RETURNTYPE: STRUCT(customer_vault_payment_tokens_response)
+        RETURNVAR: payment_method_tokens_vault_paymentTokens_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.paymentTokens.list
+  payment_method_tokens.vault.paymentTokens.get:
+    SUMMARY: Retrieve a payment token
+    DESC: Returns a readable representation of vaulted payment source associated with the payment token id.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v3/vault/payment-tokens/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(payment_token_response)
+        RETURNVAR: payment_method_tokens_vault_paymentTokens_get
+        STATUS: 200
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.paymentTokens.get
+  payment_method_tokens.vault.paymentTokens.delete:
+    SUMMARY: Delete payment token
+    DESC: Delete the payment token associated with the payment token id.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v3/vault/payment-tokens/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.paymentTokens.delete
+  payment_method_tokens.vault.setupTokens.create:
+    SUMMARY: Create a setup token
+    DESC: Creates a Setup Token from the given payment source and adds it to the Vault of the associated customer.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v3/vault/setup-tokens
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(setup_token_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(setup_token_request)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(setup_token_response)
+        RETURNVAR: payment_method_tokens_vault_setupTokens_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(setup_token_response)
+        RETURNVAR: payment_method_tokens_vault_setupTokens_create_201
+        STATUS: 201
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.setupTokens.create
+  payment_method_tokens.vault.setupTokens.get:
+    SUMMARY: Retrieve a setup token
+    DESC: Returns a readable representation of temporarily vaulted payment source associated with the setup token id.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v3/vault/setup-tokens/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(setup_token_response)
+        RETURNVAR: payment_method_tokens_vault_setupTokens_get
+        STATUS: 200
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+    CANONICAL_ID: payment_method_tokens.vault.setupTokens.get
+STRUCTS:
+  apple_pay_payment_token_response:
+    - name: card
+      type: OBJECT
+      REQUIRED: false
+      comment: The payment card to be used to fund a payment. Can be a credit or debit card.
+  customer:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The unique ID for a customer in merchant's or partner's system of records.
+    - name: merchant_customer_id
+      type: STRING
+      REQUIRED: false
+      comment: Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.
+  definitions-payment_source:
+    - name: card
+      type: OBJECT
+      REQUIRED: false
+      comment: A Resource representing a request to vault a Card.
+    - name: token
+      type: STRUCT(token_id_request)
+      REQUIRED: false
+  token_id_request:
+    - name: id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated ID for the token.
+    - name: type
+      type: STRING
+      REQUIRED: true
+      comment: The tokenization method that generated the ID.
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: details
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  payment_source:
+    - name: card
+      type: OBJECT
+      REQUIRED: false
+    - name: paypal
+      type: STRUCT(paypal_wallet_response)
+      REQUIRED: false
+    - name: venmo
+      type: STRUCT(venmo_response)
+      REQUIRED: false
+    - name: apple_pay
+      type: STRUCT(apple_pay_payment_token_response)
+      REQUIRED: false
+  paypal_wallet_response:
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: "The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com."
+    - name: usage_pattern
+      type: STRING
+      REQUIRED: false
+      comment: Expected business/charge model for the billing agreement.
+    - name: shipping
+      type: OBJECT
+      REQUIRED: false
+      comment: The shipping details.
+    - name: permit_multiple_payment_tokens
+      type: BOOL
+      REQUIRED: false
+      comment: Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source.
+    - name: usage_type
+      type: STRING
+      REQUIRED: false
+      comment: The usage type associated with a digital wallet payment token.
+    - name: customer_type
+      type: STRING
+      REQUIRED: false
+      comment: The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.
+    - name: email_address
+      type: STRING
+      REQUIRED: false
+      comment: The email address of the payer.
+    - name: payer_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-assigned ID for the payer.
+  venmo_response:
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: "The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com."
+    - name: usage_pattern
+      type: STRING
+      REQUIRED: false
+      comment: Expected business/charge model for the billing agreement.
+    - name: shipping
+      type: OBJECT
+      REQUIRED: false
+      comment: The shipping details.
+    - name: permit_multiple_payment_tokens
+      type: BOOL
+      REQUIRED: false
+      comment: Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source.
+    - name: usage_type
+      type: STRING
+      REQUIRED: false
+      comment: The usage type associated with a digital wallet payment token.
+    - name: customer_type
+      type: STRING
+      REQUIRED: false
+      comment: The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.
+    - name: email_address
+      type: STRING
+      REQUIRED: false
+      comment: The email address of the payer.
+    - name: payer_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-assigned ID for the payer.
+  payment_token_request:
+    - name: customer
+      type: OBJECT
+      REQUIRED: false
+      comment: This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.
+    - name: payment_source
+      type: STRUCT(definitions-payment_source)
+      REQUIRED: true
+  payment_token_response:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-generated ID for the vault token.
+    - name: customer
+      type: STRUCT(customer)
+      REQUIRED: false
+      comment: Customer in merchant's or partner's system of records.
+    - name: payment_source
+      type: STRUCT(payment_source)
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  setup_token_request:
+    - name: customer
+      type: OBJECT
+      REQUIRED: false
+      comment: This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.
+    - name: payment_source
+      type: ANY
+      REQUIRED: true
+      comment: The payment method to vault with the instrument details.
+  setup_token_response:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-generated ID for the vault token.
+    - name: customer
+      type: OBJECT
+      REQUIRED: false
+      comment: This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.
+    - name: status
+      type: STRING
+      REQUIRED: false
+      comment: The status of the payment token.
+    - name: payment_source
+      type: ANY
+      REQUIRED: false
+      comment: The setup payment method details.
+    - name: links
+      type: ANY
+      REQUIRED: false

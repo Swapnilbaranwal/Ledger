@@ -1,0 +1,34 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Create a web experience profile with specified details",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the latest web experience profiles",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get web experience profile details by ID",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove web experience profile by ID",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update parts of a web experience profile by ID",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.update.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update web experience profile by ID",
+      "canonical_id": "payment_experience_web_profiles.payment-experience.webProfiles.update"
+    }
+  ]
+}

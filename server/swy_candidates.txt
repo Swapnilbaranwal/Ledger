@@ -1,0 +1,179 @@
+===== gmail.user.messages.get
+Provider: Gmail.gmail@v1
+Summary: Lists the messages in the user's mailbox
+Endpoint: GET /gmail/v1/users/{userId}/messages
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== gmail.user.messages.get1
+Provider: Gmail.gmail@v1
+Summary: Gets the specified message.
+Endpoint: GET /gmail/v1/users/{userId}/messages/{id}
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== gmail.user.send.create
+Provider: Gmail.gmail@v1
+Summary: Sends the specified, existing draft to the recipients in the `To`, `Cc`, and `Bcc` headers
+Endpoint: POST /gmail/v1/users/{userId}/drafts/send
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== gmail.user.send.create1
+Provider: Gmail.gmail@v1
+Summary: Sends the specified message to the recipients in the `To`, `Cc`, and `Bcc` headers
+Endpoint: POST /gmail/v1/users/{userId}/messages/send
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== gmail.user.messages.create
+Provider: Gmail.gmail@v1
+Summary: Directly inserts a message into only this user's mailbox similar to `IMAP APPEND`, bypassing most scanning and classification
+Endpoint: POST /gmail/v1/users/{userId}/messages
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.issue.create
+Provider: Jira.jira@v1
+Summary: Create issue
+Endpoint: POST /rest/api/3/issue
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.get
+Provider: Jira.jira@v1
+Summary: Get visible issue field options
+Endpoint: GET /rest/api/3/field/{fieldKey}/option/suggestions/search
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.create
+Provider: Jira.jira@v1
+Summary: Get precomputations by ID (apps)
+Endpoint: POST /rest/api/3/jql/function/computation/search
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.create1
+Provider: Jira.jira@v1
+Summary: Currently being removed. Search for issues using JQL (POST)
+Endpoint: POST /rest/api/3/search
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.list
+Provider: Jira.jira@v1
+Summary: Search for dashboards
+Endpoint: GET /rest/api/3/dashboard/search
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.list1
+Provider: Jira.jira@v1
+Summary: Get fields paginated
+Endpoint: GET /rest/api/3/field/search
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== jira.api.search.list2
+Provider: Jira.jira@v1
+Summary: Search for filters
+Endpoint: GET /rest/api/3/filter/search
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.query.create
+Provider: Notion.notion@2.0.0
+Summary: Query a data source
+Endpoint: POST /v1/data_sources/{data_source_id}/query
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.markdown.get
+Provider: Notion.notion@2.0.0
+Summary: Retrieve a page as Markdown
+Endpoint: GET /v1/pages/{page_id}/markdown
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.page.create
+Provider: Notion.notion@2.0.0
+Summary: Create a page
+Endpoint: POST /v1/pages
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.page.update
+Provider: Notion.notion@2.0.0
+Summary: Update page properties
+Endpoint: PATCH /v1/pages/{page_id}
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.search.create
+Provider: Notion.notion@2.0.0
+Summary: Search by title
+Endpoint: POST /v1/search
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== notion.databas.get
+Provider: Notion.notion@2.0.0
+Summary: Retrieve a database
+Endpoint: GET /v1/databases/{database_id}
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== slack.chat.postmessage.create
+Provider: Slack.slack@1.7.0
+Summary: Sends a message to a channel.
+Endpoint: POST /chat.postMessage
+  "Authorization": "bearer_token",
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== slack.conversations.history.list
+Provider: Slack.slack@1.7.0
+Summary: Fetches a conversation's history of messages and events.
+Endpoint: GET /conversations.history
+  "Authorization": "bearer_token"
+  "type": "oauth2"
+Auth:
+  "type": "oauth2"
+===== disputes.customer.disputes.get
+Provider: PayPal.customer_disputes_v1@1.0
+Summary: Show dispute details
+Endpoint: GET /v1/customer/disputes/{id}
+  "Authorization": "bearer_token"
+===== disputes.customer.provideEvidence.create
+Provider: PayPal.customer_disputes_v1@1.0
+Summary: Provide evidence
+Endpoint: POST /v1/customer/disputes/{id}/provide-evidence
+  "Authorization": "bearer_token",
+===== disputes.customer.makeOffer.create
+Provider: PayPal.customer_disputes_v1@1.0
+Summary: Make offer to resolve dispute
+Endpoint: POST /v1/customer/disputes/{id}/make-offer
+  "Authorization": "bearer_token",
+===== disputes.customer.acceptClaim.create
+Provider: PayPal.customer_disputes_v1@1.0
+Summary: Accept claim
+Endpoint: POST /v1/customer/disputes/{id}/accept-claim
+  "Authorization": "bearer_token",
+===== transaction_search.reporting.transactions.list
+Provider: PayPal.reporting_transactions_v1@1.0
+Summary: List transactions
+Endpoint: GET /v1/reporting/transactions
+  "Authorization": "bearer_token"

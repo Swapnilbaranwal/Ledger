@@ -1,0 +1,278 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  payment_experience_web_profiles.payment-experience.webProfiles.create:
+    SUMMARY: Create web experience profile
+    DESC: Creates a web experience profile. In the JSON request body, specify the profile name and details.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/payment-experience/web-profiles
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          LOCATION: header
+    RETURNS:
+      - RETURNTYPE: STRUCT(web_profile)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(web_profile)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.create
+  payment_experience_web_profiles.payment-experience.webProfiles.list:
+    SUMMARY: List web experience profiles
+    DESC: Lists the latest 20 web experience profiles for a merchant or subject. To show details for these or additional profiles, you can show web experience profile details by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/payment-experience/web-profiles
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.list
+  payment_experience_web_profiles.payment-experience.webProfiles.update:
+    SUMMARY: Update web experience profile
+    DESC: Updates a web experience profile, by ID. In the JSON request body, specify the profile details. If your request omits any profile parameters, any previously set values for those parameters are removed.
+    HTTP:
+      METHOD: PUT
+      ENDPOINT: /v1/payment-experience/web-profiles/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.update
+  payment_experience_web_profiles.payment-experience.webProfiles.update.1:
+    SUMMARY: Partially update web experience profile
+    DESC: Partially-updates a web experience profile, by ID. In the JSON request body, specify a patch object, the path of the profile location to update, and a new value.
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/payment-experience/web-profiles/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_update_1_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.update.1
+  payment_experience_web_profiles.payment-experience.webProfiles.get:
+    SUMMARY: Show web experience profile details by ID
+    DESC: Shows details for a web experience profile, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/payment-experience/web-profiles/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(web_profile)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.get
+  payment_experience_web_profiles.payment-experience.webProfiles.delete:
+    SUMMARY: Delete web experience profile
+    DESC: Deletes a web experience profile, by ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v1/payment-experience/web-profiles/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payment_experience_web_profiles_payment-experience_webProfiles_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payment_experience_web_profiles.payment-experience.webProfiles.delete
+STRUCTS:
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: information_link
+      type: STRING
+      REQUIRED: true
+      comment: The URI to detailed information related to this error for the developer.
+    - name: details
+      type: ANY
+      REQUIRED: false
+  flow_config:
+    - name: landing_page_type
+      type: STRING
+      REQUIRED: false
+      comment: The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.
+    - name: bank_txn_pending_url
+      type: STRING
+      REQUIRED: false
+      comment: The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.
+    - name: user_action
+      type: STRING
+      REQUIRED: false
+      comment: Presents either the **Continue** or **Pay Now** checkout flow to the customer.<br/><br/>Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount.<br/><br/> When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.
+    - name: return_uri_http_method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.
+  input_fields:
+    - name: no_shipping
+      type: INT
+      REQUIRED: false
+      comment: Indicates whether PayPal displays shipping address fields on the experience pages. Value is:<ul><li><code>0</code>. Displays the shipping address on the PayPal pages.</li><li><code>1</code>. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be <code>1</code>.</li><li><code>2</code>. Gets the shipping address from the customer's account profile.</li></ul>
+    - name: address_override
+      type: INT
+      REQUIRED: false
+      comment: Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:<ul><li><code>0</code>. Displays the shipping address on file.</li><li><code>1</code>. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</li></ul>
+  presentation:
+    - name: brand_name
+      type: STRING
+      REQUIRED: false
+      comment: "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters."
+    - name: logo_image
+      type: STRING
+      REQUIRED: false
+      comment: "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters."
+    - name: locale_code
+      type: STRING
+      REQUIRED: false
+      comment: "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`."
+  web_profile:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the web experience profile.
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The web experience profile name. Must be unique for a set of profiles for a merchant.
+    - name: temporary
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`.
+    - name: flow_config
+      type: STRUCT(flow_config)
+      REQUIRED: false
+    - name: input_fields
+      type: STRUCT(input_fields)
+      REQUIRED: false
+    - name: presentation
+      type: STRUCT(presentation)
+      REQUIRED: false

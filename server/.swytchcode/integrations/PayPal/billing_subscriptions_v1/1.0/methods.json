@@ -1,0 +1,84 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Activate a billing plan by its ID",
+      "canonical_id": "subscriptions.billing.activate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Activate a subscription by its ID",
+      "canonical_id": "subscriptions.billing.activate.create.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Cancel a user's subscription",
+      "canonical_id": "subscriptions.billing.subscriptions.cancel"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Capture an authorized payment on a subscription",
+      "canonical_id": "subscriptions.billing.capture.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new billing plan with pricing and cycle details",
+      "canonical_id": "subscriptions.billing.plans.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new billing subscription",
+      "canonical_id": "subscriptions.billing.subscriptions.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Deactivate a billing plan by its ID",
+      "canonical_id": "subscriptions.billing.deactivate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get billing plan details by ID",
+      "canonical_id": "subscriptions.billing.plans.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get subscription details by ID",
+      "canonical_id": "subscriptions.billing.subscriptions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get subscription transactions by ID",
+      "canonical_id": "subscriptions.billing.transactions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List available billing plans",
+      "canonical_id": "subscriptions.billing.plans.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Revise subscription plan or quantity with buyer consent",
+      "canonical_id": "subscriptions.billing.revise.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Suspend a subscription by its ID",
+      "canonical_id": "subscriptions.billing.subscriptions.suspend"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a billing plan's details or status",
+      "canonical_id": "subscriptions.billing.plans.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update pricing schemes for a billing plan",
+      "canonical_id": "subscriptions.billing.updatePricingSchemes.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update subscription details and override plan attributes",
+      "canonical_id": "subscriptions.billing.subscriptions.update"
+    }
+  ]
+}

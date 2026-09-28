@@ -1,0 +1,331 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  partner_referrals.customer.partnerReferrals.create:
+    SUMMARY: Create partner referral
+    DESC: Creates a partner referral that is shared by the partner or API caller. The partner referral is used to onboard the seller, and contains the seller's personal, business, financial and operations.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/customer/partner-referrals
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: OBJECT
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: OBJECT
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(create_referral_data_response)
+        RETURNVAR: partner_referrals_customer_partnerReferrals_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: partner_referrals_customer_partnerReferrals_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(partner-referrals.create_Error400)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(partner-referrals.create_Error401)
+        STATUS: 401
+        WHEN: The API call is not authorized. (HTTP 401)
+      - TYPE: STRUCT(partner-referrals.create_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions or missing scopes on the caller account. (HTTP 403)
+      - TYPE: STRUCT(partner-referrals.create_Error422)
+        STATUS: 422
+        WHEN: The caller is not a business account or the account is closed or locked. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: partner_referrals.customer.partnerReferrals.create
+  partner_referrals.customer.partnerReferrals.get:
+    SUMMARY: Show referral data
+    DESC: Shows details by ID for referral data that was shared by the partner or API caller.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/customer/partner-referrals/{partner_referral_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - partner_referral_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(referral_data_response)
+        RETURNVAR: partner_referrals_customer_partnerReferrals_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: partner_referrals_customer_partnerReferrals_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(partner-referrals.read_Error401)
+        STATUS: 401
+        WHEN: The API call is not authorized. (HTTP 401)
+      - TYPE: STRUCT(partner-referrals.read_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions or missing scopes on the caller Account. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: partner_referrals.customer.partnerReferrals.get
+STRUCTS:
+  create_referral_data_response:
+    - name: links
+      type: ANY
+      REQUIRED: false
+  error_400:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: location
+      type: STRING
+      REQUIRED: false
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value.
+  error_link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  error_401:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_403:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_404:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_409:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_415:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_422:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_500:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_503:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_default:
+    - name: variant_error_400
+      type: STRUCT(error_400)
+      REQUIRED: false
+    - name: variant_error_401
+      type: STRUCT(error_401)
+      REQUIRED: false
+    - name: variant_error_403
+      type: STRUCT(error_403)
+      REQUIRED: false
+    - name: variant_error_404
+      type: STRUCT(error_404)
+      REQUIRED: false
+    - name: variant_error_409
+      type: STRUCT(error_409)
+      REQUIRED: false
+    - name: variant_error_415
+      type: STRUCT(error_415)
+      REQUIRED: false
+    - name: variant_error_422
+      type: STRUCT(error_422)
+      REQUIRED: false
+    - name: variant_error_500
+      type: STRUCT(error_500)
+      REQUIRED: false
+    - name: variant_error_503
+      type: STRUCT(error_503)
+      REQUIRED: false
+  referral_data_response:
+    - name: partner_referral_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID to access the customer's data shared by the partner with PayPal.
+    - name: submitter_payer_id
+      type: STRING
+      REQUIRED: false
+      comment: The payer ID of the partner who shared the referral data.
+    - name: submitter_client_id
+      type: STRING
+      REQUIRED: false
+      comment: The client ID of the partner who shared the referral data. This cliend ID will be returned only when the caller is determined as an internal partner, which means the scope of the caller's security context only have "https://uri.paypal.com/services/customer/partner-referrals", For more information, see <a href="https://github.paypal.com/Customers-R/partnselleronbnodeserv/blob/b0a631c43e80a4dd43d34c01f479c272b3287796/src/helpers/securityContextHelpers.js#L143">Api Actor type in Typhoon service</a>.
+    - name: referral_data
+      type: OBJECT
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false

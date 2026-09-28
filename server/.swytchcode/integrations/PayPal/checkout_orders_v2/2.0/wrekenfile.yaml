@@ -1,0 +1,805 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.paypal.com
+METHODS:
+  orders.checkout.orders.create:
+    SUMMARY: Create order
+    DESC: Creates an order. Merchants and partners can add Level 2 and 3 data to payments to reduce risk and payment processing costs. For more information about processing payments, see <a href="https://developer.paypal.com/docs/checkout/advanced/processing/">checkout</a> or <a href="https://developer.paypal.com/docs/multiparty/checkout/advanced/processing/">multiparty checkout</a>.<blockquote><strong>Note:</strong> For error handling and troubleshooting, see <a href="https://developer.paypal.com/api/rest/reference/orders/v2/errors/#create-order">Orders v2 errors</a>.</blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(order_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Partner-Attribution-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Client-Metadata-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(order_request)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_orders_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_orders_create_201
+        STATUS: 201
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_orders_create_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_orders_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.orders.create
+  orders.checkout.orders.get:
+    SUMMARY: Show order details
+    DESC: Shows details for an order, by ID.<blockquote><strong>Note:</strong> For error handling and troubleshooting, see <a href="https://developer.paypal.com/api/rest/reference/orders/v2/errors/#get-order">Orders v2 errors</a>.</blockquote>
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/checkout/orders/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_orders_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_orders_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.orders.get
+  orders.checkout.orders.update:
+    SUMMARY: Update order
+    DESC: "Updates an order with a `CREATED` or `APPROVED` status. You cannot update an order with the `COMPLETED` status.<br/><br/>To make an update, you must provide a `reference_id`. If you omit this value with an order that contains only one purchase unit, PayPal sets the value to `default` which enables you to use the path: <code>\\\"/purchase_units/@reference_id=='default'/{attribute-or-object}\\\"</code>. Merchants and partners can add Level 2 and 3 data to payments to reduce risk and payment processing costs. For more information about processing payments, see <a href=\"https://developer.paypal.com/docs/checkout/advanced/processing/\">checkout</a> or <a href=\"https://developer.paypal.com/docs/multiparty/checkout/advanced/processing/\">multiparty checkout</a>.<blockquote><strong>Note:</strong> For error handling and troubleshooting, see <a href=\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#patch-order\">Orders v2 errors</a>.</blockquote>Patchable attributes or objects:<br/><br/><table><thead><th>Attribute</th><th>Op</th><th>Notes</th></thead><tbody><tr><td><code>intent</code></td><td>replace</td><td></td></tr><tr><td><code>payer</code></td><td>replace, add</td><td>Using replace op for <code>payer</code> will replace the whole <code>payer</code> object with the value sent in request.</td></tr><tr><td><code>purchase_units</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].custom_id</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].description</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].payee.email</code></td><td>replace</td><td></td></tr><tr><td><code>purchase_units[].shipping.name</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].shipping.email_address</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].shipping.phone_number</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].shipping.options</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].shipping.address</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].shipping.type</code></td><td>replace, add</td><td></td></tr><tr><td><code>purchase_units[].soft_descriptor</code></td><td>replace, remove</td><td></td></tr><tr><td><code>purchase_units[].amount</code></td><td>replace</td><td></td></tr><tr><td><code>purchase_units[].items</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].invoice_id</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].payment_instruction</code></td><td>replace</td><td></td></tr><tr><td><code>purchase_units[].payment_instruction.disbursement_mode</code></td><td>replace</td><td>By default, <code>disbursement_mode</code> is <code>INSTANT</code>.</td></tr><tr><td><code>purchase_units[].payment_instruction.payee_receivable_fx_rate_id</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].payment_instruction.platform_fees</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].supplementary_data.airline</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>purchase_units[].supplementary_data.card</code></td><td>replace, add, remove</td><td></td></tr><tr><td><code>application_context.client_configuration</code></td><td>replace, add</td><td></td></tr></tbody></table>"
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v2/checkout/orders/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_orders_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.orders.update
+  orders.checkout.confirmPaymentSource.create:
+    SUMMARY: Confirm the Order
+    DESC: Payer confirms their intent to pay for the the Order with the given payment source.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders/{id}/confirm-payment-source
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(confirm_order_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Client-Metadata-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - body:
+          TYPE: STRUCT(confirm_order_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_confirmPaymentSource_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_confirmPaymentSource_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.confirmPaymentSource.create
+  orders.checkout.authorize.create:
+    SUMMARY: Authorize payment for order
+    DESC: Authorizes payment for an order. To successfully authorize payment for an order, the buyer must first approve the order or a valid payment_source must be provided in the request. A buyer can approve the order upon being redirected to the rel:approve URL that was returned in the HATEOAS links in the create order response.<blockquote><strong>Note:</strong> For error handling and troubleshooting, see <a href="https://developer.paypal.com/api/rest/reference/orders/v2/errors/#authorize-order">Orders v2 errors</a>.</blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders/{id}/authorize
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(order_authorize_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - PayPal-Client-Metadata-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(order_authorize_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_authorize_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_authorize_create_201
+        STATUS: 201
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_authorize_create_202
+        STATUS: 202
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_authorize_create_207
+        STATUS: 207
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_authorize_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 409
+        WHEN: The request could not be completed due to a conflict with the current state of the resource. The HTTP `409 Conflict` status code is returned when the requested operation is not allowed because the order or one or more purchase units are in a state that prevents the operation. (HTTP 409)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.authorize.create
+  orders.checkout.capture.create:
+    SUMMARY: Capture payment for order
+    DESC: Captures payment for an order. To successfully capture payment for an order, the buyer must first approve the order or a valid payment_source must be provided in the request. A buyer can approve the order upon being redirected to the rel:approve URL that was returned in the HATEOAS links in the create order response.<blockquote><strong>Note:</strong> For error handling and troubleshooting, see <a href="https://developer.paypal.com/api/rest/reference/orders/v2/errors/#capture-order">Orders v2 errors</a>.</blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders/{id}/capture
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(order_capture_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - PayPal-Client-Metadata-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(order_capture_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_capture_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_capture_create_201
+        STATUS: 201
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_capture_create_202
+        STATUS: 202
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_capture_create_207
+        STATUS: 207
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_capture_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 409
+        WHEN: The request could not be completed due to a conflict with the current state of the resource. The HTTP `409 Conflict` status code is returned when the requested operation is not allowed because the order or one or more purchase units are in a state that prevents the operation. (HTTP 409)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.capture.create
+  orders.checkout.track.create:
+    SUMMARY: Add tracking information for an Order.
+    DESC: Adds tracking information for an Order.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders/{id}/track
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: OBJECT
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: OBJECT
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_track_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: orders_checkout_track_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_track_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.track.create
+  orders.checkout.trackers.update:
+    SUMMARY: Update or cancel tracking information for an order
+    DESC: Updates or cancels the tracking information for a PayPal order, by ID. Updatable attributes or objects:<br/><br/><table><thead><th>Attribute</th><th>Op</th><th>Notes</th></thead><tbody></tr><tr><td><code>items</code></td><td>replace</td><td>Using replace op for <code>items</code> will replace the entire <code>items</code> object with the value sent in request.</td></tr><tr><td><code>notify_payer</code></td><td>replace, add</td><td></td></tr><tr><td><code>status</code></td><td>replace</td><td>Only patching status to CANCELLED is currently supported.</td></tr></tbody></table>
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v2/checkout/orders/{id}/trackers/{tracker_id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - tracker_id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_trackers_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.trackers.update
+  orders.checkout.orderUpdateCallback.create:
+    SUMMARY: Receive updated order information via callback URL
+    DESC: The documentation for this 'endpoint' is different from the other endpoints under v2 Orders. For this endpoint the role of client and server is reversed. The client sending the request is PayPal, and the server sending the response is the merchant. In the request, PayPal will send the buyer's redacted shipping address and selected shipping option to the callback URL defined the create order request. The response from the merchant will update the Orders resource.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/checkout/orders/order-update-callback
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(order_update_callback_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(order_update_callback_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(order_update_callback_response)
+        RETURNVAR: orders_checkout_orderUpdateCallback_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: orders_checkout_orderUpdateCallback_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(order_update_callback_error_response)
+        STATUS: 400
+        WHEN: The request is not well-formed, is syntactically incorrect, or violates the schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(order_update_callback_error_response)
+        STATUS: 422
+        WHEN: The requested action could not be completed, was semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: orders.checkout.orderUpdateCallback.create
+STRUCTS:
+  token:
+    - name: id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated ID for the token.
+    - name: type
+      type: STRING
+      REQUIRED: true
+      comment: The tokenization method that generated the ID.
+  payment_source:
+    - name: card
+      type: OBJECT
+      REQUIRED: false
+    - name: token
+      type: STRUCT(token)
+      REQUIRED: false
+    - name: paypal
+      type: ANY
+      REQUIRED: false
+    - name: bancontact
+      type: ANY
+      REQUIRED: false
+    - name: blik
+      type: ANY
+      REQUIRED: false
+    - name: eps
+      type: ANY
+      REQUIRED: false
+    - name: giropay
+      type: ANY
+      REQUIRED: false
+    - name: ideal
+      type: ANY
+      REQUIRED: false
+    - name: mybank
+      type: ANY
+      REQUIRED: false
+    - name: p24
+      type: ANY
+      REQUIRED: false
+    - name: sofort
+      type: ANY
+      REQUIRED: false
+    - name: trustly
+      type: ANY
+      REQUIRED: false
+    - name: apple_pay
+      type: ANY
+      REQUIRED: false
+    - name: google_pay
+      type: ANY
+      REQUIRED: false
+    - name: venmo
+      type: ANY
+      REQUIRED: false
+    - name: crypto
+      type: ANY
+      REQUIRED: false
+  stored_payment_source:
+    - name: payment_initiator
+      type: STRING
+      REQUIRED: true
+    - name: payment_type
+      type: STRING
+      REQUIRED: true
+    - name: usage
+      type: STRING
+      REQUIRED: false
+    - name: previous_network_transaction_reference
+      type: OBJECT
+      REQUIRED: false
+  order_request:
+    - name: intent
+      type: STRING
+      REQUIRED: true
+    - name: payer
+      type: ANY
+      REQUIRED: false
+    - name: purchase_units
+      type: "[]ANY"
+      REQUIRED: true
+      comment: An array of purchase units. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee.
+    - name: payment_source
+      type: STRUCT(payment_source)
+      REQUIRED: false
+    - name: application_context
+      type: ANY
+      REQUIRED: false
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: details
+      type: "[]ANY"
+      REQUIRED: false
+      comment: An array of additional details about the error.
+    - name: links
+      type: "[]ANY"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).
+  order_confirm_application_context:
+    - name: brand_name
+      type: STRING
+      REQUIRED: false
+      comment: Label to present to your payer as part of the PayPal hosted web experience.
+    - name: locale
+      type: ANY
+      REQUIRED: false
+    - name: return_url
+      type: STRING
+      REQUIRED: false
+      comment: The URL where the customer is redirected after the customer approves the payment.
+    - name: cancel_url
+      type: STRING
+      REQUIRED: false
+      comment: The URL where the customer is redirected after the customer cancels the payment.
+    - name: stored_payment_source
+      type: STRUCT(stored_payment_source)
+      REQUIRED: false
+  confirm_order_request:
+    - name: payment_source
+      type: STRUCT(payment_source)
+      REQUIRED: true
+    - name: application_context
+      type: STRUCT(order_confirm_application_context)
+      REQUIRED: false
+  order_authorize_request:
+    - name: payment_source
+      type: ANY
+      REQUIRED: false
+  order_capture_request:
+    - name: payment_source
+      type: ANY
+      REQUIRED: false
+  order_update_callback_request:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the order.
+    - name: shipping_address
+      type: ANY
+      REQUIRED: false
+    - name: shipping_option
+      type: ANY
+      REQUIRED: false
+    - name: purchase_units
+      type: "[]ANY"
+      REQUIRED: true
+      comment: An array of purchase units. At present only 1 purchase_unit is supported. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee.
+  order_update_callback_response:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the order.
+  order_update_callback_error_response_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+  order_update_callback_error_response:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: false
+      comment: The message that describes the error.
+    - name: details
+      type: "[]STRUCT(order_update_callback_error_response_details)"
+      REQUIRED: false
+      comment: An array of additional details about the error.

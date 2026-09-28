@@ -1,0 +1,1749 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  invoices.invoicing.invoices.create:
+    SUMMARY: Create draft invoice
+    DESC: Creates a draft invoice. To move the invoice from a draft to payable state, you must <a href="#invoices_send">send the invoice</a>.<br/><br/>In the JSON request body, include invoice details including merchant information. The <code>invoice</code> object must include an <code>items</code> array.<blockquote><strong>Note:</strong> The merchant that you specify in an invoice must have a PayPal account in good standing.</blockquote>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(invoice)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(invoice)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoice)
+        RETURNVAR: invoices_invoicing_invoices_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.create_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(invoices.create_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.create
+  invoices.invoicing.invoices.list:
+    SUMMARY: List invoices
+    DESC: Lists invoices. To filter the invoices that appear in the response, you can specify one or more optional query parameters.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/invoices
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 20
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: all
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoices)
+        RETURNVAR: invoices_invoicing_invoices_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.list_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.list
+  invoices.invoicing.send.create:
+    SUMMARY: Send invoice
+    DESC: Sends or schedules an invoice, by ID, to be sent to a customer. The action depends on the invoice issue date:<ul><li>If the invoice issue date is current or in the past, sends the invoice immediately.</li><li>If the invoice issue date is in the future, schedules the invoice to be sent on that date.</li></ul>To suppress the merchant's email notification, set the `send_to_invoicer` body parameter to `false`. To send the invoice through a share link and not through PayPal, set the <code>send_to_recipient</code> parameter to <code>false</code> in the <code>notification</code> object. The <code>send_to_recipient</code> parameter does not apply to a future issue date because the invoice is scheduled to be sent through PayPal on that date.<blockquote><strong>Notes:</strong><ul><li>After you send an invoice, resending it has no effect.</li><li>To send a notification for updates, <a href="#invoices_update">update the invoice</a> and set the <code>send_to_recipient</code> body parameter to <code>true</code>.</li></ul></blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/send
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(notification)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(notification)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(link_description)
+        RETURNVAR: invoices_invoicing_send_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(link_description)
+        RETURNVAR: invoices_invoicing_send_create_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_send_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.send.create
+  invoices.invoicing.remind.create:
+    SUMMARY: Send invoice reminder
+    DESC: Sends a reminder to the payer about an invoice, by ID. In the JSON request body, include a `notification` object that defines the subject of the reminder and other details. <blockquote><strong>Notes:</strong><ul><li>API caller can send only 2 reminders in a day.</li></ul></blockquote>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/remind
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(notification)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(notification)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_remind_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.remind_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.remind_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.remind_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.remind.create
+  invoices.invoicing.invoices.cancel:
+    SUMMARY: Cancel sent invoice
+    DESC: "Cancels a sent invoice, by ID, and, optionally, sends a notification about the cancellation to the payer, merchant, and CC: emails."
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/cancel
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(notification)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(notification)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_cancel_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.cancel_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.cancel_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.cancel_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.cancel
+  invoices.invoicing.payments.create:
+    SUMMARY: Record payment for invoice
+    DESC: Records a payment for the invoice. If no payment is due, the invoice is marked as `PAID`. Otherwise, the invoice is marked as `PARTIALLY PAID`.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/payments
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(payment_detail)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(payment_detail)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(payment_reference)
+        RETURNVAR: invoices_invoicing_payments_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_payments_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.payments_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.payments_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.payments_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.payments.create
+  invoices.invoicing.payments.delete:
+    SUMMARY: Delete external payment
+    DESC: Deletes an external payment, by invoice ID and transaction ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/payments/{transaction_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - transaction_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_payments_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.payments-delete_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.payments-delete_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.payments.delete
+  invoices.invoicing.refunds.create:
+    SUMMARY: Record refund for invoice
+    DESC: Records a refund for the invoice. If all payments are refunded, the invoice is marked as `REFUNDED`. Otherwise, the invoice is marked as `PARTIALLY REFUNDED`.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/refunds
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(refund_detail)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(refund_detail)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(refund_reference)
+        RETURNVAR: invoices_invoicing_refunds_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_refunds_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.refunds_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.refunds_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.refunds_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.refunds.create
+  invoices.invoicing.refunds.delete:
+    SUMMARY: Delete external refund
+    DESC: Deletes an external refund, by invoice ID and transaction ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/refunds/{transaction_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - transaction_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_refunds_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.refunds-delete_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.refunds.delete
+  invoices.invoicing.generateQrCode.create:
+    SUMMARY: Generate QR code
+    DESC: Generates a QR code for an invoice, by ID. The QR code is a PNG image in <a href="https://www.base64encode.org/">Base64-encoded</a> format that corresponds to the invoice ID. You can generate a QR code for an invoice and add it to a paper or PDF invoice. When customers use their mobile devices to scan the QR code, they are redirected to the PayPal mobile payment flow where they can view the invoice and pay online with PayPal or a credit card. Before you get a QR code, you must <a href="#invoices_create">create an invoice</a> and <a href="#invoices_send">send an invoice</a> to move the invoice from a draft to payable state. Do not include an email address if you do not want the invoice emailed.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}/generate-qr-code
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(qr_config)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(qr_config)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_generateQrCode_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: ANY
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: ANY
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.generateQrCode.create
+  invoices.invoicing.generateNextInvoiceNumber.create:
+    SUMMARY: Generate invoice number
+    DESC: Generates the next invoice number that is available to the merchant. The next invoice number uses the prefix and suffix from the last invoice number and increments the number by one. For example, the next invoice number after `INVOICE-1234` is `INVOICE-1235`.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/generate-next-invoice-number
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(fetchtype)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(fetchtype)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoice_number)
+        RETURNVAR: invoices_invoicing_generateNextInvoiceNumber_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_generateNextInvoiceNumber_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.generateNextInvoiceNumber.create
+  invoices.invoicing.invoices.get:
+    SUMMARY: Show invoice details
+    DESC: Shows details for an invoice, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoice)
+        RETURNVAR: invoices_invoicing_invoices_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.get_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.get
+  invoices.invoicing.invoices.update:
+    SUMMARY: Fully update invoice
+    DESC: Fully updates an invoice, by ID. In the JSON request body, include a complete `invoice` object. This call does not support partial updates. <blockquote><strong>Notes:</strong><ul><li>API caller can change/modify recipient only 2 times in 72 hours.</li></ul></blockquote>.
+    HTTP:
+      METHOD: PUT
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(invoice)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+      - send_to_recipient:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: true
+      - send_to_invoicer:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: true
+      - body:
+          TYPE: STRUCT(invoice)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoice)
+        RETURNVAR: invoices_invoicing_invoices_update
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.update_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.update_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(invoices.update_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.update
+  invoices.invoicing.invoices.delete:
+    SUMMARY: Delete invoice
+    DESC: Deletes a draft or scheduled invoice, by ID. Deletes invoices in the draft or scheduled state only. For invoices that have already been sent, you can <a href="/docs/api/invoicing/v2/#invoices_cancel">cancel the invoice</a>. After you delete a draft or scheduled invoice, you can no longer use it or show its details. However, you can reuse its invoice number.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v2/invoicing/invoices/{invoice_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - invoice_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_invoices_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(invoices.delete_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.invoices.delete
+  invoices.invoicing.searchInvoices.create:
+    SUMMARY: Search for invoices
+    DESC: Searches for and lists invoices that match search criteria. If you pass multiple criteria, the response lists invoices that match all criteria.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/search-invoices
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(search_data)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 20
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+      - body:
+          TYPE: STRUCT(search_data)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoices)
+        RETURNVAR: invoices_invoicing_searchInvoices_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_searchInvoices_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(invoices.search-invoices_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.searchInvoices.create
+  invoices.invoicing.templates.list:
+    SUMMARY: List templates
+    DESC: Lists merchant-created templates with associated details. The associated details include the emails, addresses, and phone numbers from the user's PayPal profile.<br/>The user can select which values to show in the business information section of their template.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/templates
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: all
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 20
+    RETURNS:
+      - RETURNTYPE: STRUCT(templates)
+        RETURNVAR: invoices_invoicing_templates_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_templates_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(templates.list_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.templates.list
+  invoices.invoicing.templates.create:
+    SUMMARY: Create template
+    DESC: Creates an invoice template. You can use details from this template to create an invoice. You can create up to 50 templates.<blockquote><strong>Note:</strong> Every merchant starts with three PayPal system templates that are optimized for the unit type billed. The template includes `Quantity`, `Hours`, and `Amount`.</blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/invoicing/templates
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(template)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(template)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(template)
+        RETURNVAR: invoices_invoicing_templates_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_templates_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(templates.create_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(templates.create_Error422)
+        STATUS: 422
+        WHEN: Unprocessable Entity. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.templates.create
+  invoices.invoicing.templates.get:
+    SUMMARY: Show template details
+    DESC: Shows details for a template, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/templates/{template_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - template_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(template)
+        RETURNVAR: invoices_invoicing_templates_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_templates_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(templates.get_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.templates.get
+  invoices.invoicing.templates.update:
+    SUMMARY: Fully update template
+    DESC: Fully updates a template, by ID. In the JSON request body, include a complete `template` object. This call does not support partial updates.
+    HTTP:
+      METHOD: PUT
+      ENDPOINT: /v2/invoicing/templates/{template_id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(template)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - template_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(template)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(template)
+        RETURNVAR: invoices_invoicing_templates_update
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_templates_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(templates.update_Error400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(templates.update_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.templates.update
+  invoices.invoicing.templates.delete:
+    SUMMARY: Delete template
+    DESC: Deletes a template, by ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v2/invoicing/templates/{template_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - template_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_templates_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(templates.delete_Error403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.templates.delete
+  invoices.invoicing.connections.list:
+    SUMMARY: List Connections.
+    DESC: Lists connections to accounting platforms per merchant.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/accounting-sync/merchant/connections
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(connections)
+        RETURNVAR: invoices_invoicing_connections_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_connections_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.connections.list
+  invoices.invoicing.connections.get:
+    SUMMARY: List Connection Status for an Invoice.
+    DESC: Lists connections to accounting platforms per invoice.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/invoicing/accounting-sync/invoices/{id}/connections
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(invoice_connection_details)
+        RETURNVAR: invoices_invoicing_connections_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: invoices_invoicing_connections_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: Invalid request. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization Error. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: invoices.invoicing.connections.get
+STRUCTS:
+  aggregated_discount:
+    - name: invoice_discount
+      type: STRUCT(discount)
+      REQUIRED: false
+      comment: The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.
+    - name: item_discount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The discount as a percent or amount at item level. The item discount amount is subtracted from each item amount.
+  discount:
+    - name: percent
+      type: STRING
+      REQUIRED: false
+      comment: The discount as a percentage value. Value is from `0` to `100`. Supports up to five decimal places.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The invoice level discount amount. Value is from `0` to `1000000`. Supports up to two decimal places.
+  money:
+    - name: currency_code
+      type: STRING
+      REQUIRED: true
+    - name: value
+      type: STRING
+      REQUIRED: true
+      comment: The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).
+  amount_range:
+    - name: lower_amount
+      type: STRUCT(money)
+      REQUIRED: true
+      comment: The lower limit of the amount range.
+    - name: upper_amount
+      type: STRUCT(money)
+      REQUIRED: true
+      comment: The upper limit of the amount range.
+  amount_summary_detail:
+    - name: currency_code
+      type: STRING
+      REQUIRED: false
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).
+    - name: breakdown
+      type: STRUCT(amount_with_breakdown)
+      REQUIRED: false
+      comment: The breakdown of the amount. Breakdown provides details such as total item amount, total tax amount, custom amount, shipping and discounts, if any.
+  amount_with_breakdown:
+    - name: item_total
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The subtotal for all items. Must equal the sum of (`items[].unit_amount` * `items[].quantity`) for all items.
+    - name: discount
+      type: STRUCT(aggregated_discount)
+      REQUIRED: false
+      comment: The discount can be at the item or invoice level, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent.
+    - name: tax_total
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The aggregated amount of the item and shipping taxes.
+    - name: shipping
+      type: STRUCT(shipping_cost)
+      REQUIRED: false
+      comment: The shipping fee for all items. Includes tax on shipping.
+    - name: custom
+      type: STRUCT(custom_amount)
+      REQUIRED: false
+      comment: The custom amount to apply to an invoice. If you include a label, you must include the custom amount.
+  shipping_cost:
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The shipping amount. Value is from `0` to `1000000`. Supports up to two decimal places.
+    - name: tax
+      type: STRUCT(tax)
+      REQUIRED: false
+      comment: The tax associated with the shipping.
+  tax:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The name of the tax applied on the invoice items.
+    - name: percent
+      type: STRING
+      REQUIRED: true
+      comment: The tax rate. Value is from `0` to `100`. Supports up to five decimal places.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The calculated tax amount. The tax amount is added to the item total.
+    - name: tax_note
+      type: STRING
+      REQUIRED: false
+      comment: The tax note used to track the tax related data.
+  custom_amount:
+    - name: label
+      type: STRING
+      REQUIRED: true
+      comment: The label to the custom amount of the invoice.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The custom amount value. Value is from `-1000000` to `1000000`. Supports up to two decimal places.
+  template_configuration:
+    - name: tax_calculated_after_discount
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount.
+    - name: tax_inclusive
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the unit price includes tax.
+    - name: allow_tip
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.<blockquote><strong>Note:</strong> This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.</blockquote>
+    - name: partial_payment
+      type: STRUCT(partial_payment)
+      REQUIRED: false
+      comment: The partial payment details. Includes the minimum amount that the invoicer wants the payer to pay.
+    - name: has_conditional_rule
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied.
+  partial_payment:
+    - name: allow_partial_payment
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the invoice allows a partial payment. If `false`, the invoice must be paid in full. If `true`, the invoice allows partial payments.<blockquote><strong>Note:</strong> This feature is not available for users in `India`, `Brazil`, or `Israel`.</blockquote>
+    - name: minimum_amount_due
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The minimum amount allowed for a partial payment. Valid only when `allow_partial_payment` is `true`.
+  connections:
+    - name: connections
+      type: ANY
+      REQUIRED: false
+  date_range:
+    - name: start
+      type: STRING
+      REQUIRED: true
+      comment: The start date of the range. Filters invoices by creation date, invoice date, due date, and payment date.
+    - name: end
+      type: STRING
+      REQUIRED: true
+      comment: The end date of the range. Filters invoices by creation date, invoice date, due date, and payment date.
+  date_time_range:
+    - name: start
+      type: STRING
+      REQUIRED: true
+      comment: The start date of the range. Filters invoices by creation date, invoice date, due date, and payment date.
+    - name: end
+      type: STRING
+      REQUIRED: true
+      comment: "The end date of the range. Filters invoices by creation date, invoice date, due date, and payment date. <blockquote><strong>Note: The regular expression provides guidance but does not reject all invalid dates.</strong></blockquote><br/>Minimum length: 20.<br/>Maximum length: 64<br/>Pattern: <code>^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$</code>"
+  error_400:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: location
+      type: STRING
+      REQUIRED: false
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value.
+  error_link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  error_401:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_403:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_404:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_409:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_415:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_422:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_500:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_503:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_default:
+    - name: variant_error_400
+      type: STRUCT(error_400)
+      REQUIRED: false
+    - name: variant_error_401
+      type: STRUCT(error_401)
+      REQUIRED: false
+    - name: variant_error_403
+      type: STRUCT(error_403)
+      REQUIRED: false
+    - name: variant_error_404
+      type: STRUCT(error_404)
+      REQUIRED: false
+    - name: variant_error_409
+      type: STRUCT(error_409)
+      REQUIRED: false
+    - name: variant_error_415
+      type: STRUCT(error_415)
+      REQUIRED: false
+    - name: variant_error_422
+      type: STRUCT(error_422)
+      REQUIRED: false
+    - name: variant_error_500
+      type: STRUCT(error_500)
+      REQUIRED: false
+    - name: variant_error_503
+      type: STRUCT(error_503)
+      REQUIRED: false
+  fetchtype:
+    - name: fetch_id
+      type: BOOL
+      REQUIRED: false
+      comment: Optional to decide the number or ID.
+  invoice:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the invoice.
+    - name: parent_id
+      type: STRING
+      REQUIRED: false
+      comment: The parent ID to an invoice that defines the group invoice to which the invoice is related.
+    - name: status
+      type: STRING
+      REQUIRED: false
+    - name: detail
+      type: OBJECT
+      REQUIRED: true
+      comment: The details of the invoice. Includes the invoice number, date, payment terms, and audit metadata.
+    - name: invoicer
+      type: OBJECT
+      REQUIRED: false
+      comment: The invoicer information. Includes the business name, email, address, phone, fax, tax ID, additional notes, and logo URL.
+    - name: primary_recipients
+      type: ANY
+      REQUIRED: false
+    - name: additional_recipients
+      type: ANY
+      REQUIRED: false
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: configuration
+      type: OBJECT
+      REQUIRED: false
+      comment: The invoice configuration details. Includes partial payment, tip, and tax calculated after discount.
+    - name: amount
+      type: STRUCT(amount_summary_detail)
+      REQUIRED: false
+      comment: The invoice amount summary of item total, discount, tax total and shipping..
+    - name: due_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The due amount, which is the balance amount outstanding after payments.
+    - name: gratuity
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount paid by the payer as gratuity to the invoicer.
+    - name: payments
+      type: STRUCT(payments)
+      REQUIRED: false
+      comment: List of payments registered against the invoice..
+    - name: refunds
+      type: STRUCT(refunds)
+      REQUIRED: false
+      comment: List of refunds against this invoice. The invoicing refund details includes refund type, date, amount, and method.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  payments:
+    - name: paid_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The aggregated payment amounts against this invoice.
+    - name: transactions
+      type: ANY
+      REQUIRED: false
+  payment_detail:
+    - name: type
+      type: STRING
+      REQUIRED: false
+      comment: The payment type in an invoicing flow which can be PayPal or an external cash or check payment.
+    - name: payment_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type.
+    - name: payment_date
+      type: STRING
+      REQUIRED: false
+      comment: The date when the invoice was paid, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *yyyy*-*MM*-*dd* *z*.
+    - name: method
+      type: STRING
+      REQUIRED: true
+      comment: The payment mode or method through which the invoicer can accept the payment.
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: A note associated with an external cash or check payment.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The payment amount to record against the invoice. If you omit this parameter, the total invoice amount is marked as paid. This amount cannot exceed the amount due.
+    - name: shipping_info
+      type: OBJECT
+      REQUIRED: false
+      comment: The recipient's shipping information. Includes the user's contact information, which includes name and address.
+  refunds:
+    - name: refund_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The aggregated refund amounts.
+    - name: transactions
+      type: ANY
+      REQUIRED: false
+  refund_detail:
+    - name: type
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal refund type. Indicates whether the refund was paid through PayPal or externally in the invoicing flow. The record refund method supports the `EXTERNAL` refund type. The `PAYPAL` refund type is supported for backward compatibility.
+    - name: refund_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type.
+    - name: refund_date
+      type: STRING
+      REQUIRED: false
+      comment: The date when the invoice was refunded, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `2014-02-27`.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount to record as refunded. If you omit the amount, the total invoice paid amount is recorded as refunded.
+    - name: method
+      type: STRING
+      REQUIRED: true
+      comment: The payment mode or method through which the invoicer can accept the payments.
+  link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  invoice_connection_details:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the invoice. This property supports Unicode.
+    - name: connection_status
+      type: ANY
+      REQUIRED: false
+  invoice_number:
+    - name: invoice_number
+      type: STRING
+      REQUIRED: false
+      comment: The invoice number. If you omit this value, the default is the auto-incremented number from the last number.
+    - name: invoice_id
+      type: STRING
+      REQUIRED: false
+      comment: Resource Id.
+  invoices:
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages that are available for the search criteria. <blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of total_pages is constant. The value MAY change from one request to the next</blockquote>
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of invoices that match the search criteria.<blockquote><strong>Note:</strong> Clients MUST NOT assume that the value of <code>total_items</code> is constant. The value MAY change from one request to the next.</blockquote>
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  notification:
+    - name: subject
+      type: STRING
+      REQUIRED: false
+      comment: The subject of the email that is sent as a notification to the recipient.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.</blockquote>
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: A note to the payer.<blockquote><strong>Note:</strong> User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.</blockquote>
+    - name: send_to_invoicer
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether to send a copy of the email to the merchant.
+    - name: send_to_recipient
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether to send a copy of the email to the recipient.
+    - name: additional_recipients
+      type: ANY
+      REQUIRED: false
+  payment_reference:
+    - name: payment_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID for the invoice payment.
+  qr_config:
+    - name: width
+      type: INT
+      REQUIRED: false
+      comment: The width, in pixels, of the QR code image. Value is from `150` to `500`.
+    - name: height
+      type: INT
+      REQUIRED: false
+      comment: The height, in pixels, of the QR code image. Value is from `150` to `500`.
+    - name: action
+      type: STRING
+      REQUIRED: false
+      comment: The type of URL for which to generate a QR code. Valid values are `pay` and `details`.
+  refund_reference:
+    - name: refund_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the refund of an invoice payment.
+  search_data:
+    - name: recipient_email
+      type: STRING
+      REQUIRED: false
+      comment: Filters the search by the email address.
+    - name: recipient_first_name
+      type: STRING
+      REQUIRED: false
+      comment: Filters the search by the recipient first name.
+    - name: recipient_last_name
+      type: STRING
+      REQUIRED: false
+      comment: Filters the search by the recipient last name.
+    - name: recipient_business_name
+      type: STRING
+      REQUIRED: false
+      comment: Filters the search by the recipient business name.
+    - name: invoice_number
+      type: STRING
+      REQUIRED: false
+      comment: Filters the search by the invoice number.
+    - name: status
+      type: ANY
+      REQUIRED: false
+    - name: reference
+      type: STRING
+      REQUIRED: false
+      comment: The reference data. Includes a Purchase Order (PO) number.
+    - name: currency_code
+      type: STRING
+      REQUIRED: false
+      comment: The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.
+    - name: memo
+      type: STRING
+      REQUIRED: false
+      comment: A private bookkeeping memo for the user.
+    - name: total_amount_range
+      type: STRUCT(amount_range)
+      REQUIRED: false
+      comment: Filters the search by the total amount.
+    - name: invoice_date_range
+      type: STRUCT(date_range)
+      REQUIRED: false
+      comment: Filters the search by a date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: due_date_range
+      type: STRUCT(date_range)
+      REQUIRED: false
+      comment: Filters the search by a due date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: payment_date_range
+      type: STRUCT(date_time_range)
+      REQUIRED: false
+    - name: creation_date_range
+      type: STRUCT(date_time_range)
+      REQUIRED: false
+      comment: Filters the search by a creation date range for the invoice, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: archived
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether to list merchant-archived invoices in the response. Value is:<ul><li><code>true</code>. Response lists only merchant-archived invoices.</li><li><code>false</code>. Response lists only unarchived invoices.</li><li><code>null</code>. Response lists all invoices.</li></ul>
+    - name: fields
+      type: ANY
+      REQUIRED: false
+  template:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the template.
+    - name: name
+      type: STRING
+      REQUIRED: false
+      comment: The template name.<blockquote><strong>Note:</strong> The template name must be unique.</blockquote>
+    - name: default_template
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether this template is the default template. A invoicer can have one default template.
+    - name: template_info
+      type: STRUCT(template_info)
+      REQUIRED: false
+      comment: The template details. Includes invoicer business information, invoice recipients, items, and configuration.
+    - name: settings
+      type: STRUCT(template_settings)
+      REQUIRED: false
+      comment: The template settings. Describes which fields to show or hide when you create an invoice.
+    - name: unit_of_measure
+      type: STRING
+      REQUIRED: false
+      comment: The unit of measure for the template. Value is quantity, hours, or amount.
+    - name: standard_template
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether this template is a invoicer-created custom template. The system generates non-custom templates.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  template_info:
+    - name: detail
+      type: OBJECT
+      REQUIRED: false
+      comment: The template-related details. Includes notes, terms and conditions, memo, and attachments.
+    - name: invoicer
+      type: OBJECT
+      REQUIRED: false
+      comment: The invoicer information. Includes business name, email, address, phone, fax, tax ID, additional notes, and logo URL.
+    - name: primary_recipients
+      type: ANY
+      REQUIRED: false
+    - name: additional_recipients
+      type: ANY
+      REQUIRED: false
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: configuration
+      type: STRUCT(template_configuration)
+      REQUIRED: false
+      comment: The template configuration details. Includes tax information, tip, and partial payment.
+    - name: amount
+      type: STRUCT(amount_summary_detail)
+      REQUIRED: false
+      comment: The invoice amount summary of the item total, discount, tax total, and shipping.
+    - name: due_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount due for the invoice.
+  template_settings:
+    - name: template_item_settings
+      type: ANY
+      REQUIRED: false
+    - name: template_subtotal_settings
+      type: ANY
+      REQUIRED: false
+  templates:
+    - name: addresses
+      type: ANY
+      REQUIRED: false
+    - name: emails
+      type: STRING
+      REQUIRED: false
+      comment: An array of emails in the user's PayPal profile.
+    - name: phones
+      type: ANY
+      REQUIRED: false
+    - name: templates
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false

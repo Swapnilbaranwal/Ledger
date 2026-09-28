@@ -1,0 +1,8 @@
+.env
+**/.env
+.venv/
+**/.venv/
+__pycache__/
+.DS_Store
+xcuserdata/
+_to_delete/

@@ -1,0 +1,3019 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Add a comment to an issue",
+      "canonical_id": "jira.api.comment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a field to a screen tab",
+      "canonical_id": "jira.api.fields.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a field to the default screen",
+      "canonical_id": "jira.api.addToDefault.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a gadget to a dashboard",
+      "canonical_id": "jira.api.gadget.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a permission to a permission scheme",
+      "canonical_id": "jira.api.permission.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a related work to a version",
+      "canonical_id": "jira.api.relatedwork.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a user as a watcher to an issue",
+      "canonical_id": "jira.api.watchers.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a user to a specified group",
+      "canonical_id": "jira.api.user.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add actors to a project role",
+      "canonical_id": "jira.api.role.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add an Atlassian team to a plan",
+      "canonical_id": "jira.api.atlassian.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add an option to a select list issue field",
+      "canonical_id": "jira.api.option.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add attachments to an issue",
+      "canonical_id": "jira.api.attachments.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add custom select list options to a field's context",
+      "canonical_id": "jira.api.option.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add default users or groups to a project role",
+      "canonical_id": "jira.api.actors.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add issue security levels to a scheme",
+      "canonical_id": "jira.api.level.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add issue type to screen scheme mappings",
+      "canonical_id": "jira.api.mapping.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add issue types to a custom field context",
+      "canonical_id": "jira.api.issuetype.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add issue types to an issue type scheme",
+      "canonical_id": "jira.api.issuetype.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add members to an issue security level",
+      "canonical_id": "jira.api.member.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add notifications to a notification scheme",
+      "canonical_id": "jira.api.notification.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add share permission to a filter",
+      "canonical_id": "jira.api.permission.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add worklog to an issue",
+      "canonical_id": "jira.api.worklog.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Analyze and validate Jira expressions",
+      "canonical_id": "jira.api.analyse.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Archive a Jira project",
+      "canonical_id": "jira.api.archive.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Archive a specific plan",
+      "canonical_id": "jira.api.archive.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Archive issues using JQL",
+      "canonical_id": "jira.api.archive.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Archive Jira issues by ID or key",
+      "canonical_id": "jira.api.archive.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a field configuration scheme to a project",
+      "canonical_id": "jira.api.project.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a permission scheme to a project",
+      "canonical_id": "jira.api.permissionscheme.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a workflow scheme to a project",
+      "canonical_id": "jira.api.project.update6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a workflow to an issue type in a draft scheme",
+      "canonical_id": "jira.api.issuetype.update3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign an issue to a user",
+      "canonical_id": "jira.api.assignee.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign an issue type scheme to a project",
+      "canonical_id": "jira.api.project.update3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign custom field context to projects",
+      "canonical_id": "jira.api.project.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign issue type screen scheme to a project",
+      "canonical_id": "jira.api.project.update4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign issue types to a workflow in a draft workflow scheme",
+      "canonical_id": "jira.api.workflow.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Associate fields with projects and issue types",
+      "canonical_id": "jira.api.association.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Associate issue security scheme with project",
+      "canonical_id": "jira.api.project.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Associate projects with field configuration schemes",
+      "canonical_id": "jira.api.projects.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk create multiple Jira issues and subtasks",
+      "canonical_id": "jira.api.bulk.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk create statuses for global or project scope",
+      "canonical_id": "jira.api.statuses.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk delete issue property by filter",
+      "canonical_id": "jira.api.properties.delete4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk delete multiple issues",
+      "canonical_id": "jira.api.issues.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk delete statuses by their IDs",
+      "canonical_id": "jira.api.statuses.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk edit multiple issues and their fields",
+      "canonical_id": "jira.api.fields.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk edit up to 100 dashboards you own or administer",
+      "canonical_id": "jira.api.edit.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk move multiple issues across projects",
+      "canonical_id": "jira.api.move.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk pin or unpin issue panels to projects",
+      "canonical_id": "jira.api.async.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk retrieve workflows by name, ID, or project and issue type",
+      "canonical_id": "jira.api.workflows.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk set properties for multiple issues",
+      "canonical_id": "jira.api.multi.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk transition issue statuses",
+      "canonical_id": "jira.api.transition.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk unwatch multiple issues",
+      "canonical_id": "jira.api.unwatch.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk update issue properties for multiple issues",
+      "canonical_id": "jira.api.properties.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk update issue property values",
+      "canonical_id": "jira.api.properties.update4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Bulk watch multiple issues at once",
+      "canonical_id": "jira.api.watch.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Cancel a specific task by its ID",
+      "canonical_id": "jira.api.task.cancel"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Change the owner of a Jira filter",
+      "canonical_id": "jira.api.owner.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check if a project key is valid and available",
+      "canonical_id": "jira.api.key.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check if a project name is valid and available",
+      "canonical_id": "jira.api.validProjectName.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check if issues match JQL queries",
+      "canonical_id": "jira.api.match.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check user permissions for projects and global permissions",
+      "canonical_id": "jira.api.permissions.check"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check which issues the user is watching",
+      "canonical_id": "jira.api.watching.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Clone a field scheme to create a new one",
+      "canonical_id": "jira.api.clone.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Convert JQL user identifiers to account IDs",
+      "canonical_id": "jira.api.pdcleaner.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Copy a dashboard and optionally update its details",
+      "canonical_id": "jira.api.copy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a custom field context for a specific field",
+      "canonical_id": "jira.api.context.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a draft workflow scheme from an active one",
+      "canonical_id": "jira.api.createdraft.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new custom field",
+      "canonical_id": "jira.api.field.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new dashboard with specified details",
+      "canonical_id": "jira.api.dashboard.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new field association scheme",
+      "canonical_id": "jira.api.fieldschemes.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new field configuration",
+      "canonical_id": "jira.api.fieldconfiguration.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new field configuration scheme",
+      "canonical_id": "jira.api.fieldconfigurationscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new filter",
+      "canonical_id": "jira.api.filter.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new group",
+      "canonical_id": "jira.api.group.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue link type",
+      "canonical_id": "jira.api.issueLinkType.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue priority",
+      "canonical_id": "jira.api.priority.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue resolution",
+      "canonical_id": "jira.api.resolution.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue security scheme with levels and members",
+      "canonical_id": "jira.api.issuesecurityschemes.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue type",
+      "canonical_id": "jira.api.issuetype.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new issue type scheme",
+      "canonical_id": "jira.api.issuetypescheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new Jira issue or subtask",
+      "canonical_id": "jira.api.issue.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new permission scheme",
+      "canonical_id": "jira.api.permissionscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new plan",
+      "canonical_id": "jira.api.plan.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new priority scheme",
+      "canonical_id": "jira.api.priorityscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new project category",
+      "canonical_id": "jira.api.projectCategory.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new project component",
+      "canonical_id": "jira.api.component.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new project role",
+      "canonical_id": "jira.api.role.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new project using a specified template",
+      "canonical_id": "jira.api.project.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new project version",
+      "canonical_id": "jira.api.version.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new screen scheme",
+      "canonical_id": "jira.api.screenscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new screen with a default field tab",
+      "canonical_id": "jira.api.screens.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new user account",
+      "canonical_id": "jira.api.user.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new workflow scheme",
+      "canonical_id": "jira.api.workflowscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a notification scheme with custom notifications",
+      "canonical_id": "jira.api.notificationscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a plan-only team and configure its planning settings",
+      "canonical_id": "jira.api.planonly.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a project from a custom template",
+      "canonical_id": "jira.api.projectTemplate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a tab for a Jira screen",
+      "canonical_id": "jira.api.tabs.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create an issue type screen scheme",
+      "canonical_id": "jira.api.issuetypescreenscheme.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create multiple workflows and their associated statuses",
+      "canonical_id": "jira.api.workflows.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create or update a remote link for an issue",
+      "canonical_id": "jira.api.remotelink.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create UI modifications for Forge apps",
+      "canonical_id": "jira.api.uiModifications.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a comment from an issue",
+      "canonical_id": "jira.api.comment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a custom field by its ID",
+      "canonical_id": "jira.api.field.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a custom field context",
+      "canonical_id": "jira.api.context.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a custom field option",
+      "canonical_id": "jira.api.option.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a dashboard by its ID",
+      "canonical_id": "jira.api.dashboard.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a draft workflow scheme",
+      "canonical_id": "jira.api.draft.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a field association scheme by its ID",
+      "canonical_id": "jira.api.fieldschemes.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a field configuration",
+      "canonical_id": "jira.api.fieldconfiguration.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a field configuration scheme",
+      "canonical_id": "jira.api.fieldconfigurationscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a Forge app's property",
+      "canonical_id": "jira.forge.properties.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a group and optionally swap its members",
+      "canonical_id": "jira.api.group.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a Jira project asynchronously",
+      "canonical_id": "jira.api.project.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a notification scheme by its ID",
+      "canonical_id": "jira.api.notificationscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a permission scheme by its ID",
+      "canonical_id": "jira.api.permissionscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a priority scheme by its ID",
+      "canonical_id": "jira.api.priorityscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project by its ID or key",
+      "canonical_id": "jira.api.project.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project category by its ID",
+      "canonical_id": "jira.api.projectCategory.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project component",
+      "canonical_id": "jira.api.component.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project role, optionally replacing it",
+      "canonical_id": "jira.api.role.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project version",
+      "canonical_id": "jira.api.version.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a project, issue type, or priority avatar",
+      "canonical_id": "jira.api.avatar.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a screen if it's not in use",
+      "canonical_id": "jira.api.screens.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a screen scheme by its ID",
+      "canonical_id": "jira.api.screenscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific filter by its ID",
+      "canonical_id": "jira.api.filter.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific issue type property",
+      "canonical_id": "jira.api.properties.delete5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific property from a comment",
+      "canonical_id": "jira.api.properties.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a UI modification and its associated contexts",
+      "canonical_id": "jira.api.uiModifications.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a user preference and restore default settings",
+      "canonical_id": "jira.api.mypreferences.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a workflow by its ID",
+      "canonical_id": "jira.api.workflow.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a workflow scheme",
+      "canonical_id": "jira.api.workflowscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a worklog from an issue",
+      "canonical_id": "jira.api.worklog.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue link type",
+      "canonical_id": "jira.api.issueLinkType.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue priority by ID",
+      "canonical_id": "jira.api.priority.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue resolution by ID",
+      "canonical_id": "jira.api.resolution.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue security level from a scheme",
+      "canonical_id": "jira.api.level.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue security scheme by its ID",
+      "canonical_id": "jira.api.issuesecurityschemes.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue type and update its uses",
+      "canonical_id": "jira.api.issuetype.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue type scheme",
+      "canonical_id": "jira.api.issuetypescheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue type screen scheme",
+      "canonical_id": "jira.api.issuetypescreenscheme.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue, optionally with its subtasks",
+      "canonical_id": "jira.api.issue.delete2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an issue's property",
+      "canonical_id": "jira.api.properties.delete2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete field and work type parameter configurations",
+      "canonical_id": "jira.api.parameters.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete multiple worklogs for an issue",
+      "canonical_id": "jira.api.worklog.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete workflow transition rules from workflows",
+      "canonical_id": "jira.api.config.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Download attachment content by its ID",
+      "canonical_id": "jira.api.content.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Duplicate a plan by its ID",
+      "canonical_id": "jira.api.duplicate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Edit a custom project template",
+      "canonical_id": "jira.api.editTemplate.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Evaluate Jira expressions and return their values",
+      "canonical_id": "jira.api.eval.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Evaluate Jira expressions using enhanced search",
+      "canonical_id": "jira.api.evaluate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Export archived issues to CSV",
+      "canonical_id": "jira.api.export.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Favorite a filter for the current user",
+      "canonical_id": "jira.api.favourite.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch all available issue types",
+      "canonical_id": "jira.api.issuetype.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch changelogs for an issue by their IDs",
+      "canonical_id": "jira.api.changelog.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch changelogs for multiple issues, optionally filtered by fields",
+      "canonical_id": "jira.api.bulkfetch.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch default actors for a project role",
+      "canonical_id": "jira.api.actors.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch details for multiple issues using their IDs or keys",
+      "canonical_id": "jira.api.bulkfetch.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch details of a specific issue security level by its ID",
+      "canonical_id": "jira.api.securitylevel.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch multiple worklogs by issue and worklog IDs",
+      "canonical_id": "jira.internal.bulk.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find all users, including inactive and deleted accounts",
+      "canonical_id": "jira.api.search.list13"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find alternative issue types for a given issue type",
+      "canonical_id": "jira.api.alternatives.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find available bulk issue transitions",
+      "canonical_id": "jira.api.transition.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find available transitions for an issue",
+      "canonical_id": "jira.api.transitions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find components for projects",
+      "canonical_id": "jira.api.component.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find fields within a specific field scheme",
+      "canonical_id": "jira.api.fields.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find groups by name or account ID",
+      "canonical_id": "jira.api.picker.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find issue security schemes by project",
+      "canonical_id": "jira.api.search.list3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find issue type screen schemes used by projects",
+      "canonical_id": "jira.api.project.list5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find issue types used by a status in a project",
+      "canonical_id": "jira.api.issueTypeUsages.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find issue types using a workflow in a project",
+      "canonical_id": "jira.api.issueTypeUsages.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find issues by text or JQL for auto-completion",
+      "canonical_id": "jira.api.picker.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find Jira statuses by name, project, or category",
+      "canonical_id": "jira.api.search.list8"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find JQL function precomputations by ID",
+      "canonical_id": "jira.api.search.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find priorities by ID, project, or default status",
+      "canonical_id": "jira.api.search.list4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find project types the user can access",
+      "canonical_id": "jira.api.accessible.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects associated with a custom field",
+      "canonical_id": "jira.api.project.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects associated with a field scheme",
+      "canonical_id": "jira.api.projects.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects associated with field schemes",
+      "canonical_id": "jira.api.projects.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects by notification scheme or project ID",
+      "canonical_id": "jira.api.project.list6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects linked to an issue type screen scheme",
+      "canonical_id": "jira.api.project.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects that use a specific workflow",
+      "canonical_id": "jira.api.projectUsages.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects using a specific status",
+      "canonical_id": "jira.api.projectUsages.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects using a specific workflow scheme",
+      "canonical_id": "jira.api.projectUsages.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find projects with specific permissions",
+      "canonical_id": "jira.api.project.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find related work items for a specific version",
+      "canonical_id": "jira.api.relatedwork.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find resolutions by ID or default status",
+      "canonical_id": "jira.api.search.list6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find screens associated with a specific field",
+      "canonical_id": "jira.api.screens.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find users and groups by name or email",
+      "canonical_id": "jira.api.groupuserpicker.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find users matching a query, with optional exclusions",
+      "canonical_id": "jira.api.picker.list2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find users who can be assigned to an issue",
+      "canonical_id": "jira.api.search.list9"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find users with browse permission by name or issue",
+      "canonical_id": "jira.api.search.list12"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find workflow schemes using a specific workflow",
+      "canonical_id": "jira.api.workflowSchemes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find workflows that use a specific status",
+      "canonical_id": "jira.api.workflowUsages.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find workflows with specific transition rule types or keys",
+      "canonical_id": "jira.api.config.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find worklogs updated after a specific date",
+      "canonical_id": "jira.api.updated.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a filter's share permission",
+      "canonical_id": "jira.api.permission.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of all available dashboard gadgets",
+      "canonical_id": "jira.api.gadgets.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of comments by their IDs",
+      "canonical_id": "jira.api.comment.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of Jira screens",
+      "canonical_id": "jira.api.screens.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of recently viewed projects",
+      "canonical_id": "jira.api.recent.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of statuses by their IDs",
+      "canonical_id": "jira.api.statuses.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of users by account ID",
+      "canonical_id": "jira.api.bulk.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a live custom project template by key or project ID",
+      "canonical_id": "jira.api.liveTemplate.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a paginated list of notification schemes",
+      "canonical_id": "jira.api.notificationscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a project category by its ID",
+      "canonical_id": "jira.api.projectCategory.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a project type by its key",
+      "canonical_id": "jira.api.type.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a project's default data classification level",
+      "canonical_id": "jira.api.default.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a select list option for a specific issue field",
+      "canonical_id": "jira.api.option.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific application role by its key",
+      "canonical_id": "jira.api.applicationrole.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific comment's property value",
+      "canonical_id": "jira.api.properties.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific custom field option",
+      "canonical_id": "jira.api.customFieldOption.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific dashboard item property",
+      "canonical_id": "jira.api.properties.get3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific filter by its ID",
+      "canonical_id": "jira.api.filter.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific issue link type",
+      "canonical_id": "jira.api.issueLinkType.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific issue priority by its ID",
+      "canonical_id": "jira.api.priority.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific issue resolution by its ID",
+      "canonical_id": "jira.api.resolution.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific issue type property",
+      "canonical_id": "jira.api.properties.get9"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific permission grant within a permission scheme",
+      "canonical_id": "jira.api.permission.get3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific project property value",
+      "canonical_id": "jira.api.properties.get11"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific remote issue link for an issue",
+      "canonical_id": "jira.api.remotelink.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific status by its ID or name",
+      "canonical_id": "jira.api.status.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific status category by its ID or key",
+      "canonical_id": "jira.api.statuscategory.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific user property by its key",
+      "canonical_id": "jira.api.properties.get12"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a workflow scheme by its ID",
+      "canonical_id": "jira.api.workflowscheme.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all accessible project types with a valid license",
+      "canonical_id": "jira.api.accessible.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all available avatars for a project",
+      "canonical_id": "jira.api.avatars.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all available issue link types",
+      "canonical_id": "jira.api.issueLinkType.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all available project types",
+      "canonical_id": "jira.api.type.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all comment property keys for a given comment",
+      "canonical_id": "jira.api.properties.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all components for a project",
+      "canonical_id": "jira.api.components.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all issue priorities",
+      "canonical_id": "jira.api.priority.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all issue type schemes used in classic projects",
+      "canonical_id": "jira.api.issuetypescheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all Jira status categories",
+      "canonical_id": "jira.api.statuscategory.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all permission schemes",
+      "canonical_id": "jira.api.permissionscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all project categories",
+      "canonical_id": "jira.api.projectCategory.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all project property keys for a given project",
+      "canonical_id": "jira.api.properties.get10"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all project roles and their details",
+      "canonical_id": "jira.api.role.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all property keys for a specific worklog",
+      "canonical_id": "jira.api.properties.get6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all select list options for a field",
+      "canonical_id": "jira.api.option.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all users in a group",
+      "canonical_id": "jira.api.group.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all valid statuses for a project",
+      "canonical_id": "jira.api.statuses.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all versions for a project",
+      "canonical_id": "jira.api.versions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all visible projects",
+      "canonical_id": "jira.api.project.list7"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get an approximate count of issues matching JQL",
+      "canonical_id": "jira.api.approximateCount.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get an issue's change history",
+      "canonical_id": "jira.api.changelog.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get an issue's property by its ID and property key",
+      "canonical_id": "jira.api.properties.get5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get application properties or a specific one by key",
+      "canonical_id": "jira.api.applicationProperties.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get approximate license count across all Jira licenses",
+      "canonical_id": "jira.api.approximateLicenseCount.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get approximate license count for a Jira product",
+      "canonical_id": "jira.api.product.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get attachment metadata by ID",
+      "canonical_id": "jira.api.attachment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get attachment thumbnail by ID",
+      "canonical_id": "jira.api.thumbnail.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get autocompletion data for JQL searches",
+      "canonical_id": "jira.api.autocompletedata.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get autocompletion data for JQL searches",
+      "canonical_id": "jira.api.autocompletedata.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get available priorities for a priority scheme",
+      "canonical_id": "jira.api.available.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get avatar image by ID",
+      "canonical_id": "jira.api.avatar.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get avatar image by owner",
+      "canonical_id": "jira.api.owner.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get avatars for a given type and entity ID",
+      "canonical_id": "jira.api.owner.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get bulk editable fields for issues",
+      "canonical_id": "jira.api.fields.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get bulk issue operation progress by task ID",
+      "canonical_id": "jira.api.queue.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get classic project issue type screen schemes",
+      "canonical_id": "jira.api.issuetypescreenscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get contexts for a field",
+      "canonical_id": "jira.api.contexts.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get counts of issues related to a component",
+      "canonical_id": "jira.api.relatedIssueCounts.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get counts of issues related to a specific version",
+      "canonical_id": "jira.api.relatedIssueCounts.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get create field metadata for a project and issue type",
+      "canonical_id": "jira.api.issuetypes.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get current announcement banner configuration",
+      "canonical_id": "jira.api.announcementBanner.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get custom field configurations for a Forge app",
+      "canonical_id": "jira.api.configuration.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get custom field configurations for a list of fields",
+      "canonical_id": "jira.api.configuration.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get custom field contexts for projects and issue types",
+      "canonical_id": "jira.api.mapping.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get custom field options for a specific context",
+      "canonical_id": "jira.api.option.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get dashboard gadgets by ID, module key, or URI",
+      "canonical_id": "jira.api.gadget.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get dashboard item property keys",
+      "canonical_id": "jira.api.properties.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get default avatar image by type",
+      "canonical_id": "jira.api.type.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get default issue navigator columns",
+      "canonical_id": "jira.api.columns.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get default values for a custom field by context and issue type",
+      "canonical_id": "jira.api.defaultValues.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get default values for a custom field context",
+      "canonical_id": "jira.api.defaultValue.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific issue",
+      "canonical_id": "jira.api.issue.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for the current user",
+      "canonical_id": "jira.api.myself.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get editable fields for an issue",
+      "canonical_id": "jira.api.editmeta.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get editable select list options for a field",
+      "canonical_id": "jira.api.edit.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get features for a specific project",
+      "canonical_id": "jira.api.features.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get field configuration issue type mappings",
+      "canonical_id": "jira.api.mapping.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get field configuration schemes and their associated projects",
+      "canonical_id": "jira.api.project.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get field configuration schemes with optional filtering",
+      "canonical_id": "jira.api.fieldschemes.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get field configurations for a project",
+      "canonical_id": "jira.api.fields.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get fields available for specified projects and work types",
+      "canonical_id": "jira.api.fields.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get fields for a specific screen tab",
+      "canonical_id": "jira.api.fields.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get fields that can be added to a screen tab",
+      "canonical_id": "jira.api.availableFields.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get filter columns for a specific filter ID",
+      "canonical_id": "jira.api.columns.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get Forge app property keys",
+      "canonical_id": "jira.forge.properties.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get human-readable attachment and content metadata",
+      "canonical_id": "jira.api.human.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue limit report",
+      "canonical_id": "jira.api.report.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue property keys for a specific issue",
+      "canonical_id": "jira.api.properties.get4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue security level members",
+      "canonical_id": "jira.api.member.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue security levels for a project",
+      "canonical_id": "jira.api.securitylevel.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue security levels for classic projects",
+      "canonical_id": "jira.api.level.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue type mappings for a custom field context",
+      "canonical_id": "jira.api.issuetypemapping.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue type property keys",
+      "canonical_id": "jira.api.properties.get8"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue type scheme items for classic projects",
+      "canonical_id": "jira.api.mapping.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue type schemes used by specified projects",
+      "canonical_id": "jira.api.project.list4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue type screen scheme mappings",
+      "canonical_id": "jira.api.mapping.list2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue types available for a specific project",
+      "canonical_id": "jira.api.project.list3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue types for creating issues in a project",
+      "canonical_id": "jira.api.issuetypes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get issue types for workflows in a draft workflow scheme",
+      "canonical_id": "jira.api.workflow.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get Jira attachment settings and limits",
+      "canonical_id": "jira.api.meta.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get Jira instance information",
+      "canonical_id": "jira.api.serverInfo.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get Jira instance license information",
+      "canonical_id": "jira.api.license.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get JQL auto-complete suggestions for a field",
+      "canonical_id": "jira.api.suggestions.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get JQL function precomputations and their usage data",
+      "canonical_id": "jira.api.computation.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get multiple groups by ID, name, or access type",
+      "canonical_id": "jira.api.bulk.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get multiple statuses by their names",
+      "canonical_id": "jira.api.byNames.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get multiple workflow schemes by ID or project",
+      "canonical_id": "jira.api.read.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get my favorite and owned filters",
+      "canonical_id": "jira.api.my.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get my permissions by project, issue, or comment",
+      "canonical_id": "jira.api.mypermissions.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get permission grants for a specific permission scheme",
+      "canonical_id": "jira.api.permission.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get priorities for a given priority scheme",
+      "canonical_id": "jira.api.priorities.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project and issue type creation metadata",
+      "canonical_id": "jira.api.createmeta.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project classification configuration details",
+      "canonical_id": "jira.api.classificationConfig.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project details by ID or key",
+      "canonical_id": "jira.api.project.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project mappings for a custom field context",
+      "canonical_id": "jira.api.projectmapping.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project role details and actors for a specific project",
+      "canonical_id": "jira.api.role.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project role details and default actors by ID",
+      "canonical_id": "jira.api.role.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project role details for a specific project",
+      "canonical_id": "jira.api.roledetails.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get project roles for a specific project",
+      "canonical_id": "jira.api.role.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get projects associated with a specific priority scheme",
+      "canonical_id": "jira.api.projects.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get projects using issue security schemes",
+      "canonical_id": "jira.api.project.list2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get raw metadata for an expanded attachment's contents",
+      "canonical_id": "jira.api.raw.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get recently failed webhooks",
+      "canonical_id": "jira.api.failed.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get redaction job status by ID",
+      "canonical_id": "jira.api.status.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get registered webhooks for your app",
+      "canonical_id": "jira.api.webhook.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get remote issue links for an issue",
+      "canonical_id": "jira.api.remotelink.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get required status mappings for workflow scheme updates",
+      "canonical_id": "jira.api.workflowscheme.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get screen schemes used in classic projects",
+      "canonical_id": "jira.api.screenscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get share permissions for a filter",
+      "canonical_id": "jira.api.permission.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get system avatars by type",
+      "canonical_id": "jira.api.system.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get teams associated with a specific plan",
+      "canonical_id": "jira.api.team.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the count of unresolved issues for a project version",
+      "canonical_id": "jira.api.unresolvedIssueCount.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the currently selected time tracking provider",
+      "canonical_id": "jira.api.timetracking.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the default issue table columns for a user",
+      "canonical_id": "jira.api.columns.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the default sharing scope for new filters and dashboards",
+      "canonical_id": "jira.api.defaultShareScope.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the default workflow for a workflow scheme",
+      "canonical_id": "jira.api.default.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the default workflow for a workflow scheme's draft",
+      "canonical_id": "jira.api.default.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the draft version of an active workflow scheme",
+      "canonical_id": "jira.api.draft.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the issue type hierarchy for a project",
+      "canonical_id": "jira.api.hierarchy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the notification scheme for a project",
+      "canonical_id": "jira.api.notificationscheme.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the permission scheme for a project",
+      "canonical_id": "jira.api.permissionscheme.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the planning settings for a plan-only team",
+      "canonical_id": "jira.api.planonly.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the sender email address for a project",
+      "canonical_id": "jira.api.email.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the status of a long-running task",
+      "canonical_id": "jira.api.task.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the user's current locale preference",
+      "canonical_id": "jira.api.locale.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the user's default workflow editor",
+      "canonical_id": "jira.api.defaultEditor.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the user's favorite filters",
+      "canonical_id": "jira.api.favourite.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the workspace's data policy",
+      "canonical_id": "jira.api.dataPolicy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get time tracking configuration options",
+      "canonical_id": "jira.api.options.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get user account IDs by username or key",
+      "canonical_id": "jira.api.migration.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get user email addresses by account ID",
+      "canonical_id": "jira.api.bulk.list2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get user property keys for a specific user",
+      "canonical_id": "jira.api.properties.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get votes on a specific issue",
+      "canonical_id": "jira.api.votes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get watchers for a specific issue",
+      "canonical_id": "jira.api.watchers.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow capabilities by ID or project and issue type",
+      "canonical_id": "jira.api.capabilities.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow for an issue type in a draft workflow scheme",
+      "canonical_id": "jira.api.issuetype.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow for an issue type in a workflow scheme",
+      "canonical_id": "jira.api.issuetype.get2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow history entries for a workflow",
+      "canonical_id": "jira.api.history.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow issue type mappings for a workflow scheme",
+      "canonical_id": "jira.api.workflow.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflow schemes associated with projects",
+      "canonical_id": "jira.api.project.list8"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get worklogs for a specific issue",
+      "canonical_id": "jira.api.worklog.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Link two Jira issues together",
+      "canonical_id": "jira.api.issueLink.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all available time tracking providers",
+      "canonical_id": "jira.api.timetracking.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List project components with pagination",
+      "canonical_id": "jira.api.component.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List project versions with pagination",
+      "canonical_id": "jira.api.version.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List users belonging to a specific group",
+      "canonical_id": "jira.api.member.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Map issue types to a workflow in a workflow scheme",
+      "canonical_id": "jira.api.workflow.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Map issue types to field configurations",
+      "canonical_id": "jira.api.mapping.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Merge two project versions and move issues",
+      "canonical_id": "jira.api.mergeto.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Move a plan to trash",
+      "canonical_id": "jira.api.trash.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Move a screen tab field",
+      "canonical_id": "jira.api.move.create2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Move a screen tab to a new position",
+      "canonical_id": "jira.api.move.create3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Move multiple worklogs between issues",
+      "canonical_id": "jira.api.move.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Parse and validate JQL queries",
+      "canonical_id": "jira.api.parse.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Preview a workflow within a project",
+      "canonical_id": "jira.api.preview.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Publish a draft workflow scheme and update issues",
+      "canonical_id": "jira.api.publish.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Refresh webhook expiration dates",
+      "canonical_id": "jira.api.webhook.refresh"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Register dynamic webhooks",
+      "canonical_id": "jira.api.webhook.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a custom project template by its key",
+      "canonical_id": "jira.api.removeTemplate.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a field from a screen tab",
+      "canonical_id": "jira.api.fields.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a filter from your favorites",
+      "canonical_id": "jira.api.favourite.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a filter's share permission",
+      "canonical_id": "jira.api.permission.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a gadget from a dashboard",
+      "canonical_id": "jira.api.gadget.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a member from an issue security level",
+      "canonical_id": "jira.api.member.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a notification from a notification scheme",
+      "canonical_id": "jira.api.notification.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a permission grant from a scheme",
+      "canonical_id": "jira.api.permission.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a plan-only team and its planning settings",
+      "canonical_id": "jira.api.planonly.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a project property",
+      "canonical_id": "jira.api.properties.delete6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a project's custom avatar",
+      "canonical_id": "jira.api.avatar.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a remote issue link from an issue",
+      "canonical_id": "jira.api.remotelink.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a remote link from an issue",
+      "canonical_id": "jira.api.remotelink.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a select list option from an issue field",
+      "canonical_id": "jira.api.option.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a specific property from a dashboard item",
+      "canonical_id": "jira.api.properties.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a specific property from a user's record",
+      "canonical_id": "jira.api.properties.delete7"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a specific property from a worklog",
+      "canonical_id": "jira.api.properties.delete3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a tab from a screen",
+      "canonical_id": "jira.api.tabs.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user from a group",
+      "canonical_id": "jira.api.user.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user from an issue's watch list",
+      "canonical_id": "jira.api.watchers.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user from Jira's user base",
+      "canonical_id": "jira.api.user.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user's vote from an issue",
+      "canonical_id": "jira.api.votes.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove an attachment from an issue",
+      "canonical_id": "jira.api.attachment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove an issue link by its ID",
+      "canonical_id": "jira.api.issueLink.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove an issue type from an issue type scheme",
+      "canonical_id": "jira.api.issuetype.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove Atlassian team from plan",
+      "canonical_id": "jira.api.atlassian.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove custom field context from projects",
+      "canonical_id": "jira.api.project.remove"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove default users or groups from a project role",
+      "canonical_id": "jira.api.actors.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove fields from field schemes",
+      "canonical_id": "jira.api.fields.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove issue type screen scheme mappings",
+      "canonical_id": "jira.api.mapping.remove"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove issue type workflow from draft scheme",
+      "canonical_id": "jira.api.issuetype.delete2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove issue types from a custom field context",
+      "canonical_id": "jira.api.issuetype.remove"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove issue types from a field configuration scheme",
+      "canonical_id": "jira.api.mapping.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove related work from a version",
+      "canonical_id": "jira.api.relatedwork.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove the default data classification level for a project",
+      "canonical_id": "jira.api.default.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove users or groups from a project role",
+      "canonical_id": "jira.api.role.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove webhooks by their IDs",
+      "canonical_id": "jira.api.webhook.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove workflow from a workflow scheme",
+      "canonical_id": "jira.api.workflow.delete2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove workflow from draft workflow scheme",
+      "canonical_id": "jira.api.workflow.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove workflow from issue type in a scheme",
+      "canonical_id": "jira.api.issuetype.delete3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reorder custom field options within a context",
+      "canonical_id": "jira.api.move.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reorder issue priorities",
+      "canonical_id": "jira.api.move.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reorder issue resolutions",
+      "canonical_id": "jira.api.move.update3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reorder issue types within a scheme",
+      "canonical_id": "jira.api.move.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reorder project versions to change their display sequence",
+      "canonical_id": "jira.api.move.create4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Replace a project version and update related issues",
+      "canonical_id": "jira.api.removeAndSwap.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Replace actors for a project role",
+      "canonical_id": "jira.api.role.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Replace custom field options for issue select lists",
+      "canonical_id": "jira.api.issue.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Replace issue field option and deselect from issues",
+      "canonical_id": "jira.api.issue.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reset default workflow for a workflow scheme",
+      "canonical_id": "jira.api.default.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reset draft default workflow to system default",
+      "canonical_id": "jira.api.default.delete2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reset filter columns to default",
+      "canonical_id": "jira.api.columns.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reset user's default issue table columns",
+      "canonical_id": "jira.api.columns.delete1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a custom field from the trash",
+      "canonical_id": "jira.api.restore.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a deleted or archived Jira project",
+      "canonical_id": "jira.api.restore.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a field scheme by its ID",
+      "canonical_id": "jira.api.fieldschemes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a Forge app's property value",
+      "canonical_id": "jira.forge.properties.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a list of all workflow schemes",
+      "canonical_id": "jira.api.workflowscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a list of priority schemes",
+      "canonical_id": "jira.api.priorityscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a notification scheme by its ID",
+      "canonical_id": "jira.api.notificationscheme.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a paginated list of all labels",
+      "canonical_id": "jira.api.label.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a paginated list of plans",
+      "canonical_id": "jira.api.plan.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific comment for an issue",
+      "canonical_id": "jira.api.comment.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific dashboard by its ID",
+      "canonical_id": "jira.api.dashboard.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific issue type by its ID",
+      "canonical_id": "jira.api.issuetype.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific permission scheme by its ID",
+      "canonical_id": "jira.api.permissionscheme.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific project component by its ID",
+      "canonical_id": "jira.api.component.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific project version by its ID",
+      "canonical_id": "jira.api.version.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific worklog entry for an issue",
+      "canonical_id": "jira.api.worklog.get1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific worklog property for an issue",
+      "canonical_id": "jira.api.properties.get7"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a user's email address",
+      "canonical_id": "jira.api.email.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a user's preference by key",
+      "canonical_id": "jira.api.mypreferences.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve advanced Jira application settings",
+      "canonical_id": "jira.api.advancedSettings.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all available issue resolution options",
+      "canonical_id": "jira.api.resolution.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all available permissions",
+      "canonical_id": "jira.api.permissions.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all available statuses",
+      "canonical_id": "jira.api.status.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all classification levels",
+      "canonical_id": "jira.api.classificationLevels.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all comments for a specific issue",
+      "canonical_id": "jira.api.comment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all issue events",
+      "canonical_id": "jira.api.events.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all issue security schemes",
+      "canonical_id": "jira.api.issuesecurityschemes.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all Jira application roles",
+      "canonical_id": "jira.api.applicationrole.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all Jira field configuration schemes",
+      "canonical_id": "jira.api.fieldconfigurationscheme.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all screen tabs for a given screen",
+      "canonical_id": "jira.api.tabs.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve all users, including active, inactive, and deleted accounts",
+      "canonical_id": "jira.api.users.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve an issue security scheme and its security levels",
+      "canonical_id": "jira.api.issuesecurityschemes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve Atlassian team details for a specific plan",
+      "canonical_id": "jira.api.atlassian.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve available issue fields",
+      "canonical_id": "jira.api.field.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve custom field contexts for a given field",
+      "canonical_id": "jira.api.context.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve dashboards owned by or shared with the user",
+      "canonical_id": "jira.api.dashboard.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve data policies for specified projects",
+      "canonical_id": "jira.api.project.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve deleted worklog IDs and timestamps",
+      "canonical_id": "jira.api.deleted.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific issue link",
+      "canonical_id": "jira.api.issueLink.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific plan by its ID",
+      "canonical_id": "jira.api.plan.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve field parameters for a field association scheme",
+      "canonical_id": "jira.api.parameters.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve groups a user belongs to",
+      "canonical_id": "jira.api.groups.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve issue security scheme members by ID",
+      "canonical_id": "jira.api.members.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve Jira field configurations",
+      "canonical_id": "jira.api.fieldconfiguration.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve Jira's global settings and feature configurations",
+      "canonical_id": "jira.api.configuration.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve screen tabs for multiple screens",
+      "canonical_id": "jira.api.tabs.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve the issue security scheme for a project",
+      "canonical_id": "jira.api.issuesecuritylevelscheme.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve trashed custom fields with search and pagination",
+      "canonical_id": "jira.api.trashed.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve UI modifications for Forge apps",
+      "canonical_id": "jira.api.uiModifications.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve user details, respecting privacy settings",
+      "canonical_id": "jira.api.user.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve workflow history by ID and version",
+      "canonical_id": "jira.api.history.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve worklog details for specified worklog IDs",
+      "canonical_id": "jira.api.worklog.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Sanitize JQL queries for permission-restricted data",
+      "canonical_id": "jira.api.sanitize.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Save a custom project template",
+      "canonical_id": "jira.api.saveTemplate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search and retrieve a paginated list of projects",
+      "canonical_id": "jira.api.search.list5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search and retrieve audit records with filters",
+      "canonical_id": "jira.api.record.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for dashboards by name, owner, or group",
+      "canonical_id": "jira.api.search.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for filters by various criteria",
+      "canonical_id": "jira.api.search.list2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for issues using JQL",
+      "canonical_id": "jira.api.search.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for issues using JQL",
+      "canonical_id": "jira.api.search.list7"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for Jira fields by ID, query, or type",
+      "canonical_id": "jira.api.search.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for Jira issues using JQL",
+      "canonical_id": "jira.api.jql.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for Jira issues using JQL",
+      "canonical_id": "jira.api.jql.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for published classic workflows by name or other criteria",
+      "canonical_id": "jira.api.search.list14"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for select list options for a field",
+      "canonical_id": "jira.api.search.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for user keys based on query",
+      "canonical_id": "jira.api.key.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for users assignable to projects",
+      "canonical_id": "jira.api.multiProjectSearch.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for users by name, ID, or property",
+      "canonical_id": "jira.api.search.list11"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for workflows by name or scope",
+      "canonical_id": "jira.api.search.list15"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search users by name and permissions",
+      "canonical_id": "jira.api.search.list10"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search users by structured query",
+      "canonical_id": "jira.api.query.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Send an email notification for a specific issue",
+      "canonical_id": "jira.api.notify.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set a Forge app's property value",
+      "canonical_id": "jira.forge.properties.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set a project property's value",
+      "canonical_id": "jira.api.properties.update6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set a specific property for a worklog entry",
+      "canonical_id": "jira.api.properties.update3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set a user's custom property",
+      "canonical_id": "jira.api.properties.update7"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set columns for a filter",
+      "canonical_id": "jira.api.columns.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set dashboard item property",
+      "canonical_id": "jira.api.properties.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set default issue navigator columns",
+      "canonical_id": "jira.api.columns.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set default issue security levels for schemes",
+      "canonical_id": "jira.api.default.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set default sharing scope for new filters and dashboards",
+      "canonical_id": "jira.api.defaultShareScope.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set default values for custom field contexts",
+      "canonical_id": "jira.api.defaultValue.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set or update a custom property for a comment",
+      "canonical_id": "jira.api.properties.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set or update an issue type property",
+      "canonical_id": "jira.api.properties.update5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set the default issue priority",
+      "canonical_id": "jira.api.default.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set the default issue resolution",
+      "canonical_id": "jira.api.default.update4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set user's default issue table columns",
+      "canonical_id": "jira.api.columns.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Set your Jira time tracking provider",
+      "canonical_id": "jira.api.timetracking.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Submit a job to redact issue field data",
+      "canonical_id": "jira.api.redact.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Suggest priorities needing mapping for a scheme",
+      "canonical_id": "jira.api.mappings.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Switch workflow scheme for a project",
+      "canonical_id": "jira.api.switch.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Transition an issue and update its fields",
+      "canonical_id": "jira.api.transitions.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Trash a custom field by its ID",
+      "canonical_id": "jira.api.trash.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Unarchive Jira issues by ID or key",
+      "canonical_id": "jira.api.unarchive.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Unassociate fields from projects and issue types",
+      "canonical_id": "jira.api.association.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a classic project screen's details",
+      "canonical_id": "jira.api.screens.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a comment on an issue",
+      "canonical_id": "jira.api.comment.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a company-managed project workflow scheme",
+      "canonical_id": "jira.api.workflowscheme.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a custom field's context",
+      "canonical_id": "jira.api.context.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a custom field's details",
+      "canonical_id": "jira.api.field.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a dashboard gadget's title, position, and color",
+      "canonical_id": "jira.api.gadget.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a dashboard's details",
+      "canonical_id": "jira.api.dashboard.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a field configuration for company-managed projects",
+      "canonical_id": "jira.api.fieldconfiguration.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a field configuration scheme",
+      "canonical_id": "jira.api.fieldconfigurationscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a field scheme by its ID",
+      "canonical_id": "jira.api.fieldschemes.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a filter's details, JQL, or sharing settings",
+      "canonical_id": "jira.api.filter.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a notification scheme by its ID",
+      "canonical_id": "jira.api.notificationscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a permission scheme's details and grants",
+      "canonical_id": "jira.api.permissionscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a priority scheme's details, priorities, and associated projects",
+      "canonical_id": "jira.api.priorityscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project category by its ID",
+      "canonical_id": "jira.api.projectCategory.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project component's details",
+      "canonical_id": "jira.api.component.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project role's name and description",
+      "canonical_id": "jira.api.role.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project role's name or description",
+      "canonical_id": "jira.api.role.create2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project version by its ID",
+      "canonical_id": "jira.api.version.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project's default data classification level",
+      "canonical_id": "jira.api.default.update3"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project's displayed avatar",
+      "canonical_id": "jira.api.avatar.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a project's sender email address",
+      "canonical_id": "jira.api.email.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a remote issue link for an issue",
+      "canonical_id": "jira.api.remotelink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a screen scheme for classic projects",
+      "canonical_id": "jira.api.screenscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a screen tab's name",
+      "canonical_id": "jira.api.tabs.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific worklog entry for an issue",
+      "canonical_id": "jira.api.worklog.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a UI modification for Forge apps",
+      "canonical_id": "jira.api.uiModifications.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a version's related work",
+      "canonical_id": "jira.api.relatedwork.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an application property's value",
+      "canonical_id": "jira.api.applicationProperties.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an existing issue's details",
+      "canonical_id": "jira.api.issue.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue field option for a select list",
+      "canonical_id": "jira.api.option.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue link type",
+      "canonical_id": "jira.api.issueLinkType.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue security level within a scheme",
+      "canonical_id": "jira.api.level.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue security scheme by its ID",
+      "canonical_id": "jira.api.issuesecurityschemes.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue type by its ID",
+      "canonical_id": "jira.api.issuetype.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue type scheme",
+      "canonical_id": "jira.api.issuetypescheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue type screen scheme",
+      "canonical_id": "jira.api.issuetypescreenscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue's custom property",
+      "canonical_id": "jira.api.properties.update2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue's priority",
+      "canonical_id": "jira.api.priority.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an issue's resolution",
+      "canonical_id": "jira.api.resolution.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update app precomputation values for JQL functions",
+      "canonical_id": "jira.api.computation.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update Atlassian team settings within a plan",
+      "canonical_id": "jira.api.atlassian.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update custom field configurations for a Forge app",
+      "canonical_id": "jira.api.configuration.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update custom field options for a specific context",
+      "canonical_id": "jira.api.option.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update custom field value on issues",
+      "canonical_id": "jira.api.value.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update custom field values on issues",
+      "canonical_id": "jira.api.value.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update field configurations for company-managed projects",
+      "canonical_id": "jira.api.fields.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update field parameters and associations",
+      "canonical_id": "jira.api.parameters.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update fields in field schemes",
+      "canonical_id": "jira.api.fields.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update multiple statuses by their IDs",
+      "canonical_id": "jira.api.statuses.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update multiple workflows and their associated statuses",
+      "canonical_id": "jira.api.workflows.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update or create a draft workflow scheme",
+      "canonical_id": "jira.api.draft.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update or create user preferences",
+      "canonical_id": "jira.api.mypreferences.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update plan details using JSON Patch",
+      "canonical_id": "jira.api.plan.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update project details",
+      "canonical_id": "jira.api.project.update5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update settings for a plan-only team",
+      "canonical_id": "jira.api.planonly.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update the announcement banner configuration",
+      "canonical_id": "jira.api.announcementBanner.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update the default screen scheme for an issue type screen scheme",
+      "canonical_id": "jira.api.default.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update the default workflow for a draft workflow scheme",
+      "canonical_id": "jira.api.default.update6"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update the default workflow for a workflow scheme",
+      "canonical_id": "jira.api.default.update5"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update the state of a project feature",
+      "canonical_id": "jira.api.features.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update time tracking configuration settings",
+      "canonical_id": "jira.api.options.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update user's locale preference",
+      "canonical_id": "jira.api.locale.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update workflow for an issue type in a scheme",
+      "canonical_id": "jira.api.issuetype.update4"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update workflow schemes for company-managed and team-managed projects",
+      "canonical_id": "jira.api.workflowscheme.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update workflow transition rule configurations",
+      "canonical_id": "jira.api.config.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload a custom avatar for a project, issue type, or priority",
+      "canonical_id": "jira.api.owner.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload a project avatar image",
+      "canonical_id": "jira.api.avatar2.create1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload an avatar for an issue type",
+      "canonical_id": "jira.api.avatar2.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Validate a project key and generate a new one if needed",
+      "canonical_id": "jira.api.validProjectKey.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Validate bulk workflow updates",
+      "canonical_id": "jira.api.workflows.update1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Validate the payload for creating workflows",
+      "canonical_id": "jira.api.workflows.create2"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Vote on a Jira issue",
+      "canonical_id": "jira.api.votes.create"
+    }
+  ]
+}

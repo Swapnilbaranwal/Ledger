@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "swytchcode": {
+      "args": [
+        "mcp",
+        "serve"
+      ],
+      "command": "swytchcode",
+      "type": "stdio"
+    }
+  }
+}

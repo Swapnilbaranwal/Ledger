@@ -1,0 +1,24 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Cancel an unclaimed payout item by its ID",
+      "canonical_id": "payouts.payment.payoutsItem.cancel"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a batch payout with sender and item details",
+      "canonical_id": "payouts.payment.payouts.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details and latest status for a payout batch",
+      "canonical_id": "payouts.payment.payouts.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific payout item by its ID",
+      "canonical_id": "payouts.payment.payoutsItem.get"
+    }
+  ]
+}

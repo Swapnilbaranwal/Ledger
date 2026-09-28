@@ -1,0 +1,84 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Cancel an authorized payment by its ID",
+      "canonical_id": "payments.payment.void.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Capture an authorized payment by its ID",
+      "canonical_id": "payments.payment.capture.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find eligible payment methods based on provided criteria",
+      "canonical_id": "payments.payment.findEligibleMethods.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a captured payment by its ID",
+      "canonical_id": "payments.payment.captures.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific authorized payment",
+      "canonical_id": "payments.payment.authorizations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get refund details by refund ID",
+      "canonical_id": "payments.payment.refunds.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reauthorize a PayPal payment by ID",
+      "canonical_id": "payments.payment.reauthorize.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Refund a captured payment by ID",
+      "canonical_id": "payments.payment.captures.refund"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Cancel an authorized payment by its ID",
+      "canonical_id": "payments.payment.void.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Capture an authorized payment by its ID",
+      "canonical_id": "payments.payment.capture.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find eligible payment methods based on provided parameters",
+      "canonical_id": "payments.payment.findEligibleMethods.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for an authorized payment by ID",
+      "canonical_id": "payments.payment.authorizations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get refund details by refund ID",
+      "canonical_id": "payments.payment.refunds.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Reauthorize a PayPal payment by authorization ID",
+      "canonical_id": "payments.payment.reauthorize.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Refund a captured payment by ID",
+      "canonical_id": "payments.payment.captures.refund"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific captured payment",
+      "canonical_id": "payments.payment.captures.get"
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  shipment_tracking.shipping.trackersBatch.create:
+    SUMMARY: Add tracking information for multiple PayPal transactions
+    DESC: <blockquote><strong>Deprecation notice:</strong> Adding tracking details for an order through <code>/v1/shipping/trackers-batch</code> is deprecated as its a legacy way of integration. Use the new <a href="/docs/tracking/orders-api/integrate/">Orders v2 API</a> to share tracking details with PayPal.</blockquote>Adds tracking information, with or without tracking numbers, for multiple PayPal transactions. Accepts up to 20 tracking IDs. For more information, see <a href="/docs/tracking/tracking-api/integrate/#link-addtrackinginformationwithtrackingnumbers">Add tracking information with tracking numbers</a> and <a href="/docs/tracking/tracking-api/integrate/#link-addtrackinginformationwithouttrackingnumbers">Add tracking information without tracking numbers</a>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/shipping/trackers-batch
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(batch_tracker_collection)
+        RETURNVAR: shipment_tracking_shipping_trackersBatch_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: shipment_tracking_shipping_trackersBatch_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: The request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: The authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: ANY
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: ANY
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: shipment_tracking.shipping.trackersBatch.create
+  shipment_tracking.shipping.trackers.create:
+    SUMMARY: Add tracking information for PayPal transaction
+    DESC: Adds tracking information for a PayPal transaction.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/shipping/trackers
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(tracker_identifier_collection)
+        RETURNVAR: shipment_tracking_shipping_trackers_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: shipment_tracking_shipping_trackers_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: shipment_tracking.shipping.trackers.create
+  shipment_tracking.shipping.trackers.list:
+    SUMMARY: List tracking information
+    DESC: Lists tracking information that meet search criteria. The tracking ID is required but the tracking number is optional.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/shipping/trackers
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - transaction_id:
+          TYPE: STRING
+          LOCATION: query
+      - tracking_number:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - account_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(tracker)
+        RETURNVAR: shipment_tracking_shipping_trackers_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: shipment_tracking_shipping_trackers_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: shipment_tracking.shipping.trackers.list
+  shipment_tracking.shipping.trackers.update:
+    SUMMARY: Update or cancel tracking information for PayPal transaction
+    DESC: Updates or cancels the tracking information for a PayPal transaction, by ID. To cancel tracking information, call this method and set the status to CANCELLED. For more information, see <a href="/docs/tracking/tracking-api/integrate/#link-updateorcanceltrackinginformation">Update or cancel tracking information</a>.
+    HTTP:
+      METHOD: PUT
+      ENDPOINT: /v1/shipping/trackers/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(tracker)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(tracker)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: shipment_tracking_shipping_trackers_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: shipment_tracking.shipping.trackers.update
+  shipment_tracking.shipping.trackers.get:
+    SUMMARY: Show tracking information
+    DESC: Shows tracking information, by tracker ID, for a PayPal transaction.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/shipping/trackers/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - account_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(tracker)
+        RETURNVAR: shipment_tracking_shipping_trackers_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: shipment_tracking_shipping_trackers_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: shipment_tracking.shipping.trackers.get
+STRUCTS:
+  batch_tracker_collection:
+    - name: tracker_identifiers
+      type: ANY
+      REQUIRED: false
+    - name: errors
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: information_link
+      type: STRING
+      REQUIRED: false
+      comment: The information link, or URI, that shows detailed information about this error for the developer.
+    - name: details
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  tracker:
+    - name: transaction_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal transaction ID.
+    - name: tracking_number
+      type: STRING
+      REQUIRED: false
+      comment: The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided.
+    - name: tracking_number_type
+      type: STRING
+      REQUIRED: false
+      comment: The type of tracking number.
+    - name: status
+      type: STRING
+      REQUIRED: true
+    - name: shipment_date
+      type: STRING
+      REQUIRED: false
+      comment: The date when the shipment occurred, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: carrier
+      type: STRING
+      REQUIRED: false
+    - name: carrier_name_other
+      type: STRING
+      REQUIRED: false
+      comment: The name of the carrier for the shipment. Provide this value only if the carrier parameter is OTHER.
+    - name: postage_payment_id
+      type: STRING
+      REQUIRED: false
+      comment: The postage payment ID.
+    - name: notify_buyer
+      type: BOOL
+      REQUIRED: false
+      comment: If true , sends an email notification to the buyer of the PayPal transaction. The email contains the tracking information that was uploaded through the API.
+    - name: quantity
+      type: INT
+      REQUIRED: false
+      comment: The quantity of items shipped.
+    - name: tracking_number_validated
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the carrier validated the tracking number.
+    - name: last_updated_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the tracking information was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: shipment_direction
+      type: STRING
+      REQUIRED: false
+      comment: To denote whether the shipment is sent forward to the receiver or returned back.
+    - name: shipment_uploader
+      type: STRING
+      REQUIRED: false
+      comment: To denote which party uploaded the shipment tracking info.
+    - name: account_id
+      type: STRING
+      REQUIRED: false
+      comment: Encrypted PayPal Account ID of the buyer or seller.
+    - name: tracking_url
+      type: STRING
+      REQUIRED: false
+      comment: Tracking Link of the shipment.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  tracker_identifier_collection:
+    - name: tracker_identifiers
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false

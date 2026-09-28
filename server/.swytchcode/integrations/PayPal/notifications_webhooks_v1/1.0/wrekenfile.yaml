@@ -1,0 +1,658 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  webhooks_management.notification.webhooks.create:
+    SUMMARY: Create webhook
+    DESC: Subscribes your webhook listener to events.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/notifications/webhooks
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(webhook)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(webhook)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(webhook)
+        RETURNVAR: webhooks_management_notification_webhooks_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooks_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooks.create
+  webhooks_management.notification.webhooks.list:
+    SUMMARY: List webhooks
+    DESC: Lists webhooks for an app.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - anchor_type:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: APPLICATION
+    RETURNS:
+      - RETURNTYPE: STRUCT(WebhookList)
+        RETURNVAR: webhooks_management_notification_webhooks_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooks_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooks.list
+  webhooks_management.notification.webhooks.get:
+    SUMMARY: Show webhook details
+    DESC: Shows details for a webhook, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks/{webhook_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(webhook)
+        RETURNVAR: webhooks_management_notification_webhooks_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooks_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooks.get
+  webhooks_management.notification.webhooks.update:
+    SUMMARY: Update webhook
+    DESC: Updates a webhook to replace webhook fields with new values. Supports only the `replace` operation. Pass a `json_patch` object with `replace` operation and `path`, which is `/url` for a URL or `/event_types` for events. The `value` is either the URL or a list of events.
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/notifications/webhooks/{webhook_id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(webhook)
+        RETURNVAR: webhooks_management_notification_webhooks_update
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooks_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooks.update
+  webhooks_management.notification.webhooks.delete:
+    SUMMARY: Delete webhook
+    DESC: Deletes a webhook, by ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v1/notifications/webhooks/{webhook_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooks_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooks.delete
+  webhooks_management.notification.eventTypes.get:
+    SUMMARY: List event subscriptions for webhook
+    DESC: Lists event subscriptions for a webhook, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks/{webhook_id}/event-types
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(EventTypeList)
+        RETURNVAR: webhooks_management_notification_eventTypes_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_eventTypes_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.eventTypes.get
+  webhooks_management.notification.webhooksLookup.create:
+    SUMMARY: Create webhook lookup
+    DESC: Creates a webhook lookup. A webhook lookup ties the API caller's REST API app to the subject account (or, if no subject is specified, to the API caller's account). If a webhook event is generated for an event that is tied to the account but not to a particular REST API app (for example, payments initiated with the NVP/SOAP APIs or through the user interface on PayPal.com), those webhook events will treated as if they were intended for the REST API app registered in the webhook lookup instead. Webhook events will then be delivered to any webhooks registered to that REST API app.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/notifications/webhooks-lookup
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(webhooks_lookup)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksLookup.create
+  webhooks_management.notification.webhooksLookup.list:
+    SUMMARY: List webhook lookups
+    DESC: Lists webhook lookups.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks-lookup
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(WebhookLookupList)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksLookup.list
+  webhooks_management.notification.webhooksLookup.get:
+    SUMMARY: Show webhook lookup details
+    DESC: Shows details for a webhook lookup, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks-lookup/{webhook_lookup_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_lookup_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(webhooks_lookup)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksLookup.get
+  webhooks_management.notification.webhooksLookup.delete:
+    SUMMARY: Delete webhook lookup
+    DESC: Deletes a webhook lookup, by ID.
+    HTTP:
+      METHOD: DELETE
+      ENDPOINT: /v1/notifications/webhooks-lookup/{webhook_lookup_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - webhook_lookup_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksLookup_delete_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksLookup.delete
+  webhooks_management.notification.verifyWebhookSignature.create:
+    SUMMARY: Verify webhook signature
+    DESC: Verifies a webhook signature.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/notifications/verify-webhook-signature
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(verify_webhook_signature)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(verify_webhook_signature)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(verify_webhook_signature_response)
+        RETURNVAR: webhooks_management_notification_verifyWebhookSignature_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_verifyWebhookSignature_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.verifyWebhookSignature.create
+  webhooks_management.notification.webhooksEventTypes.list:
+    SUMMARY: List available events
+    DESC: Lists available events to which any webhook can subscribe. For a list of supported events, see [Webhook event names](/docs/api/notifications/webhooks/event-names/).
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks-event-types
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    RETURNS:
+      - RETURNTYPE: STRUCT(EventTypeList)
+        RETURNVAR: webhooks_management_notification_webhooksEventTypes_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksEventTypes_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksEventTypes.list
+  webhooks_management.notification.webhooksEvents.list:
+    SUMMARY: List event notifications
+    DESC: Lists webhooks event notifications. Use query parameters to filter the response.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks-events
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 10
+      - start_time:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - end_time:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - transaction_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - event_type:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(EventList)
+        RETURNVAR: webhooks_management_notification_webhooksEvents_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksEvents_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksEvents.list
+  webhooks_management.notification.webhooksEvents.get:
+    SUMMARY: Show event notification details
+    DESC: Shows details for a webhooks event notification, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/notifications/webhooks-events/{event_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - event_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(event)
+        RETURNVAR: webhooks_management_notification_webhooksEvents_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_webhooksEvents_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.webhooksEvents.get
+  webhooks_management.notification.resend.create:
+    SUMMARY: Resend event notification
+    DESC: Resends a webhook event notification, by ID. Any pending notifications are not resent.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/notifications/webhooks-events/{event_id}/resend
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(event_resend)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - event_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(event_resend)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(event)
+        RETURNVAR: webhooks_management_notification_resend_create_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_resend_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.resend.create
+  webhooks_management.notification.simulateEvent.create:
+    SUMMARY: Simulate webhook event
+    DESC: Simulates a webhook event. In the JSON request body, specify a sample payload.<br>You need to subscribe to the following webhook events for Pay upon Invoice:<br><table><thead><tr><th>Event</th><th>Trigger</th></tr></thead><tbody><tr><td><code>PAYMENT.CAPTURE.COMPLETED</code></td><td>A payment capture completes.</td></tr><tr><td><code>PAYMENT.CAPTURE.DENIED</code></td><td>A payment capture is denied.</td></tr><tr><td><code>CHECKOUT.PAYMENT-APPROVAL.REVERSED</code></td><td>PayPal reverses a payment capture.</td></tr></tbody></table>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/notifications/simulate-event
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(simulate_event)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - body:
+          TYPE: STRUCT(simulate_event)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(event)
+        RETURNVAR: webhooks_management_notification_simulateEvent_create_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error-2)
+        RETURNVAR: webhooks_management_notification_simulateEvent_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error-2)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: webhooks_management.notification.simulateEvent.create
+STRUCTS:
+  EventList:
+    - name: events
+      type: ANY
+      REQUIRED: false
+    - name: count
+      type: INT
+      REQUIRED: false
+      comment: The number of items in each range of results. Note that the response might have fewer items than the requested `page_size` value.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  event:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the webhook event notification.
+    - name: create_time
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when the webhook event notification was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: resource_type
+      type: STRING
+      REQUIRED: false
+      comment: The name of the resource related to the webhook notification event.
+    - name: event_version
+      type: STRING
+      REQUIRED: false
+    - name: event_type
+      type: STRING
+      REQUIRED: false
+      comment: The event that triggered the webhook event notification.
+    - name: summary
+      type: STRING
+      REQUIRED: false
+      comment: A summary description for the event notification.
+    - name: resource_version
+      type: STRING
+      REQUIRED: false
+    - name: resource
+      type: map[STRING]ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  EventTypeList:
+    - name: event_types
+      type: ANY
+      REQUIRED: false
+  WebhookList:
+    - name: webhooks
+      type: ANY
+      REQUIRED: false
+  webhook:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the webhook.
+    - name: url
+      type: STRING
+      REQUIRED: true
+      comment: The URL that is configured to listen on `localhost` for incoming `POST` notification messages that contain event information.
+    - name: event_types
+      type: ANY
+      REQUIRED: true
+    - name: links
+      type: ANY
+      REQUIRED: false
+  WebhookLookupList:
+    - name: webhooks_lookups
+      type: ANY
+      REQUIRED: false
+  webhooks_lookup:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the webhook lookup.
+    - name: client_id
+      type: STRING
+      REQUIRED: false
+      comment: The application client ID.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  error-2:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: information_link
+      type: STRING
+      REQUIRED: false
+      comment: The information link, or URI, that shows detailed information about this error for the developer.
+    - name: details
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  event_resend:
+    - name: webhook_ids
+      type: ANY
+      REQUIRED: false
+  simulate_event:
+    - name: webhook_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the webhook. If omitted, the URL is required.
+    - name: url
+      type: STRING
+      REQUIRED: false
+      comment: The URL for the webhook endpoint. If omitted, the webhook ID is required.
+    - name: event_type
+      type: STRING
+      REQUIRED: true
+      comment: The event name. Specify one of the subscribed events. For each request, provide only one event.
+    - name: resource_version
+      type: STRING
+      REQUIRED: false
+      comment: "The identifier for event type ex: 1.0/2.0 etc."
+  verify_webhook_signature:
+    - name: auth_algo
+      type: STRING
+      REQUIRED: true
+      comment: The algorithm that PayPal uses to generate the signature and that you can use to verify the signature. Extract this value from the `PAYPAL-AUTH-ALGO` response header, which is received with the webhook notification.
+    - name: cert_url
+      type: STRING
+      REQUIRED: true
+      comment: The X.509 public key certificate. Download the certificate from this URL and use it to verify the signature. Extract this value from the `PAYPAL-CERT-URL` response header, which is received with the webhook notification.
+    - name: transmission_id
+      type: STRING
+      REQUIRED: true
+      comment: The ID of the HTTP transmission. Contained in the `PAYPAL-TRANSMISSION-ID` header of the notification message.
+    - name: transmission_sig
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated asymmetric signature. Appears in the `PAYPAL-TRANSMISSION-SIG` header of the notification message.
+    - name: transmission_time
+      type: TIMESTAMP
+      REQUIRED: true
+      comment: The date and time of the HTTP transmission, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Appears in the `PAYPAL-TRANSMISSION-TIME` header of the notification message.
+    - name: webhook_id
+      type: STRING
+      REQUIRED: true
+      comment: The ID of the webhook as configured in your Developer Portal account.
+    - name: webhook_event
+      type: STRUCT(event)
+      REQUIRED: true
+  verify_webhook_signature_response:
+    - name: verification_status
+      type: STRING
+      REQUIRED: true
+      comment: The status of the signature verification.

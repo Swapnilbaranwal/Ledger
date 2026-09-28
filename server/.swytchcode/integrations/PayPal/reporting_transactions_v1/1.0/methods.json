@@ -1,0 +1,14 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Get account balances, optionally filtered by currency and date",
+      "canonical_id": "transaction_search.reporting.balances.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List transactions with optional filters",
+      "canonical_id": "transaction_search.reporting.transactions.list"
+    }
+  ]
+}

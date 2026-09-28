@@ -1,0 +1,1473 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  subscriptions.billing.plans.create:
+    SUMMARY: Create plan
+    DESC: Creates a plan that defines pricing and billing cycle details for subscriptions.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/plans
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(plan_request_POST)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(plan_request_POST)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(plan)
+        RETURNVAR: subscriptions_billing_plans_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(plan)
+        RETURNVAR: subscriptions_billing_plans_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_plans_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.create_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(plans.create_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.create_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.create_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.plans.create
+  subscriptions.billing.plans.list:
+    SUMMARY: List plans
+    DESC: Lists billing plans.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/billing/plans
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - product_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 10
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+    RETURNS:
+      - RETURNTYPE: STRUCT(plan_collection)
+        RETURNVAR: subscriptions_billing_plans_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_plans_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.list_Error400)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(plans.list_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.list_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error_404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.plans.list
+  subscriptions.billing.plans.get:
+    SUMMARY: Show plan details
+    DESC: Shows details for a plan, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/billing/plans/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(plan)
+        RETURNVAR: subscriptions_billing_plans_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_plans_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.get_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.get_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.get_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.plans.get
+  subscriptions.billing.plans.update:
+    SUMMARY: Update plan
+    DESC: Updates a plan with the `CREATED` or `ACTIVE` status. For an `INACTIVE` plan, you can make only status updates.<br/>You can patch these attributes and objects:<table><thead><tr><th>Attribute or object</th><th>Operations</th></tr></thead><tbody><tr><td><code>description</code></td><td>replace</td></tr><tr><td><code>payment_preferences.auto_bill_outstanding</code></td><td>replace</td></tr><tr><td><code>taxes.percentage</code></td><td>replace</td></tr><tr><td><code>payment_preferences.payment_failure_threshold</code></td><td>replace</td></tr><tr><td><code>payment_preferences.setup_fee</code></td><td>replace</td></tr><tr><td><code>payment_preferences.setup_fee_failure_action</code></td><td>replace</td></tr><tr><td><code>name</code></td><td>replace</td></tr></tbody></table>
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/billing/plans/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_plans_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.patch_Error400)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(plans.patch_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.patch_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.patch_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(plans.patch_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.plans.update
+  subscriptions.billing.activate.create:
+    SUMMARY: Activate plan
+    DESC: Activates a plan, by ID.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/plans/{id}/activate
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_activate_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.activate_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.activate_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.activate_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(plans.activate_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.activate.create
+  subscriptions.billing.deactivate.create:
+    SUMMARY: Deactivate plan
+    DESC: Deactivates a plan, by ID.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/plans/{id}/deactivate
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_deactivate_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.deactivate_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.deactivate_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.deactivate_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(plans.deactivate_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.deactivate.create
+  subscriptions.billing.updatePricingSchemes.create:
+    SUMMARY: Update pricing
+    DESC: Updates pricing for a plan. For example, you can update a regular billing cycle from $5 per month to $7 per month.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/plans/{id}/update-pricing-schemes
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(update_pricing_schemes_list_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(update_pricing_schemes_list_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_updatePricingSchemes_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(plans.update-pricing-schemes_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(plans.update-pricing-schemes_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(plans.update-pricing-schemes_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(plans.update-pricing-schemes_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(plans.update-pricing-schemes_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.updatePricingSchemes.create
+  subscriptions.billing.subscriptions.create:
+    SUMMARY: Create subscription
+    DESC: Creates a subscription.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_request_post)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(subscription_request_post)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subscription)
+        RETURNVAR: subscriptions_billing_subscriptions_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(subscription)
+        RETURNVAR: subscriptions_billing_subscriptions_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_subscriptions_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.create_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.create_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.create_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.create_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.subscriptions.create
+  subscriptions.billing.subscriptions.get:
+    SUMMARY: Show subscription details
+    DESC: Shows details for a subscription, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/billing/subscriptions/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(subscription)
+        RETURNVAR: subscriptions_billing_subscriptions_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_subscriptions_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.get_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.get_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.get_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.subscriptions.get
+  subscriptions.billing.subscriptions.update:
+    SUMMARY: Update subscription
+    DESC: Updates a subscription which could be in <code>ACTIVE</code> or <code>SUSPENDED</code> status. You can override plan level default attributes by providing customised values for plan path in the patch request.<br /> <ul> <li>You cannot update attributes that have already completed (Example - trial cycles can’t be updated if completed).</li> <li>Once overridden, changes to plan resource will not impact subscription.</li> <li>Any price update will not impact billing cycles within next 10 days (Applicable only for subscriptions funded by PayPal account).</li> </ul> Following are the fields eligible for patch.<table><thead><tr><th>Attribute or object</th><th>Operations</th></tr></thead><tbody><tr><td><code>billing_info.outstanding_balance</code></td><td>replace</td></tr><tr><td><code>custom_id</code></td><td>add,replace</td></tr><tr><td><code>plan.billing_cycles[@sequence==n].<br/>pricing_scheme.fixed_price</code></td><td>add,replace</td></tr><tr><td><code>plan.billing_cycles[@sequence==n].<br/>pricing_scheme.tiers</code></td><td>replace</td></tr><tr><td><code>plan.billing_cycles[@sequence==n].<br/>total_cycles</code></td><td>replace</td></tr><tr><td><code>plan.payment_preferences.<br/>auto_bill_outstanding</code></td><td>replace</td></tr><tr><td><code>plan.payment_preferences.<br/>payment_failure_threshold</code></td><td>replace</td></tr><tr><td><code>plan.taxes.inclusive</code></td><td>add,replace</td></tr><tr><td><code>plan.taxes.percentage</code></td><td>add,replace</td></tr><tr><td><code>shipping_amount</code></td><td>add,replace</td></tr><tr><td><code>start_time</code></td><td>replace</td></tr><tr><td><code>subscriber.shipping_address</code></td><td>add,replace</td></tr><tr><td><code>subscriber.payment_source (for subscriptions funded<br/>by card payments)</code></td><td>replace</td></tr></tbody></table>
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/billing/subscriptions/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_subscriptions_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.patch_Error400)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.patch_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.patch_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.patch_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.patch_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.subscriptions.update
+  subscriptions.billing.revise.create:
+    SUMMARY: Revise plan or quantity of subscription
+    DESC: Updates the quantity of the product or service in a subscription. You can also use this method to switch the plan and update the `shipping_amount`, `shipping_address` values for the subscription. This type of update requires the buyer's consent.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions/{id}/revise
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_revise_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(subscription_revise_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subscription_revise_response)
+        RETURNVAR: subscriptions_billing_revise_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_revise_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.revise_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.revise_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.revise_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.revise_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.revise_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.revise.create
+  subscriptions.billing.subscriptions.suspend:
+    SUMMARY: Suspend subscription
+    DESC: Suspends the subscription.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions/{id}/suspend
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_suspend_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(subscription_suspend_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_subscriptions_suspend_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.suspend_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.suspend_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.suspend_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.suspend_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.suspend_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.subscriptions.suspend
+  subscriptions.billing.subscriptions.cancel:
+    SUMMARY: Cancel subscription
+    DESC: Cancels the subscription.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions/{id}/cancel
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_cancel_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(subscription_cancel_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_subscriptions_cancel_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.cancel_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.cancel_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.cancel_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.cancel_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.cancel_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.subscriptions.cancel
+  subscriptions.billing.activate.create.1:
+    SUMMARY: Activate subscription
+    DESC: Activates the subscription.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions/{id}/activate
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_activate_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(subscription_activate_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_activate_create_1_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.activate_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.activate_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.activate_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.activate_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.activate_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.activate.create.1
+  subscriptions.billing.capture.create:
+    SUMMARY: Capture authorized payment on subscription
+    DESC: Captures an authorized payment from the subscriber on the subscription.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/billing/subscriptions/{id}/capture
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(subscription_capture_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(subscription_capture_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(transaction)
+        RETURNVAR: subscriptions_billing_capture_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_capture_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.capture_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.capture_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.capture_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.capture_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(subscriptions.capture_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.capture.create
+  subscriptions.billing.transactions.get:
+    SUMMARY: List transactions for subscription
+    DESC: Lists transactions for a subscription.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/billing/subscriptions/{id}/transactions
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - start_time:
+          TYPE: STRING
+          LOCATION: query
+      - end_time:
+          TYPE: STRING
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(transactions_list)
+        RETURNVAR: subscriptions_billing_transactions_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: subscriptions_billing_transactions_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(subscriptions.transactions_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(subscriptions.transactions_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(subscriptions.transactions_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(subscriptions.transactions_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: subscriptions.billing.transactions.get
+STRUCTS:
+  amount_with_breakdown:
+    - name: gross_amount
+      type: STRUCT(money)
+      REQUIRED: true
+      comment: The amount for this transaction.
+    - name: total_item_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The item total for the transaction.
+    - name: fee_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The fee details for the transaction.
+    - name: shipping_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The shipping amount for the transaction.
+    - name: tax_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The tax amount for the transaction.
+    - name: net_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The net amount that the payee receives for this transaction in their PayPal account. The net amount is computed as <code>gross_amount</code> minus the <code>paypal_fee</code>.
+  money:
+    - name: currency_code
+      type: STRING
+      REQUIRED: true
+    - name: value
+      type: STRING
+      REQUIRED: true
+      comment: The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).
+  application_context:
+    - name: brand_name
+      type: STRING
+      REQUIRED: false
+      comment: The label that overrides the business name in the PayPal account on the PayPal site.
+    - name: locale
+      type: STRING
+      REQUIRED: false
+      comment: The BCP 47-formatted locale of pages that the PayPal payment experience shows. PayPal supports a five-character code. For example, `da-DK`, `he-IL`, `id-ID`, `ja-JP`, `no-NO`, `pt-BR`, `ru-RU`, `sv-SE`, `th-TH`, `zh-CN`, `zh-HK`, or `zh-TW`.
+    - name: shipping_preference
+      type: STRING
+      REQUIRED: false
+      comment: The location from which the shipping address is derived.
+    - name: user_action
+      type: STRING
+      REQUIRED: false
+      comment: Configures the label name to `Continue` or `Subscribe Now` for subscription consent experience.
+    - name: payment_method
+      type: OBJECT
+      REQUIRED: false
+      comment: The customer and merchant payment preferences.
+    - name: return_url
+      type: STRING
+      REQUIRED: true
+      comment: The URL where the customer is redirected after the customer approves the payment.
+    - name: cancel_url
+      type: STRING
+      REQUIRED: true
+      comment: The URL where the customer is redirected after the customer cancels the payment.
+  error_400:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: location
+      type: STRING
+      REQUIRED: false
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value.
+  error_link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  error_401:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_403:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_404:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_409:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_415:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_422:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_500:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_503:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_default:
+    - name: variant_error_400
+      type: STRUCT(error_400)
+      REQUIRED: false
+    - name: variant_error_401
+      type: STRUCT(error_401)
+      REQUIRED: false
+    - name: variant_error_403
+      type: STRUCT(error_403)
+      REQUIRED: false
+    - name: variant_error_404
+      type: STRUCT(error_404)
+      REQUIRED: false
+    - name: variant_error_409
+      type: STRUCT(error_409)
+      REQUIRED: false
+    - name: variant_error_415
+      type: STRUCT(error_415)
+      REQUIRED: false
+    - name: variant_error_422
+      type: STRUCT(error_422)
+      REQUIRED: false
+    - name: variant_error_500
+      type: STRUCT(error_500)
+      REQUIRED: false
+    - name: variant_error_503
+      type: STRUCT(error_503)
+      REQUIRED: false
+  name:
+    - name: prefix
+      type: STRING
+      REQUIRED: false
+      comment: The prefix, or title, to the party's name.
+    - name: given_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's given, or first, name.
+    - name: surname
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.
+    - name: middle_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.
+    - name: suffix
+      type: STRING
+      REQUIRED: false
+      comment: The suffix for the party's name.
+    - name: full_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's full name.
+  payment_preferences:
+    - name: auto_bill_outstanding
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether to automatically bill the outstanding amount in the next billing cycle.
+    - name: setup_fee
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The initial set-up fee for the service.
+    - name: setup_fee_failure_action
+      type: STRING
+      REQUIRED: false
+      comment: The action to take on the subscription if the initial payment for the setup fails.
+    - name: payment_failure_threshold
+      type: INT
+      REQUIRED: false
+      comment: The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.
+  payment_preferences_override:
+    - name: auto_bill_outstanding
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether to automatically bill the outstanding amount in the next billing cycle.
+    - name: setup_fee
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The initial set-up fee for the service.
+    - name: setup_fee_failure_action
+      type: STRING
+      REQUIRED: false
+      comment: The action to take on the subscription if the initial payment for the setup fails.
+    - name: payment_failure_threshold
+      type: INT
+      REQUIRED: false
+      comment: The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.
+  plan:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The unique PayPal-generated ID for the plan.
+    - name: product_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID for the product.
+    - name: name
+      type: STRING
+      REQUIRED: false
+      comment: The plan name.
+    - name: status
+      type: STRING
+      REQUIRED: false
+      comment: The plan status.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The detailed description of the plan.
+    - name: billing_cycles
+      type: ANY
+      REQUIRED: false
+    - name: payment_preferences
+      type: STRUCT(payment_preferences)
+      REQUIRED: false
+    - name: taxes
+      type: STRUCT(taxes)
+      REQUIRED: false
+    - name: quantity_supported
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether you can subscribe to this plan by providing a quantity for the goods or service.
+    - name: create_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the plan was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: update_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the plan was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: links
+      type: ANY
+      REQUIRED: false
+  taxes:
+    - name: percentage
+      type: STRING
+      REQUIRED: true
+      comment: The tax percentage on the billing amount.
+    - name: inclusive
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the tax was already included in the billing amount.
+  plan_collection:
+    - name: plans
+      type: ANY
+      REQUIRED: false
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of items.
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  plan_override:
+    - name: billing_cycles
+      type: ANY
+      REQUIRED: false
+    - name: payment_preferences
+      type: STRUCT(payment_preferences_override)
+      REQUIRED: false
+    - name: taxes
+      type: STRUCT(taxes_override)
+      REQUIRED: false
+  taxes_override:
+    - name: percentage
+      type: STRING
+      REQUIRED: false
+      comment: The tax percentage on the billing amount.
+    - name: inclusive
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the tax was already included in the billing amount.
+  plan_request_POST:
+    - name: product_id
+      type: STRING
+      REQUIRED: true
+      comment: The ID of the product created through Catalog Products API.
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The plan name.
+    - name: status
+      type: STRING
+      REQUIRED: false
+      comment: The initial state of the plan. Allowed input values are CREATED and ACTIVE.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The detailed description of the plan.
+    - name: billing_cycles
+      type: ANY
+      REQUIRED: true
+    - name: payment_preferences
+      type: STRUCT(payment_preferences)
+      REQUIRED: true
+    - name: taxes
+      type: STRUCT(taxes)
+      REQUIRED: false
+    - name: quantity_supported
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether you can subscribe to this plan by providing a quantity for the goods or service.
+  shipping_detail:
+    - name: name
+      type: OBJECT
+      REQUIRED: false
+      comment: The name of the party.
+    - name: type
+      type: STRING
+      REQUIRED: false
+      comment: A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both.
+    - name: options
+      type: ANY
+      REQUIRED: false
+    - name: address
+      type: OBJECT
+      REQUIRED: false
+      comment: "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute)."
+  subscriber_request:
+    - name: email_address
+      type: STRING
+      REQUIRED: false
+      comment: The email address of the payer.
+    - name: payer_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-assigned ID for the payer.
+  subscription:
+    - name: status
+      type: STRING
+      REQUIRED: false
+      comment: The status of the subscription.
+    - name: status_change_note
+      type: STRING
+      REQUIRED: false
+      comment: The reason or notes for the status of the subscription.
+    - name: status_update_time
+      type: STRING
+      REQUIRED: false
+  subscription_activate_request:
+    - name: reason
+      type: STRING
+      REQUIRED: false
+      comment: The reason for activation of a subscription. Required to reactivate the subscription.
+  subscription_cancel_request:
+    - name: reason
+      type: STRING
+      REQUIRED: true
+      comment: The reason for the cancellation of a subscription.
+  subscription_capture_request:
+    - name: note
+      type: STRING
+      REQUIRED: true
+      comment: The reason or note for the subscription charge.
+    - name: capture_type
+      type: STRING
+      REQUIRED: true
+      comment: The type of capture.
+    - name: amount
+      type: STRUCT(money)
+      REQUIRED: true
+      comment: The amount of the outstanding balance. This value cannot be greater than the current outstanding balance amount.
+  subscription_request_post:
+    - name: plan_id
+      type: STRING
+      REQUIRED: true
+      comment: The ID of the plan.
+    - name: start_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the subscription started, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: quantity
+      type: STRING
+      REQUIRED: false
+      comment: The quantity of the product in the subscription.
+    - name: shipping_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The shipping charges.
+    - name: subscriber
+      type: STRUCT(subscriber_request)
+      REQUIRED: false
+    - name: auto_renewal
+      type: BOOL
+      REQUIRED: false
+      comment: DEPRECATED. Indicates whether the subscription auto-renews after the billing cycles complete.
+    - name: application_context
+      type: STRUCT(application_context)
+      REQUIRED: false
+    - name: custom_id
+      type: STRING
+      REQUIRED: false
+      comment: The custom id for the subscription. Can be invoice id.
+    - name: plan
+      type: STRUCT(plan_override)
+      REQUIRED: false
+      comment: An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.
+    - name: merchant_inventory
+      type: STRUCT(merchant_inventory)
+      REQUIRED: false
+      comment: Merchant's inventory identifier details for the WPS hosted button.
+  subscription_revise_request:
+    - name: plan_id
+      type: STRING
+      REQUIRED: false
+      comment: The unique PayPal-generated ID for the plan.
+    - name: quantity
+      type: STRING
+      REQUIRED: false
+      comment: The quantity of the product or service in the subscription.
+    - name: shipping_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The shipping charges.
+    - name: shipping_address
+      type: STRUCT(shipping_detail)
+      REQUIRED: false
+      comment: The shipping address of the subscriber.
+    - name: application_context
+      type: OBJECT
+      REQUIRED: false
+      comment: The application context, which customizes the payer experience during the subscription approval process with PayPal.
+    - name: plan
+      type: STRUCT(plan_override)
+      REQUIRED: false
+      comment: An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. Any existing overrides will not be carried forward during subscription revise.
+  subscription_revise_response:
+    - name: plan_id
+      type: STRING
+      REQUIRED: false
+      comment: The unique PayPal-generated ID for the plan.
+    - name: quantity
+      type: STRING
+      REQUIRED: false
+      comment: The quantity of the product or service in the subscription.
+    - name: shipping_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The shipping charges.
+    - name: shipping_address
+      type: STRUCT(shipping_detail)
+      REQUIRED: false
+      comment: The shipping address of the subscriber.
+    - name: plan
+      type: STRUCT(plan_override)
+      REQUIRED: false
+      comment: An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. Any existing overrides will not be carried forward during subscription revise.
+    - name: plan_overridden
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the subscription has overridden any plan attributes.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  subscription_suspend_request:
+    - name: reason
+      type: STRING
+      REQUIRED: true
+      comment: The reason for suspension of the Subscription.
+  transaction:
+    - name: status
+      type: STRING
+      REQUIRED: false
+      comment: The status of the captured payment.
+    - name: id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated transaction ID.
+    - name: amount_with_breakdown
+      type: STRUCT(amount_with_breakdown)
+      REQUIRED: true
+    - name: payer_name
+      type: STRUCT(name)
+      REQUIRED: false
+      comment: The name of the customer.
+    - name: payer_email
+      type: STRING
+      REQUIRED: false
+      comment: The email ID of the customer.
+    - name: time
+      type: STRING
+      REQUIRED: true
+      comment: The date and time when the transaction was processed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+  transactions_list:
+    - name: transactions
+      type: ANY
+      REQUIRED: false
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of items.
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  update_pricing_schemes_list_request:
+    - name: pricing_schemes
+      type: ANY
+      REQUIRED: true

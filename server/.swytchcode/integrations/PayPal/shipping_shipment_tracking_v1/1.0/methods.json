@@ -1,0 +1,29 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Add tracking for multiple PayPal transactions",
+      "canonical_id": "shipment_tracking.shipping.trackersBatch.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add tracking information for a PayPal transaction",
+      "canonical_id": "shipment_tracking.shipping.trackers.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get PayPal shipping tracker information by ID",
+      "canonical_id": "shipment_tracking.shipping.trackers.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get shipping tracker information by transaction ID",
+      "canonical_id": "shipment_tracking.shipping.trackers.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update or cancel PayPal transaction tracking information",
+      "canonical_id": "shipment_tracking.shipping.trackers.update"
+    }
+  ]
+}

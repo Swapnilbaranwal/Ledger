@@ -1,0 +1,1313 @@
+error: ambiguous canonical ID "payments.payment.captures.refund" found in 2 providers:
+  PayPal@payments_payment_v2.2.0 (method)
+  PayPal@paypal_api.1.0.0 (method)
+Specify which one:
+  swytchcode add method <provider@library.version> payments.payment.captures.refund
+Example:
+  swytchcode add method PayPal@payments_payment_v2.2.0 payments.payment.captures.refund
+----- invoices.invoicing.invoices.list
+Suffixes such as _abcd on a canonical_id are disambiguation hashes from the registry - use the full canonical_id exactly as shown in exec and tooling.json.
+
+Canonical ID: invoices.invoicing.invoices.list
+Type: method
+Provider: PayPal.invoicing_v2@2.0
+Summary: List invoices
+Description: Lists invoices. To filter the invoices that appear in the response, you can specify one or more optional query parameters.
+Endpoint: GET /v2/invoicing/invoices
+Inputs:
+[
+  {
+    "page": {
+      "DEFAULT": 1,
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "INT"
+    }
+  },
+  {
+    "page_size": {
+      "DEFAULT": 20,
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "INT"
+    }
+  },
+  {
+    "total_required": {
+      "DEFAULT": false,
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "BOOL"
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "properties": {
+      "items": {
+        "required": false,
+        "type": "any"
+      },
+      "links": {
+        "required": false,
+        "type": "any"
+      },
+      "total_items": {
+        "required": false,
+        "type": "integer"
+      },
+      "total_pages": {
+        "required": false,
+        "type": "integer"
+      }
+    }
+  },
+  "status": 200
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token"
+}
+----- invoices.invoicing.remind.create
+Suffixes such as _abcd on a canonical_id are disambiguation hashes from the registry - use the full canonical_id exactly as shown in exec and tooling.json.
+
+Canonical ID: invoices.invoicing.remind.create
+Type: method
+Provider: PayPal.invoicing_v2@2.0
+Summary: Send invoice reminder
+Description: Sends a reminder to the payer about an invoice, by ID. In the JSON request body, include a `notification` object that defines the subject of the reminder and other details. <blockquote><strong>Notes:</strong><ul><li>API caller can send only 2 reminders in a day.</li></ul></blockquote>.
+Endpoint: POST /v2/invoicing/invoices/{invoice_id}/remind
+Inputs:
+[
+  {
+    "invoice_id": {
+      "LOCATION": "path",
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "body": {
+      "LOCATION": "body",
+      "REQUIRED": false,
+      "TYPE": "OBJECT",
+      "schema": {
+        "properties": {
+          "additional_recipients": {
+            "required": false,
+            "type": "any"
+          },
+          "note": {
+            "required": false,
+            "type": "string"
+          },
+          "send_to_invoicer": {
+            "required": false,
+            "type": "boolean"
+          },
+          "send_to_recipient": {
+            "required": false,
+            "type": "boolean"
+          },
+          "subject": {
+            "required": false,
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "properties": {
+      "variant_error_400": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_401": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_403": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_404": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_409": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_415": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_422": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "details": {
+            "items": {
+              "properties": {
+                "description": {
+                  "required": false,
+                  "type": "string"
+                },
+                "field": {
+                  "required": false,
+                  "type": "string"
+                },
+                "issue": {
+                  "required": true,
+                  "type": "string"
+                },
+                "location": {
+                  "required": false,
+                  "type": "string"
+                },
+                "value": {
+                  "required": false,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issue"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_500": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "variant_error_503": {
+        "properties": {
+          "debug_id": {
+            "required": false,
+            "type": "string"
+          },
+          "links": {
+            "items": {
+              "properties": {
+                "href": {
+                  "required": true,
+                  "type": "string"
+                },
+                "method": {
+                  "required": false,
+                  "type": "string"
+                },
+                "rel": {
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "href",
+                "rel"
+              ],
+              "type": "object"
+            },
+            "required": false,
+            "type": "array"
+          },
+          "message": {
+            "required": false,
+            "type": "string"
+          },
+          "name": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "status": 0
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token",
+  "Content-Type": "application/json"
+}
+----- invoices.invoicing.invoices.get
+Suffixes such as _abcd on a canonical_id are disambiguation hashes from the registry - use the full canonical_id exactly as shown in exec and tooling.json.
+
+Canonical ID: invoices.invoicing.invoices.get
+Type: method
+Provider: PayPal.invoicing_v2@2.0
+Summary: Show invoice details
+Description: Shows details for an invoice, by ID.
+Endpoint: GET /v2/invoicing/invoices/{invoice_id}
+Inputs:
+[
+  {
+    "invoice_id": {
+      "LOCATION": "path",
+      "TYPE": "STRING"
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "properties": {
+      "additional_recipients": {
+        "required": false,
+        "type": "any"
+      },
+      "amount": {
+        "properties": {
+          "breakdown": {
+            "properties": {
+              "custom": {
+                "properties": {
+                  "amount": {
+                    "properties": {
+                      "currency_code": {
+                        "required": true,
+                        "type": "string"
+                      },
+                      "value": {
+                        "required": true,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "currency_code",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "label": {
+                    "required": true,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label"
+                ],
+                "type": "object"
+              },
+              "discount": {
+                "properties": {
+                  "invoice_discount": {
+                    "properties": {
+                      "amount": {
+                        "properties": {},
+                        "type": "object"
+                      },
+                      "percent": {
+                        "required": false,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "item_discount": {
+                    "properties": {
+                      "currency_code": {
+                        "required": true,
+                        "type": "string"
+                      },
+                      "value": {
+                        "required": true,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "currency_code",
+                      "value"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              },
+              "item_total": {
+                "properties": {
+                  "currency_code": {
+                    "required": true,
+                    "type": "string"
+                  },
+                  "value": {
+                    "required": true,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency_code",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "shipping": {
+                "properties": {
+                  "amount": {
+                    "properties": {
+                      "currency_code": {
+                        "required": true,
+                        "type": "string"
+                      },
+                      "value": {
+                        "required": true,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "currency_code",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "tax": {
+                    "properties": {
+                      "amount": {
+                        "properties": {},
+                        "type": "object"
+                      },
+                      "name": {
+                        "required": true,
+                        "type": "string"
+                      },
+                      "percent": {
+                        "required": true,
+                        "type": "string"
+                      },
+                      "tax_note": {
+                        "required": false,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "percent"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              },
+              "tax_total": {
+                "properties": {
+                  "currency_code": {
+                    "required": true,
+                    "type": "string"
+                  },
+                  "value": {
+                    "required": true,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency_code",
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "currency_code": {
+            "required": false,
+            "type": "string"
+          },
+          "value": {
+            "required": false,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "configuration": {
+        "required": false,
+        "type": "object"
+      },
+      "detail": {
+        "required": true,
+        "type": "object"
+      },
+      "due_amount": {
+        "properties": {
+          "currency_code": {
+            "required": true,
+            "type": "string"
+          },
+          "value": {
+            "required": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "currency_code",
+          "value"
+        ],
+        "type": "object"
+      },
+      "gratuity": {
+        "properties": {
+          "currency_code": {
+            "required": true,
+            "type": "string"
+          },
+          "value": {
+            "required": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "currency_code",
+          "value"
+        ],
+        "type": "object"
+      },
+      "id": {
+        "required": false,
+        "type": "string"
+      },
+      "invoicer": {
+        "required": false,
+        "type": "object"
+      },
+      "items": {
+        "required": false,
+        "type": "any"
+      },
+      "links": {
+        "required": false,
+        "type": "any"
+      },
+      "parent_id": {
+        "required": false,
+        "type": "string"
+      },
+      "payments": {
+        "properties": {
+          "paid_amount": {
+            "properties": {
+              "currency_code": {
+                "required": true,
+                "type": "string"
+              },
+              "value": {
+                "required": true,
+                "type": "string"
+              }
+            },
+            "required": [
+              "currency_code",
+              "value"
+            ],
+            "type": "object"
+          },
+          "transactions": {
+            "required": false,
+            "type": "any"
+          }
+        },
+        "type": "object"
+      },
+      "primary_recipients": {
+        "required": false,
+        "type": "any"
+      },
+      "refunds": {
+        "properties": {
+          "refund_amount": {
+            "properties": {
+              "currency_code": {
+                "required": true,
+                "type": "string"
+              },
+              "value": {
+                "required": true,
+                "type": "string"
+              }
+            },
+            "required": [
+              "currency_code",
+              "value"
+            ],
+            "type": "object"
+          },
+          "transactions": {
+            "required": false,
+            "type": "any"
+          }
+        },
+        "type": "object"
+      },
+      "status": {
+        "required": false,
+        "type": "string"
+      }
+    },
+    "required": [
+      "detail"
+    ]
+  },
+  "status": 200
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token"
+}
+----- disputes.customer.disputes.list
+Suffixes such as _abcd on a canonical_id are disambiguation hashes from the registry - use the full canonical_id exactly as shown in exec and tooling.json.
+
+Canonical ID: disputes.customer.disputes.list
+Type: method
+Provider: PayPal.customer_disputes_v1@1.0
+Summary: List disputes
+Description: Lists disputes with a summary set of details, which shows the <code>dispute_id</code>, <code>reason</code>, <code>status</code>, <code>dispute_state</code>, <code>dispute_life_cycle_stage</code>, <code>dispute_channel</code>, <code>dispute_amount</code>, <code>create_time</code> and <code>update_time</code> fields.<br/><br/>To filter the disputes in the response, specify one or more optional query parameters. To limit the number of disputes in the response, specify the <code>page_size</code> query parameter.<br/><br/>To list multiple disputes, set these query parameters in the request:<ul><li><code>page_size=2</code></li><li><code>start_time</code> instead of <code>disputed_transaction_id</code></li></ul><br/>If the response contains more than two disputes, it lists two disputes and includes a HATEOAS link to the next page of results.
+Endpoint: GET /v1/customer/disputes
+Inputs:
+[
+  {
+    "start_time": {
+      "DEFAULT": "Current date and time",
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "disputed_transaction_id": {
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "page_size": {
+      "DEFAULT": 10,
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "INT"
+    }
+  },
+  {
+    "next_page_token": {
+      "DEFAULT": "The first page of data",
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "dispute_state": {
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "update_time_before": {
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "update_time_after": {
+      "LOCATION": "query",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "properties": {
+      "items": {
+        "required": false,
+        "type": "any"
+      },
+      "links": {
+        "required": false,
+        "type": "any"
+      }
+    }
+  },
+  "status": 200
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token"
+}
+----- payments.payment.captures.refund
+Suffixes such as _abcd on a canonical_id are disambiguation hashes from the registry - use the full canonical_id exactly as shown in exec and tooling.json.
+
+Canonical ID: payments.payment.captures.refund
+Type: method
+Provider: PayPal.payments_payment_v2@2.0
+Summary: Refund captured payment
+Description: Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an <code>amount</code> object in the JSON request body.
+Endpoint: POST /v2/payments/captures/{capture_id}/refund
+Inputs:
+[
+  {
+    "capture_id": {
+      "LOCATION": "path",
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "PayPal-Request-Id": {
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "Prefer": {
+      "DEFAULT": "return=minimal",
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "PayPal-Auth-Assertion": {
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "body": {
+      "LOCATION": "body",
+      "REQUIRED": false,
+      "TYPE": "OBJECT",
+      "schema": {
+        "properties": {
+          "amount": {
+            "required": false,
+            "type": "any"
+          },
+          "custom_id": {
+            "required": false,
+            "type": "string"
+          },
+          "invoice_id": {
+            "required": false,
+            "type": "string"
+          },
+          "note_to_payer": {
+            "required": false,
+            "type": "string"
+          },
+          "payment_instruction": {
+            "required": false,
+            "type": "any"
+          }
+        }
+      }
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "type": "object"
+  },
+  "status": 200
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token",
+  "Content-Type": "application/json"
+}
+
+Canonical ID: payments.payment.captures.refund
+Type: method
+Provider: PayPal.paypal_api@1.0.0
+Summary: Refund captured payment
+Description: Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an <code>amount</code> object in the JSON request body.
+Endpoint: POST /v2/payments/captures/{capture_id}/refund
+Inputs:
+[
+  {
+    "capture_id": {
+      "LOCATION": "path",
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "PayPal-Request-Id": {
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "Prefer": {
+      "DEFAULT": "return=minimal",
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "PayPal-Auth-Assertion": {
+      "LOCATION": "header",
+      "REQUIRED": false,
+      "TYPE": "STRING"
+    }
+  },
+  {
+    "body": {
+      "LOCATION": "body",
+      "REQUIRED": false,
+      "TYPE": "OBJECT",
+      "schema": {
+        "properties": {
+          "amount": {
+            "required": false,
+            "type": "any"
+          },
+          "custom_id": {
+            "required": false,
+            "type": "string"
+          },
+          "invoice_id": {
+            "required": false,
+            "type": "string"
+          },
+          "note_to_payer": {
+            "required": false,
+            "type": "string"
+          },
+          "payment_instruction": {
+            "required": false,
+            "type": "any"
+          }
+        }
+      }
+    }
+  }
+]
+Output:
+{
+  "schema": {
+    "type": "object"
+  },
+  "status": 200
+}
+HTTP Headers (static, can be overridden via args):
+{
+  "Authorization": "bearer_token",
+  "Content-Type": "application/json"
+}
+----- tooling
+Enabled Methods (tooling.json):
+  invoices.invoicing.invoices.get  PayPal.invoicing_v2@2.0
+  invoices.invoicing.invoices.list  PayPal.invoicing_v2@2.0
+  invoices.invoicing.remind.create  PayPal.invoicing_v2@2.0
+  disputes.customer.disputes.list  PayPal.customer_disputes_v1@1.0
+
+Enabled Workflows (tooling.json):

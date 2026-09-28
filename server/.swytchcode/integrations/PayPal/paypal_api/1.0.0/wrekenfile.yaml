@@ -1,0 +1,610 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.paypal.com
+METHODS:
+  payments.payment.authorizations.get:
+    SUMMARY: Show details for authorized payment
+    DESC: Shows details for an authorized payment, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/payments/authorizations/{authorization_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - authorization_id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_authorizations_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_authorizations_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.authorizations.get
+  payments.payment.capture.create:
+    SUMMARY: Capture authorized payment
+    DESC: Captures an authorized payment, by ID.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/payments/authorizations/{authorization_id}/capture
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: OBJECT
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - authorization_id:
+          TYPE: STRING
+          LOCATION: path
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: OBJECT
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_capture_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_capture_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_capture_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed because it is not well-formed or is syntactically incorrect or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 409
+        WHEN: The server has detected a conflict while processing this request. (HTTP 409)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The request failed because it is semantically incorrect or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.capture.create
+  payments.payment.reauthorize.create:
+    SUMMARY: Reauthorize authorized payment
+    DESC: Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. Within the 29-day authorization period, you can issue multiple re-authorizations after the honor period expires.<br/><br/>If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.<br/><br/>A reauthorized payment itself has a new honor period of three days.<br/><br/>You can reauthorize an authorized payment from 4 to 29 days after the 3-day honor period. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.<br/><br/>Supports only the `amount` request parameter.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/payments/authorizations/{authorization_id}/reauthorize
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(reauthorize_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - authorization_id:
+          TYPE: STRING
+          LOCATION: path
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(reauthorize_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_reauthorize_create
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_reauthorize_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_reauthorize_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed because it is not well-formed or is syntactically incorrect or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The request failed because it either is semantically incorrect or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.reauthorize.create
+  payments.payment.void.create:
+    SUMMARY: Void authorized payment
+    DESC: Voids, or cancels, an authorized payment, by ID. You cannot void an authorized payment that has been fully captured.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/payments/authorizations/{authorization_id}/void
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - authorization_id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_void_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_void_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 409
+        WHEN: The request failed because a previous call for the given resource is in progress. (HTTP 409)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The request failed because it either is semantically incorrect or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.void.create
+  payments.payment.captures.get:
+    SUMMARY: Show captured payment details
+    DESC: Shows details for a captured payment, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/payments/captures/{capture_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - capture_id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_captures_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_captures_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.captures.get
+  payments.payment.captures.refund:
+    SUMMARY: Refund captured payment
+    DESC: Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an <code>amount</code> object in the JSON request body.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/payments/captures/{capture_id}/refund
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(refund_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - capture_id:
+          TYPE: STRING
+          LOCATION: path
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(refund_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_captures_refund
+        STATUS: 200
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_captures_refund_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_captures_refund_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed because it is not well-formed or is syntactically incorrect or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 409
+        WHEN: The request failed because a previous call for the given resource is in progress. (HTTP 409)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The request failed because it either is semantically incorrect or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.captures.refund
+  payments.payment.findEligibleMethods.create:
+    SUMMARY: Find a list of eligible payment methods.
+    DESC: Get a list of eligible payment methods based on the input parameters provided.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v2/payments/find-eligible-methods
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(find_eligible_methods_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - User-Agent:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Client-Metadata-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(find_eligible_methods_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(find_eligible_methods_response)
+        RETURNVAR: payments_payment_findEligibleMethods_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_findEligibleMethods_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed because it is not well-formed or is syntactically incorrect or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The request failed because it either is semantically incorrect or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.findEligibleMethods.create
+  payments.payment.refunds.get:
+    SUMMARY: Show refund details
+    DESC: Shows details for a refund, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v2/payments/refunds/{refund_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - refund_id:
+          TYPE: STRING
+          LOCATION: path
+      - Authorization:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - PayPal-Auth-Assertion:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+    RETURNS:
+      - RETURNTYPE: OBJECT
+        RETURNVAR: payments_payment_refunds_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payments_payment_refunds_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 401
+        WHEN: Unauthorized. (HTTP 401)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Forbidden. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Internal Server Error. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: Default response. (HTTP default)
+    CANONICAL_ID: payments.payment.refunds.get
+STRUCTS:
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: details
+      type: "[]ANY"
+      REQUIRED: false
+      comment: An array of additional details about the error.
+    - name: links
+      type: "[]ANY"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).
+  reauthorize_request:
+    - name: amount
+      type: ANY
+      REQUIRED: false
+  refund_request:
+    - name: amount
+      type: ANY
+      REQUIRED: false
+    - name: custom_id
+      type: STRING
+      REQUIRED: false
+      comment: The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode.
+    - name: invoice_id
+      type: STRING
+      REQUIRED: false
+      comment: The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode.
+    - name: note_to_payer
+      type: STRING
+      REQUIRED: false
+      comment: The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode.
+    - name: payment_instruction
+      type: ANY
+      REQUIRED: false
+  find_eligible_methods_request_customer:
+    - name: country_code
+      type: ANY
+      REQUIRED: false
+    - name: channel
+      type: ANY
+      REQUIRED: false
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The unique ID for a customer in merchant's or partner's system of records.
+    - name: email
+      type: STRING
+      REQUIRED: false
+    - name: phone
+      type: ANY
+      REQUIRED: false
+  eligibility_purchase_unit_request:
+    - name: amount
+      type: OBJECT
+      REQUIRED: false
+    - name: payee
+      type: OBJECT
+      REQUIRED: false
+  find_eligible_methods_request_preferences:
+    - name: payment_flow
+      type: STRING
+      REQUIRED: false
+      comment: This field specifies the payment flow, expected to provide a hint about which payment action the customer is intending to perform.
+    - name: include_account_details
+      type: BOOL
+      REQUIRED: false
+      comment: If this value is set to true, response will include confirmation if the customer has PayPal and/or Venmo accounts if they are eligible payment methods. Value defaults to false.
+    - name: include_vault_tokens
+      type: BOOL
+      REQUIRED: false
+      comment: If this value is set to true, response will include vaulted token information if the eligible funding source has any instrument vaulted for the customer. Value defaults to false.
+    - name: payment_source_constraint
+      type: OBJECT
+      REQUIRED: false
+      comment: Payment source constraint defines the payment methods that needs to be included/excluded for eligibility assessment. If not passed, all payment methods will be assessed for eligibility.
+  find_eligible_methods_request:
+    - name: customer
+      type: STRUCT(find_eligible_methods_request_customer)
+      REQUIRED: false
+    - name: purchase_units
+      type: "[]STRUCT(eligibility_purchase_unit_request)"
+      REQUIRED: false
+      comment: Array of purchase units.
+    - name: preferences
+      type: STRUCT(find_eligible_methods_request_preferences)
+      REQUIRED: false
+  find_eligible_methods_response:
+    - name: eligible_methods
+      type: ANY
+      REQUIRED: false
+    - name: payment_tokens
+      type: "[]ANY"
+      REQUIRED: false
+      comment: Payment tokens for vaulted instruments, if available. This object will be included only if include_vault_tokens is set to true in the request.

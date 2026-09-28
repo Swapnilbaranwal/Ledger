@@ -1,0 +1,49 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Add tracking information to an order",
+      "canonical_id": "orders.checkout.track.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Authorize payment for a specific order",
+      "canonical_id": "orders.checkout.authorize.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Capture payment for an order",
+      "canonical_id": "orders.checkout.capture.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Confirm payment for an order with a specific payment source",
+      "canonical_id": "orders.checkout.confirmPaymentSource.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new order with Level 2 and 3 data",
+      "canonical_id": "orders.checkout.orders.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific order by its ID",
+      "canonical_id": "orders.checkout.orders.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Receive order updates from PayPal and update the order resource",
+      "canonical_id": "orders.checkout.orderUpdateCallback.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an order with new details",
+      "canonical_id": "orders.checkout.orders.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update or cancel order tracking information",
+      "canonical_id": "orders.checkout.trackers.update"
+    }
+  ]
+}

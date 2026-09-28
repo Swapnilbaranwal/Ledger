@@ -1,0 +1,79 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Accept a customer dispute claim by ID",
+      "canonical_id": "disputes.customer.acceptClaim.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Accept an offer to resolve a customer dispute by ID",
+      "canonical_id": "disputes.customer.acceptOffer.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Acknowledge a returned item for a dispute by ID",
+      "canonical_id": "disputes.customer.acknowledgeReturnItem.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Appeal a customer dispute with new evidence",
+      "canonical_id": "disputes.customer.appeal.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Deny a merchant's offer to resolve a dispute",
+      "canonical_id": "disputes.customer.denyOffer.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Escalate a customer dispute to a PayPal claim",
+      "canonical_id": "disputes.customer.escalate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of customer disputes with optional filtering",
+      "canonical_id": "disputes.customer.disputes.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get customer dispute details by ID",
+      "canonical_id": "disputes.customer.disputes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Make an offer to resolve a customer dispute",
+      "canonical_id": "disputes.customer.makeOffer.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Provide evidence for a customer dispute",
+      "canonical_id": "disputes.customer.provideEvidence.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Request evidence for a customer dispute",
+      "canonical_id": "disputes.customer.requireEvidence.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Send a message for a dispute",
+      "canonical_id": "disputes.customer.sendMessage.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Settle a customer dispute in the sandbox",
+      "canonical_id": "disputes.customer.adjudicate.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Submit supporting info for a dispute by ID",
+      "canonical_id": "disputes.customer.provideSupportingInfo.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update dispute details by ID",
+      "canonical_id": "disputes.customer.disputes.update"
+    }
+  ]
+}

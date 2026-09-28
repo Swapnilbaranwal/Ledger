@@ -1,0 +1,114 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Cancel a sent invoice by ID, with optional cancellation notifications",
+      "canonical_id": "invoices.invoicing.invoices.cancel"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a draft invoice with item details",
+      "canonical_id": "invoices.invoicing.invoices.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new invoice template for your business",
+      "canonical_id": "invoices.invoicing.templates.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a draft or scheduled invoice by ID",
+      "canonical_id": "invoices.invoicing.invoices.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an external refund by invoice and transaction ID",
+      "canonical_id": "invoices.invoicing.refunds.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an invoice template by its ID",
+      "canonical_id": "invoices.invoicing.templates.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find invoices matching specific search criteria",
+      "canonical_id": "invoices.invoicing.searchInvoices.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Generate a QR code for an invoice",
+      "canonical_id": "invoices.invoicing.generateQrCode.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of invoicing templates with user profile details",
+      "canonical_id": "invoices.invoicing.templates.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get connection status for an invoice",
+      "canonical_id": "invoices.invoicing.connections.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get invoice details by ID",
+      "canonical_id": "invoices.invoicing.invoices.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the next available invoice number",
+      "canonical_id": "invoices.invoicing.generateNextInvoiceNumber.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List accounting platform connections for a merchant",
+      "canonical_id": "invoices.invoicing.connections.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Record a refund for an invoice",
+      "canonical_id": "invoices.invoicing.refunds.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Record payment for an invoice",
+      "canonical_id": "invoices.invoicing.payments.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove an external payment from an invoice",
+      "canonical_id": "invoices.invoicing.payments.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Replace an existing invoice template with new details",
+      "canonical_id": "invoices.invoicing.templates.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a list of invoices with optional filtering",
+      "canonical_id": "invoices.invoicing.invoices.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific invoicing template by its ID",
+      "canonical_id": "invoices.invoicing.templates.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Send a reminder for a specific invoice",
+      "canonical_id": "invoices.invoicing.remind.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Send or schedule an invoice to a customer",
+      "canonical_id": "invoices.invoicing.send.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an entire invoice by its ID",
+      "canonical_id": "invoices.invoicing.invoices.update"
+    }
+  ]
+}

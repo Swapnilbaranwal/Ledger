@@ -1,0 +1,84 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Delete a webhook lookup by its ID",
+      "canonical_id": "webhooks_management.notification.webhooksLookup.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific webhook event notification",
+      "canonical_id": "webhooks_management.notification.webhooksEvents.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get event subscriptions for a specific webhook",
+      "canonical_id": "webhooks_management.notification.eventTypes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get webhook details by ID",
+      "canonical_id": "webhooks_management.notification.webhooks.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List available webhook event types",
+      "canonical_id": "webhooks_management.notification.webhooksEventTypes.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List webhook event notifications with filters",
+      "canonical_id": "webhooks_management.notification.webhooksEvents.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List webhook lookups",
+      "canonical_id": "webhooks_management.notification.webhooksLookup.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List webhooks for an app",
+      "canonical_id": "webhooks_management.notification.webhooks.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Register a webhook to receive event notifications",
+      "canonical_id": "webhooks_management.notification.webhooksLookup.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a webhook by its ID",
+      "canonical_id": "webhooks_management.notification.webhooks.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Resend a webhook event notification by its ID",
+      "canonical_id": "webhooks_management.notification.resend.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve webhook lookup details by ID",
+      "canonical_id": "webhooks_management.notification.webhooksLookup.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Simulate a webhook event with a sample payload",
+      "canonical_id": "webhooks_management.notification.simulateEvent.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Subscribe your webhook listener to events",
+      "canonical_id": "webhooks_management.notification.webhooks.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a webhook's URL or event types",
+      "canonical_id": "webhooks_management.notification.webhooks.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Verify a webhook signature",
+      "canonical_id": "webhooks_management.notification.verifyWebhookSignature.create"
+    }
+  ]
+}

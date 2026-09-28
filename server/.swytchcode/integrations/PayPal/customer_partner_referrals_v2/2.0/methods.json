@@ -1,0 +1,14 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Create a partner referral for seller onboarding",
+      "canonical_id": "partner_referrals.customer.partnerReferrals.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get referral details by ID",
+      "canonical_id": "partner_referrals.customer.partnerReferrals.get"
+    }
+  ]
+}

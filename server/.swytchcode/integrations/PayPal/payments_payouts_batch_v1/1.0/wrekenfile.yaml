@@ -1,0 +1,458 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  payouts.payment.payouts.create:
+    SUMMARY: Create batch payout
+    DESC: Creates a batch payout. In the JSON request body, pass a `sender_batch_header` and an `items` array. The `sender_batch_header` defines how to handle the payout. The `items` array defines the payout items.<br/>You can make payouts to one or more recipients.<blockquote><strong>Notes:</strong> <ul><li><p>PayPal does not process duplicate payouts. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the API rejects the request with an error message that shows the duplicate <code>sender_batch_id</code> and includes a HATEOAS link to the original payout with the same <code>sender_batch_id</code>.</p><p>If you receive an HTTP <code>5<i>nn</i></code> status code, you can safely retry the request with the same <code>sender_batch_id</code>.</p></li><li><p>The Payouts API does not support build notation (BN) codes. In a future Payouts release, you can optionally provide BN codes in the <code>PayPal-Partner-Attribution-Id</code> request header.</p><p>For information about the <code>PayPal-Partner-Attribution-Id</code> header, see <a href="/api/rest/requests/#http-request-headers">HTTP request headers</a>. To learn about or request a BN code, contact your partner manager or see <a href="https://www.paypal.com/us/webapps/mpp/partner-program">PayPal Partner Program</a>.</p></li></ul></blockquote>
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/payments/payouts
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(create_payout_request)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(create_payout_request)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(payout)
+        RETURNVAR: payouts_payment_payouts_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payouts_payment_payouts_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payouts.payment.payouts.create
+  payouts.payment.payouts.get:
+    SUMMARY: Show payout batch details
+    DESC: Shows the latest status of a batch payout. Includes the transaction status and other data for individual payout items.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/payments/payouts/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+    RETURNS:
+      - RETURNTYPE: STRUCT(payout_batch)
+        RETURNVAR: payouts_payment_payouts_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payouts_payment_payouts_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payouts.payment.payouts.get
+  payouts.payment.payoutsItem.get:
+    SUMMARY: Show payout item details
+    DESC: Shows details for a payout item, by ID. A <code>payout_item_id</code> helps you identify denied payments. If a payment is denied, you can use the <code>payout_item_id</code> to identify the payment even if it lacks a <code>transaction_id</code>.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/payments/payouts-item/{payout_item_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - payout_item_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(payout_item)
+        RETURNVAR: payouts_payment_payoutsItem_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payouts_payment_payoutsItem_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payouts.payment.payoutsItem.get
+  payouts.payment.payoutsItem.cancel:
+    SUMMARY: Cancel unclaimed payout item
+    DESC: Cancels an unclaimed payout item, by ID. If no one claims the unclaimed item within 30 days, the API automatically returns the funds to the sender. Use this call to cancel the unclaimed item before the automatic 30-day refund. You can cancel payout items with a <code>transaction_status</code> of <code>UNCLAIMED</code>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/payments/payouts-item/{payout_item_id}/cancel
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - payout_item_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(payout_item)
+        RETURNVAR: payouts_payment_payoutsItem_cancel
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: payouts_payment_payoutsItem_cancel_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: Resource Not Found. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: payouts.payment.payoutsItem.cancel
+STRUCTS:
+  create_payout_request:
+    - name: sender_batch_header
+      type: STRUCT(sender_batch_header)
+      REQUIRED: true
+      comment: The sender-provided payout header for a payout request.
+    - name: items
+      type: ANY
+      REQUIRED: true
+  sender_batch_header:
+    - name: sender_batch_id
+      type: STRING
+      REQUIRED: false
+      comment: A sender-specified ID number. Tracks the payout in an accounting system.<blockquote><strong>Note:</strong> <p>PayPal does not process duplicate payouts. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the API rejects the request with an error message that shows the duplicate <code>sender_batch_id</code> and includes a HATEOAS link to the original payout with the same <code>sender_batch_id</code>.</p><p>If you receive an HTTP <code>5<i>nn</i></code> status code, you can safely retry the request with the same <code>sender_batch_id</code>. The API completes a payment only once for a <code>sender_batch_id</code> that is used within 30 days.</p></blockquote>
+    - name: recipient_type
+      type: STRING
+      REQUIRED: false
+      comment: The ID type that identifies the recipient of the payment. For example, <code>EMAIL</code>.
+    - name: email_subject
+      type: STRING
+      REQUIRED: false
+      comment: The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Value is an alphanumeric string of up to 255 single-byte characters.
+    - name: email_message
+      type: STRING
+      REQUIRED: false
+      comment: The email message that PayPal sends when the payout item completes. The message is the same for all recipients.
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The payouts and item-level notes are concatenated in the email. The maximum combined length of the notes is 1000 characters.
+  currency:
+    - name: currency
+      type: STRING
+      REQUIRED: true
+      comment: The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/).
+    - name: value
+      type: STRING
+      REQUIRED: true
+      comment: The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency codes - ISO 4217](https://www.iso.org/iso-4217-currency-codes.html).
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: information_link
+      type: STRING
+      REQUIRED: false
+      comment: The information link, or URI, that shows detailed information about this error for the developer.
+    - name: details
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  name:
+    - name: prefix
+      type: STRING
+      REQUIRED: false
+      comment: The prefix, or title, to the party's name.
+    - name: given_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's given, or first, name.
+    - name: surname
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.
+    - name: middle_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.
+    - name: suffix
+      type: STRING
+      REQUIRED: false
+      comment: The suffix for the party's name.
+    - name: alternate_full_name
+      type: STRING
+      REQUIRED: false
+      comment: DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.
+    - name: full_name
+      type: STRING
+      REQUIRED: false
+      comment: When the party is a person, the party's full name.
+  payout:
+    - name: batch_header
+      type: STRUCT(payout_header)
+      REQUIRED: false
+      comment: The payout header.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  payout_header:
+    - name: payout_batch_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated ID for a payout.
+    - name: batch_status
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated payout status. If the payout passes preliminary checks, the status is `PENDING`.
+    - name: time_created
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when processing for the payout began, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: sender_batch_header
+      type: STRUCT(payout_sender_batch_header)
+      REQUIRED: true
+      comment: The original payout header, as provided by the payment sender.
+  payout_sender_batch_header:
+    - name: sender_batch_id
+      type: STRING
+      REQUIRED: false
+      comment: The sender-specified ID number. Tracks the payout in an accounting system.<blockquote><strong>Note:</strong> <p>PayPal does not process duplicate payouts. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the API rejects the request with an error message that shows the duplicate <code>sender_batch_id</code> and includes a HATEOAS link to the original payout with the same <code>sender_batch_id</code>.</p><p>If you receive an HTTP <code>5<i>nn</i></code> status code, you can safely retry the request with the same <code>sender_batch_id</code>. The API completes a payment only once for a <code>sender_batch_id</code> that is used within 30 days.</p></blockquote>
+    - name: recipient_type
+      type: STRING
+      REQUIRED: false
+    - name: email_subject
+      type: STRING
+      REQUIRED: false
+      comment: The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Value is an alphanumeric string with a maximum length of 255 single-byte characters.
+    - name: email_message
+      type: STRING
+      REQUIRED: false
+      comment: The email message that PayPal sends when the payout item completes. The message is the same for all recipients.
+  payout_batch:
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of items in the full result list.
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages.
+    - name: batch_header
+      type: STRUCT(payout_batch_header)
+      REQUIRED: false
+      comment: A payout header. Includes the generated payout status.
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  payout_batch_header:
+    - name: payout_batch_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated ID for a payout.
+    - name: batch_status
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated payout status. If the payout passes preliminary checks, the status is `PENDING`.
+    - name: time_created
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when processing for the payout began, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: time_completed
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when processing for the payout was completed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: time_closed
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when the payout was closed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). A payout is considered closed when all items in a batch are processed and the available balance from the temporary hold is released.
+    - name: sender_batch_header
+      type: STRUCT(payout_sender_batch_header)
+      REQUIRED: true
+      comment: The original payout header, as provided by the payment sender.
+    - name: funding_source
+      type: STRING
+      REQUIRED: false
+      comment: The ID to differentiate a PayPal balance-funded transaction from a PayPal treasury-funded transaction.
+    - name: amount
+      type: STRUCT(currency)
+      REQUIRED: false
+      comment: The currency and total amount requested for the payouts.
+    - name: fees
+      type: STRUCT(currency)
+      REQUIRED: false
+      comment: The currency and amount of the total estimate for the applicable payouts fees. Initially, the fee is `0`. The fee is populated after the payout moves to the `PROCESSING` state.
+  payout_item_detail:
+    - name: recipient_type
+      type: STRING
+      REQUIRED: false
+    - name: amount
+      type: STRUCT(currency)
+      REQUIRED: true
+      comment: The currency and amount of payout item. Might be an integer for currencies like `JPY` that are not typically fractional or a decimal fraction for currencies like `TND` that are subdivided into thousandths. For the required number of decimal places for a currency code, see [Currency codes - ISO 4217](https://www.iso.org/iso-4217-currency-codes.html).
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The sender-specified note for notifications. Supports up to 4000 ASCII characters and 1000 non-ASCII characters.
+    - name: receiver
+      type: STRING
+      REQUIRED: true
+      comment: The receiver of the payment. Corresponds to the `recipient_type` value in the request.
+    - name: sender_item_id
+      type: STRING
+      REQUIRED: false
+      comment: A sender-specified ID number. Tracks the payout in an accounting system.
+    - name: recipient_name
+      type: STRUCT(name)
+      REQUIRED: false
+      comment: The name of the recipient where money is credited. For `UNCLAIMED` payments, the recipient name is populated after the payment is claimed.
+    - name: recipient_wallet
+      type: STRING
+      REQUIRED: false
+      comment: The recipient wallet.
+    - name: purpose
+      type: STRING
+      REQUIRED: false
+      comment: The purpose of the transaction.
+  payout_currency_conversion:
+    - name: from_amount
+      type: STRUCT(currency)
+      REQUIRED: false
+      comment: The amount that is converted from.
+    - name: to_amount
+      type: STRUCT(currency)
+      REQUIRED: false
+      comment: The amount that is converted to.
+    - name: exchange_rate
+      type: STRING
+      REQUIRED: false
+      comment: The exchange rate that is applied for this payout.
+  payout_item:
+    - name: payout_item_id
+      type: STRING
+      REQUIRED: true
+      comment: The ID for the payout item. Visible when you show details for a payout.
+    - name: transaction_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal-generated ID for the transaction.
+    - name: activity_id
+      type: STRING
+      REQUIRED: false
+      comment: The unique PayPal-generated common ID that links the sender- and receiver-side transactions. Used for tracking.
+    - name: transaction_status
+      type: STRING
+      REQUIRED: false
+    - name: payout_item_fee
+      type: STRUCT(currency)
+      REQUIRED: false
+      comment: The estimate for the payout fee. Initially, the fee is `0`. The fee is populated after the item moves to the `PENDING` state
+    - name: payout_batch_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal-generated ID for the payout batch.
+    - name: sender_batch_id
+      type: STRING
+      REQUIRED: false
+      comment: A sender-specified ID. Tracks the payout in an accounting system. Should be unique within 30 days.
+    - name: payout_item
+      type: STRUCT(payout_item_detail)
+      REQUIRED: true
+      comment: The sender-provided information for the payout item.
+    - name: currency_conversion
+      type: STRUCT(payout_currency_conversion)
+      REQUIRED: false
+      comment: The currency conversion applicable for this payout item.
+    - name: time_processed
+      type: TIMESTAMP
+      REQUIRED: false
+      comment: The date and time when this item was last processed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: errors
+      type: STRUCT(error)
+      REQUIRED: false
+      comment: The error details.
+    - name: links
+      type: ANY
+      REQUIRED: false

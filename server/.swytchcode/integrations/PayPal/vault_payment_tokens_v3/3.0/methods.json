@@ -1,0 +1,34 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Create a payment token for a customer's payment source",
+      "canonical_id": "payment_method_tokens.vault.paymentTokens.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a vault setup token from a payment source",
+      "canonical_id": "payment_method_tokens.vault.setupTokens.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a payment token by its ID",
+      "canonical_id": "payment_method_tokens.vault.paymentTokens.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a payment token by its ID",
+      "canonical_id": "payment_method_tokens.vault.paymentTokens.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a setup token by its ID",
+      "canonical_id": "payment_method_tokens.vault.setupTokens.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all payment tokens for a customer",
+      "canonical_id": "payment_method_tokens.vault.paymentTokens.list"
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  transaction_search.reporting.transactions.list:
+    SUMMARY: List transactions
+    DESC: Lists transactions. Specify one or more query parameters to filter the transaction that appear in the response.<blockquote><strong>Notes:</strong> <ul><li>If you specify one or more optional query parameters, the <code>ending_balance</code> response field is empty.</li><li>It takes a maximum of three hours for executed transactions to appear in the list transactions call.</li><li>This call lists transaction for the previous three years.</li></ul></blockquote>
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/reporting/transactions
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - transaction_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - transaction_type:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - transaction_status:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - transaction_amount:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - transaction_currency:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - start_date:
+          TYPE: STRING
+          LOCATION: query
+      - end_date:
+          TYPE: STRING
+          LOCATION: query
+      - payment_instrument_type:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - store_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - terminal_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: transaction_info
+      - balance_affecting_records_only:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: "Y"
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 100
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+    RETURNS:
+      - RETURNTYPE: STRUCT(search_response)
+        RETURNVAR: transaction_search_reporting_transactions_list
+        STATUS: 200
+        PAGINATION:
+          TYPE: page
+          PAGE_SIZE_FIELD: limit
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: transaction_search_reporting_transactions_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: transaction_search.reporting.transactions.list
+  transaction_search.reporting.balances.list:
+    SUMMARY: List all balances
+    DESC: List all balances. Specify date time to list balances for that time that appear in the response.<blockquote><strong>Notes:</strong> <ul><li>It takes a maximum of three hours for balances to appear in the list balances call.</li><li>This call lists balances upto the previous three years.</li></ul></blockquote>
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/reporting/balances
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - as_of_time:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - currency_code:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(balances_response)
+        RETURNVAR: transaction_search_reporting_balances_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: transaction_search_reporting_balances_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error_400)
+        STATUS: 400
+        WHEN: The request is not well-formed, is syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(error_403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: transaction_search.reporting.balances.list
+STRUCTS:
+  balances_response:
+    - name: balances
+      type: ANY
+      REQUIRED: false
+    - name: account_id
+      type: STRING
+      REQUIRED: false
+    - name: as_of_time
+      type: STRING
+      REQUIRED: false
+      comment: The requested date and time or the last date and time when the balances can be served, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: last_refresh_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the balances was last refreshed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+  error_400:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: location
+      type: STRING
+      REQUIRED: false
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value.
+  error_link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  error_401:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_403:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_404:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_409:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_415:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_422:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_500:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_503:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_default:
+    - name: variant_error_400
+      type: STRUCT(error_400)
+      REQUIRED: false
+    - name: variant_error_401
+      type: STRUCT(error_401)
+      REQUIRED: false
+    - name: variant_error_403
+      type: STRUCT(error_403)
+      REQUIRED: false
+    - name: variant_error_404
+      type: STRUCT(error_404)
+      REQUIRED: false
+    - name: variant_error_409
+      type: STRUCT(error_409)
+      REQUIRED: false
+    - name: variant_error_415
+      type: STRUCT(error_415)
+      REQUIRED: false
+    - name: variant_error_422
+      type: STRUCT(error_422)
+      REQUIRED: false
+    - name: variant_error_500
+      type: STRUCT(error_500)
+      REQUIRED: false
+    - name: variant_error_503
+      type: STRUCT(error_503)
+      REQUIRED: false
+  search_response:
+    - name: transaction_details
+      type: ANY
+      REQUIRED: false
+    - name: account_number
+      type: STRING
+      REQUIRED: false
+      comment: The merchant account number.
+    - name: start_date
+      type: STRING
+      REQUIRED: false
+      comment: The start date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: end_date
+      type: STRING
+      REQUIRED: false
+      comment: The end date and time or the last date when the data can be served, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: last_refreshed_datetime
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the data was last refreshed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: page
+      type: INT
+      REQUIRED: false
+      comment: A zero-relative index of transactions.
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of transactions as an integer beginning with the specified `page` in the full result and not just in this response.
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages, as an `integer`, when the `total_items` is divided into pages of the specified `page_size`.
+    - name: links
+      type: ANY
+      REQUIRED: false

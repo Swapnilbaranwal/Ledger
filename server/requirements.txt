@@ -1,0 +1,13 @@
+langgraph>=1.0
+langchain>=1.0
+langchain-anthropic>=1.0
+langchain-openai>=1.0
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-dotenv>=1.0
+swytchcode-runtime
+pytest
+httpx
+langchain-google-genai>=2.0
+langchain-groq>=0.3
+langchain-ollama>=1.0

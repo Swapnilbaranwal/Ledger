@@ -1,0 +1,510 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  catalog_products.catalog.products.create:
+    SUMMARY: Create product
+    DESC: Creates a product.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/catalogs/products
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(product_request_POST)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - Prefer:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+          DEFAULT: return=minimal
+      - PayPal-Request-Id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: header
+      - body:
+          TYPE: STRUCT(product_request_POST)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(product)
+        RETURNVAR: catalog_products_catalog_products_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(product)
+        RETURNVAR: catalog_products_catalog_products_create_201
+        STATUS: 201
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: catalog_products_catalog_products_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(products.create_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(products.create_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(products.create_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(products.create_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: catalog_products.catalog.products.create
+  catalog_products.catalog.products.list:
+    SUMMARY: List products
+    DESC: Lists products.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/catalogs/products
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 10
+      - page:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 1
+      - total_required:
+          TYPE: BOOL
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: false
+    RETURNS:
+      - RETURNTYPE: STRUCT(product_collection)
+        RETURNVAR: catalog_products_catalog_products_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: catalog_products_catalog_products_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(products.list_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(products.list_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(products.list_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: catalog_products.catalog.products.list
+  catalog_products.catalog.products.get:
+    SUMMARY: Show product details
+    DESC: Shows details for a product, by ID.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/catalogs/products/{product_id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - product_id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(product)
+        RETURNVAR: catalog_products_catalog_products_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: catalog_products_catalog_products_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(products.get_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(products.get_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(products.get_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: catalog_products.catalog.products.get
+  catalog_products.catalog.products.update:
+    SUMMARY: Update product
+    DESC: Updates a product, by ID. You can patch these attributes and objects:<table><thead><tr><th>Attribute or object</th><th>Operations</th></tr></thead><tbody><tr><td><code>description</code></td><td>add, replace, remove</td></tr><tr><td><code>category</code></td><td>add, replace, remove</td></tr><tr><td><code>image_url</code></td><td>add, replace, remove</td></tr><tr><td><code>home_url</code></td><td>add, replace, remove</td></tr></tbody></table>
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/catalogs/products/{product_id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - product_id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(error_default)
+        RETURNVAR: catalog_products_catalog_products_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(products.patch_Error400)
+        STATUS: 400
+        WHEN: Bad Request. Request is not well-formed, syntactically incorrect, or violates schema. (HTTP 400)
+      - TYPE: STRUCT(products.patch_Error401)
+        STATUS: 401
+        WHEN: Authentication failed due to missing authorization header, or invalid authentication credentials. (HTTP 401)
+      - TYPE: STRUCT(products.patch_Error403)
+        STATUS: 403
+        WHEN: Authorization failed due to insufficient permissions. (HTTP 403)
+      - TYPE: STRUCT(products.patch_Error404)
+        STATUS: 404
+        WHEN: The specified resource does not exist. (HTTP 404)
+      - TYPE: STRUCT(products.patch_Error422)
+        STATUS: 422
+        WHEN: The requested action could not be performed, semantically incorrect, or failed business validation. (HTTP 422)
+      - TYPE: STRUCT(error_500)
+        STATUS: 500
+        WHEN: An internal server error has occurred. (HTTP 500)
+      - TYPE: STRUCT(error_default)
+        STATUS: 500
+        WHEN: The default response. (HTTP default)
+    CANONICAL_ID: catalog_products.catalog.products.update
+STRUCTS:
+  error_400:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_details:
+    - name: field
+      type: STRING
+      REQUIRED: false
+      comment: The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors.
+    - name: value
+      type: STRING
+      REQUIRED: false
+      comment: The value of the field that caused the error.
+    - name: location
+      type: STRING
+      REQUIRED: false
+    - name: issue
+      type: STRING
+      REQUIRED: true
+      comment: The unique, fine-grained application-level error code.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value.
+  error_link_description:
+    - name: href
+      type: STRING
+      REQUIRED: true
+      comment: The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.
+    - name: rel
+      type: STRING
+      REQUIRED: true
+      comment: The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).
+    - name: method
+      type: STRING
+      REQUIRED: false
+      comment: The HTTP method required to make the related call.
+  error_401:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_403:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_404:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_409:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_415:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_422:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: details
+      type: "[]STRUCT(error_details)"
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_500:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_503:
+    - name: name
+      type: STRING
+      REQUIRED: false
+    - name: message
+      type: STRING
+      REQUIRED: false
+    - name: debug_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: links
+      type: "[]STRUCT(error_link_description)"
+      REQUIRED: false
+      comment: An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).
+  error_default:
+    - name: variant_error_400
+      type: STRUCT(error_400)
+      REQUIRED: false
+    - name: variant_error_401
+      type: STRUCT(error_401)
+      REQUIRED: false
+    - name: variant_error_403
+      type: STRUCT(error_403)
+      REQUIRED: false
+    - name: variant_error_404
+      type: STRUCT(error_404)
+      REQUIRED: false
+    - name: variant_error_409
+      type: STRUCT(error_409)
+      REQUIRED: false
+    - name: variant_error_415
+      type: STRUCT(error_415)
+      REQUIRED: false
+    - name: variant_error_422
+      type: STRUCT(error_422)
+      REQUIRED: false
+    - name: variant_error_500
+      type: STRUCT(error_500)
+      REQUIRED: false
+    - name: variant_error_503
+      type: STRUCT(error_503)
+      REQUIRED: false
+  product:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the product.
+    - name: name
+      type: STRING
+      REQUIRED: false
+      comment: The product name.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The product description.
+    - name: type
+      type: STRING
+      REQUIRED: false
+      comment: The product type. Indicates whether the product is physical or digital goods, or a service.
+    - name: category
+      type: STRING
+      REQUIRED: false
+    - name: image_url
+      type: STRING
+      REQUIRED: false
+      comment: The image URL for the product.
+    - name: home_url
+      type: STRING
+      REQUIRED: false
+      comment: The home page URL for the product.
+    - name: create_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the product was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: update_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the product was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: links
+      type: ANY
+      REQUIRED: false
+  product_collection:
+    - name: products
+      type: ANY
+      REQUIRED: false
+    - name: total_items
+      type: INT
+      REQUIRED: false
+      comment: The total number of items.
+    - name: total_pages
+      type: INT
+      REQUIRED: false
+      comment: The total number of pages.
+    - name: links
+      type: ANY
+      REQUIRED: false
+  product_request_POST:
+    - name: id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the product. You can specify the SKU for the product. If you omit the ID, the system generates it. System-generated IDs have the `PROD-` prefix.
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The product name.
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The product description.
+    - name: type
+      type: STRING
+      REQUIRED: true
+      comment: The product type. Indicates whether the product is physical or digital goods, or a service.
+    - name: category
+      type: STRING
+      REQUIRED: false
+    - name: image_url
+      type: STRING
+      REQUIRED: false
+      comment: The image URL for the product.
+    - name: home_url
+      type: STRING
+      REQUIRED: false
+      comment: The home page URL for the product.

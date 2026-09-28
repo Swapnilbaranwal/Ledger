@@ -1,0 +1,1281 @@
+VERSION: 2.0.2
+DEFAULTS:
+  bearer_token: BEARER <ACCESS_TOKEN>
+  w_base_url: https://api-m.sandbox.paypal.com
+METHODS:
+  disputes.customer.disputes.list:
+    SUMMARY: List disputes
+    DESC: Lists disputes with a summary set of details, which shows the <code>dispute_id</code>, <code>reason</code>, <code>status</code>, <code>dispute_state</code>, <code>dispute_life_cycle_stage</code>, <code>dispute_channel</code>, <code>dispute_amount</code>, <code>create_time</code> and <code>update_time</code> fields.<br/><br/>To filter the disputes in the response, specify one or more optional query parameters. To limit the number of disputes in the response, specify the <code>page_size</code> query parameter.<br/><br/>To list multiple disputes, set these query parameters in the request:<ul><li><code>page_size=2</code></li><li><code>start_time</code> instead of <code>disputed_transaction_id</code></li></ul><br/>If the response contains more than two disputes, it lists two disputes and includes a HATEOAS link to the next page of results.
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/customer/disputes
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - start_time:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: Current date and time
+      - disputed_transaction_id:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - page_size:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: 10
+      - next_page_token:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          DEFAULT: The first page of data
+      - dispute_state:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - update_time_before:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - update_time_after:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: STRUCT(dispute_search)
+        RETURNVAR: disputes_customer_disputes_list
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_disputes_list_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.disputes.list
+  disputes.customer.disputes.get:
+    SUMMARY: Show dispute details
+    DESC: Shows details for a dispute, by ID.<blockquote><strong>Note:</strong> The fields that appear in the response depend on the access. For example, if the merchant requests shows dispute details, the customer's email ID does not appear.</blockquote>
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /v1/customer/disputes/{id}
+      HEADERS:
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(dispute)
+        RETURNVAR: disputes_customer_disputes_get
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_disputes_get_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.disputes.get
+  disputes.customer.disputes.update:
+    SUMMARY: Partially update dispute
+    DESC: Partially updates a dispute, by ID. Seller can update the `communication_detail` value or The partner can add the `partner action` information.
+    HTTP:
+      METHOD: PATCH
+      ENDPOINT: /v1/customer/disputes/{id}
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: ANY
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: ANY
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_disputes_update_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_disputes_update_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.disputes.update
+  disputes.customer.provideEvidence.create:
+    SUMMARY: Provide evidence
+    DESC: Provides evidence for a dispute, by ID. A merchant can provide evidence for disputes with the <code>WAITING_FOR_SELLER_RESPONSE</code> status while customers can provide evidence for disputes with the <code>WAITING_FOR_BUYER_RESPONSE</code> status. Evidence can be a proof of delivery or proof of refund document or notes, which can include logs. A proof of delivery document includes a tracking number while a proof of refund document includes a refund ID. For other evidence type, notes and documents can be given. Evidences requested from you can be found by checking the type of evidence for the corresponding source under the evidence section of the <a href="/docs/api/customer-disputes/v1/#disputes_get">show dispute details</a> response. The source will be <code>REQUESTED_FROM_SELLER</code> for evidences requested from the merchant while it will be <code>REQUESTED_FROM_BUYER</code> for evidences requested from the customer. For constraints and rules regarding documents, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#documents">documents</a>.<br/>To make this request, specify the evidence in the JSON request body and use the <code>provide-evidence</code> link in the <a href="/docs/api/reference/api-responses/#hateoas-links/">HATEOAS links</a> of the <a href="/docs/api/customer-disputes/v1/#disputes_get">show dispute details</a> response. In case the link is not present in the response, you can't provide evidence for the dispute. For information about dispute reasons, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#dispute-reasons">dispute reasons</a>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/provide-evidence
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_provideEvidence_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_provideEvidence_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.provideEvidence.create
+  disputes.customer.appeal.create:
+    SUMMARY: Appeal dispute
+    DESC: Appeals a dispute, by ID. To appeal a dispute, use the <code>appeal</code> link in the <a href="/docs/api/reference/api-responses/#hateoas-links/">HATEOAS links</a> from the show dispute details response. If this link does not appear, you cannot appeal the dispute. Submit new evidence as a document or notes in the JSON request body. For constraints and rules regarding documents, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#documents">documents</a>.<br/>To make this request, specify the dispute ID in the URI and specify the evidence in the JSON request body. For information about dispute reasons, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#dispute-reasons">dispute reasons</a>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/appeal
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_appeal_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_appeal_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.appeal.create
+  disputes.customer.acceptClaim.create:
+    SUMMARY: Accept claim
+    DESC: Accepts liability for a claim, by ID. When you accept liability for a claim, the dispute closes in the customer’s favor and PayPal automatically refunds money to the customer from the merchant's account. Allowed accept_claim_type values for the request is available in dispute details <a href="/docs/api/customer-disputes/v1/#definition-allowed_response_options">allowed response options</a> object.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/accept-claim
+      HEADERS:
+        Content-Type: multipart/form-data
+        Authorization: bearer_token
+      CONTENT_TYPE: multipart/form-data
+      ACCEPT: application/json
+      BODYTYPE: form-data
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - accept-claim-document:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_acceptClaim_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_acceptClaim_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.acceptClaim.create
+  disputes.customer.adjudicate.create:
+    SUMMARY: Settle dispute
+    DESC: <blockquote><strong>Important:</strong> This method is for sandbox use only.</blockquote> Settles a dispute in either the customer's or merchant's favor. Merchants can make this call in the sandbox to complete end-to-end dispute resolution testing, which mimics the dispute resolution that PayPal agents normally complete. To make this call, the dispute <code>status</code> must be <code>UNDER_REVIEW</code> and <code>adjudicate</code> link  should be available in the <a href="/docs/api/customer-disputes/v1/#disputes_get!c=200&path=links&t=response/">HATEOAS links</a> of the <a href="/docs/api/customer-disputes/v1/#disputes_get">show dispute details</a> response.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/adjudicate
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(adjudicate)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(adjudicate)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_adjudicate_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_adjudicate_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.adjudicate.create
+  disputes.customer.requireEvidence.create:
+    SUMMARY: Update dispute status
+    DESC: <blockquote><strong>Important:</strong> This method is for sandbox use only.</blockquote> Updates the status of a dispute, by ID, from <code>UNDER_REVIEW</code> to either:<ul><li><code>WAITING_FOR_BUYER_RESPONSE</code></li><li><code>WAITING_FOR_SELLER_RESPONSE</code></li></ul>This status change enables either the customer or merchant to submit evidence for the dispute. To make this call, the dispute <code>status</code> must be <code>UNDER_REVIEW</code> and <code>require-evidence</code> link  should be available in the <a href="/docs/api/customer-disputes/v1/#disputes_get!c=200&path=links&t=response/">HATEOAS links</a> of the <a href="/docs/api/customer-disputes/v1/#disputes_get">show dispute details</a> response. Specify an <code>action</code> value in the JSON request body to indicate whether the status change enables the customer or merchant to submit evidence:<table><thead><tr align="left"><th>If <code>action</code> is</th><th>The <code>status</code> updates to</th></tr></thead><tbody><tr><td><code>BUYER_EVIDENCE</code></td><td> <code>WAITING_FOR_BUYER_RESPONSE</code></td></tr><tr><td><code>SELLER_EVIDENCE</code></td><td> <code>WAITING_FOR_SELLER_RESPONSE</code></td></tr></tbody></table>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/require-evidence
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(require_evidence)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(require_evidence)
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_requireEvidence_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_requireEvidence_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.requireEvidence.create
+  disputes.customer.escalate.create:
+    SUMMARY: Escalate dispute to claim
+    DESC: Escalates the dispute, by ID, to a PayPal claim. To make this call, the stage in the dispute lifecycle must be `INQUIRY`.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/escalate
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(escalate)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(escalate)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(escalate_response)
+        RETURNVAR: disputes_customer_escalate_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_escalate_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.escalate.create
+  disputes.customer.sendMessage.create:
+    SUMMARY: Send message about dispute to other party
+    DESC: Sends a message about a dispute, by ID, to the other party in the dispute. Merchants and customers can only send messages if the `dispute_life_cycle_stage` value is `INQUIRY`. For constraints and rules regarding documents that can be attached as part of the message, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#documents">documents</a>. To send a message, use the <code>send-message</code> link in the <a href="/docs/api/reference/api-responses/#hateoas-links/">HATEOAS links</a> of the <a href="/docs/api/customer-disputes/v1/#disputes_get">show dispute details</a> response and specify the message in the JSON request body. In case the link is not present in the response you can't send a message on the dispute.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/send-message
+      HEADERS:
+        Content-Type: multipart/form-data
+        Authorization: bearer_token
+      CONTENT_TYPE: multipart/form-data
+      ACCEPT: application/json
+      BODYTYPE: form-data
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - message_document:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_sendMessage_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_sendMessage_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.sendMessage.create
+  disputes.customer.makeOffer.create:
+    SUMMARY: Make offer to resolve dispute
+    DESC: Makes an offer to the other party to resolve a dispute, by ID. To make this call, the stage in the dispute lifecycle must be `INQUIRY`. If the customer accepts the offer, PayPal automatically makes a refund. Allowed offer_type values for the request is available in dispute details <a href="/docs/api/customer-disputes/v1/#definition-allowed_response_options">allowed response options</a> object.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/make-offer
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(make_offer)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(make_offer)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_makeOffer_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_makeOffer_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.makeOffer.create
+  disputes.customer.acceptOffer.create:
+    SUMMARY: Accept offer to resolve dispute
+    DESC: The customer accepts the offer from merchant to resolve a dispute, by ID. PayPal automatically refunds the amount proposed by merchant to the customer.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/accept-offer
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(accept_offer)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(accept_offer)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_acceptOffer_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_acceptOffer_create_202
+        STATUS: 202
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_acceptOffer_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.acceptOffer.create
+  disputes.customer.denyOffer.create:
+    SUMMARY: Deny offer to resolve dispute
+    DESC: Denies an offer that the merchant proposes for a dispute, by ID.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/deny-offer
+      HEADERS:
+        Content-Type: application/json
+        Authorization: bearer_token
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+      BODY:
+        TYPE: STRUCT(deny_offer)
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - body:
+          TYPE: STRUCT(deny_offer)
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_denyOffer_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_denyOffer_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.denyOffer.create
+  disputes.customer.acknowledgeReturnItem.create:
+    SUMMARY: Acknowledge returned item
+    DESC: Acknowledges that the customer returned an item for a dispute, by ID. A merchant can make this request for disputes with the `MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED` reason. Allowed acknowledgement_type values for the request is available in dispute details <a href="/docs/api/customer-disputes/v1/#definition-allowed_response_options">allowed response options</a> object. For constraints and rules regarding documents, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#documents">documents</a>.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/acknowledge-return-item
+      HEADERS:
+        Content-Type: multipart/form-data
+        Authorization: bearer_token
+      CONTENT_TYPE: multipart/form-data
+      ACCEPT: application/json
+      BODYTYPE: form-data
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - acknowledgement_document:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_acknowledgeReturnItem_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_acknowledgeReturnItem_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.acknowledgeReturnItem.create
+  disputes.customer.provideSupportingInfo.create:
+    SUMMARY: Provide supporting information for dispute
+    DESC: Provides supporting information for a dispute, by ID. A merchant or buyer can make this request for disputes if they find the `provide-supporting-info` link in the HATEOAS links in the list disputes response. The party can provide the supporting information to PayPal to defend themselves only when the `dispute_life_cycle_stage` is `CHARGEBACK`, `PRE_ARBITRATION`, or `ARBITRATION`. They can provide a note that describes their part with details or upload any supporting documents to support their side. For constraints and rules regarding documents, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#documents">documents</a>.<br/>To make this request, specify the dispute ID in the URI and specify the notes in the JSON request body. This method differs from the provide evidence method which supports only multipart request, where PayPal asks the concerned party for evidence.
+    HTTP:
+      METHOD: POST
+      ENDPOINT: /v1/customer/disputes/{id}/provide-supporting-info
+      HEADERS:
+        Content-Type: multipart/form-data
+        Authorization: bearer_token
+      CONTENT_TYPE: multipart/form-data
+      ACCEPT: application/json
+      BODYTYPE: form-data
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - id:
+          TYPE: STRING
+          LOCATION: path
+      - supporting document:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: body
+    RETURNS:
+      - RETURNTYPE: STRUCT(subsequent_action)
+        RETURNVAR: disputes_customer_provideSupportingInfo_create
+        STATUS: 200
+      - RETURNTYPE: STRUCT(error)
+        RETURNVAR: disputes_customer_provideSupportingInfo_create_NaN
+        STATUS: .nan
+    ERRORS:
+      - TYPE: STRUCT(error)
+        STATUS: 400
+        WHEN: The request failed due to a validation error. The request returns the HTTP `400 Bad Request` status code. (HTTP 400)
+      - TYPE: STRUCT(error)
+        STATUS: 404
+        WHEN: The request failed due to the dispute is not available. The request returns the HTTP `404 Not Found` status code. (HTTP 404)
+      - TYPE: STRUCT(error)
+        STATUS: 422
+        WHEN: The requested action could not be completed. The request returns the HTTP `422 Unprocessable Entity` status code. (HTTP 422)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: An internal server error occurred. The request returns the HTTP `500 Internal Server Error` status code. (HTTP 500)
+      - TYPE: STRUCT(error)
+        STATUS: 500
+        WHEN: The error response. (HTTP default)
+    CANONICAL_ID: disputes.customer.provideSupportingInfo.create
+STRUCTS:
+  accept_claim_response_options:
+    - name: accept_claim_types
+      type: ANY
+      REQUIRED: false
+  accept_offer:
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The customer notes about accepting of offer. PayPal can but the merchant cannot view these notes.
+  acknowledge_return_item_response_options:
+    - name: acknowledgement_types
+      type: ANY
+      REQUIRED: false
+  address_details:
+    - name: street_number
+      type: STRING
+      REQUIRED: false
+      comment: The street number.
+    - name: street_name
+      type: STRING
+      REQUIRED: false
+      comment: The street name. Just `Drury` in `Drury Lane`.
+    - name: street_type
+      type: STRING
+      REQUIRED: false
+      comment: The street type. For example, avenue, boulevard, road, or expressway.
+    - name: delivery_service
+      type: STRING
+      REQUIRED: false
+      comment: The delivery service. Post office box, bag number, or post office name.
+    - name: building_name
+      type: STRING
+      REQUIRED: false
+      comment: A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>.
+    - name: sub_building
+      type: STRING
+      REQUIRED: false
+      comment: The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.
+  address_portable:
+    - name: address_line_1
+      type: STRING
+      REQUIRED: false
+      comment: The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.
+    - name: address_line_2
+      type: STRING
+      REQUIRED: false
+      comment: The second line of the address. For example, suite or apartment number.
+    - name: address_line_3
+      type: STRING
+      REQUIRED: false
+      comment: The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.
+    - name: admin_area_4
+      type: STRING
+      REQUIRED: false
+      comment: The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul>
+    - name: admin_area_3
+      type: STRING
+      REQUIRED: false
+      comment: A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul>
+    - name: admin_area_2
+      type: STRING
+      REQUIRED: false
+      comment: A city, town, or village. Smaller than `admin_area_level_1`.
+    - name: admin_area_1
+      type: STRING
+      REQUIRED: false
+      comment: The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul>
+    - name: postal_code
+      type: STRING
+      REQUIRED: false
+      comment: The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).
+    - name: country_code
+      type: STRING
+      REQUIRED: true
+    - name: address_details
+      type: STRUCT(address_details)
+      REQUIRED: false
+  adjudicate:
+    - name: adjudication_outcome
+      type: STRING
+      REQUIRED: true
+      comment: The outcome of the adjudication.
+  agreed_refund_details:
+    - name: merchant_agreed_refund
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether merchant has agreed to refund the buyer or not.
+    - name: merchant_agreed_refund_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time proposed by merchant to provide the refund, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+  allowed_response_options:
+    - name: acknowledge_return_item
+      type: STRUCT(acknowledge_return_item_response_options)
+      REQUIRED: false
+    - name: accept_claim
+      type: STRUCT(accept_claim_response_options)
+      REQUIRED: false
+    - name: make_offer
+      type: STRUCT(make_offer_response_options)
+      REQUIRED: false
+  make_offer_response_options:
+    - name: offer_types
+      type: ANY
+      REQUIRED: false
+  billing_disputes_properties:
+    - name: duplicate_transaction
+      type: STRUCT(duplicate_transaction)
+      REQUIRED: false
+    - name: incorrect_transaction_amount
+      type: STRUCT(incorrect_transaction_amount)
+      REQUIRED: false
+    - name: payment_by_other_means
+      type: STRUCT(payment_by_other_means)
+      REQUIRED: false
+    - name: credit_not_processed
+      type: STRUCT(credit_not_processed)
+      REQUIRED: false
+    - name: canceled_recurring_billing
+      type: STRUCT(canceled_recurring_billing)
+      REQUIRED: false
+  duplicate_transaction:
+    - name: received_duplicate
+      type: BOOL
+      REQUIRED: false
+      comment: If `true`, indicates that a duplicate transaction was received.
+    - name: original_transaction
+      type: STRUCT(transaction_info)
+      REQUIRED: false
+      comment: The transaction details for the original transaction, when the dispute reason is `DUPLICATE_TRANSACTION`. Currently, contains only the date and amount.
+  transaction_info:
+    - name: buyer_transaction_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID, as seen by the customer, for this transaction.
+    - name: seller_transaction_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID, as seen by the merchant, for this transaction.
+    - name: reference_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID, as seen by the partner, for this transaction.
+    - name: create_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the transaction was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: transaction_status
+      type: STRING
+      REQUIRED: false
+      comment: The transaction status.
+    - name: gross_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The gross amount of the transaction.
+    - name: gross_asset
+      type: STRUCT(cryptocurrency)
+      REQUIRED: false
+      comment: The gross asset of the transaction.
+    - name: invoice_number
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the invoice for the payment.
+    - name: custom
+      type: STRING
+      REQUIRED: false
+      comment: A free-text field that is entered by the merchant during checkout.
+    - name: buyer
+      type: STRUCT(buyer)
+      REQUIRED: false
+    - name: seller
+      type: STRUCT(seller)
+      REQUIRED: false
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: payment_processor
+      type: STRUCT(payment_processor)
+      REQUIRED: false
+  money:
+    - name: currency_code
+      type: STRING
+      REQUIRED: true
+    - name: value
+      type: STRING
+      REQUIRED: true
+      comment: The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).
+  cryptocurrency:
+    - name: asset_symbol
+      type: STRING
+      REQUIRED: true
+    - name: quantity
+      type: STRING
+      REQUIRED: true
+    - name: quantity_in_subunits
+      type: STRING
+      REQUIRED: false
+    - name: decimals
+      type: INT
+      REQUIRED: false
+  buyer:
+    - name: name
+      type: STRING
+      REQUIRED: false
+      comment: The customer's name.
+  seller:
+    - name: email
+      type: STRING
+      REQUIRED: false
+      comment: The email address for the merchant's PayPal account.
+    - name: merchant_id
+      type: STRING
+      REQUIRED: false
+      comment: The PayPal account ID for the merchant.
+    - name: name
+      type: STRING
+      REQUIRED: false
+      comment: The name of the merchant.
+  incorrect_transaction_amount:
+    - name: correct_transaction_amount
+      type: STRUCT(money)
+      REQUIRED: false
+    - name: correct_transaction_asset
+      type: STRUCT(cryptocurrency)
+      REQUIRED: false
+      comment: The correct asset quantity of the transaction.
+    - name: correct_transaction_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the customer created the transaction, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+  payment_by_other_means:
+    - name: charge_different_from_original
+      type: BOOL
+      REQUIRED: false
+      comment: If `true`, indicates that a charge was made that is different from the original charge.
+    - name: received_duplicate
+      type: BOOL
+      REQUIRED: false
+      comment: If `true`, indicates that a duplicate transaction was received.
+    - name: payment_method
+      type: STRING
+      REQUIRED: false
+      comment: The payment method.
+    - name: payment_instrument_suffix
+      type: STRING
+      REQUIRED: false
+      comment: Last 2-4 characters of the payment instrument. For payment_method CHECK, payment_instrument_suffix entered must be of minimum length 2-4 characters. For payment_method CREDIT_CARD, DEBIT_CARD, GIFT_CARD, BANK_TRANSFER, payment_instrument_suffix entered must be of length 4.
+  credit_not_processed:
+    - name: issue_type
+      type: STRING
+      REQUIRED: false
+      comment: The issue type.
+    - name: expected_refund
+      type: STRUCT(money)
+      REQUIRED: false
+    - name: cancellation_details
+      type: STRUCT(cancellation_details)
+      REQUIRED: false
+    - name: product_details
+      type: STRUCT(product_details)
+      REQUIRED: false
+    - name: service_details
+      type: STRUCT(service_details)
+      REQUIRED: false
+    - name: agreed_refund_details
+      type: STRUCT(agreed_refund_details)
+      REQUIRED: false
+  cancellation_details:
+    - name: cancellation_date
+      type: STRING
+      REQUIRED: false
+      comment: The date and time of the cancellation, in [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: cancellation_number
+      type: STRING
+      REQUIRED: false
+      comment: The cancellation number.
+    - name: cancelled
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether the dispute was canceled.
+    - name: cancellation_mode
+      type: STRING
+      REQUIRED: false
+      comment: Indicates the mode used for order cancellation.
+  product_details:
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The product description.
+    - name: product_received
+      type: STRING
+      REQUIRED: false
+      comment: Indicates whether the product was, or was not, received or returned.
+    - name: product_received_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when product was delivered.
+    - name: expected_delivery_date
+      type: STRING
+      REQUIRED: false
+      comment: The expected delivery date and time of the product.
+    - name: sub_reasons
+      type: ANY
+      REQUIRED: false
+    - name: purchase_url
+      type: STRING
+      REQUIRED: false
+      comment: The URL where the customer purchased the product.
+    - name: return_details
+      type: STRUCT(return_details)
+      REQUIRED: false
+  return_details:
+    - name: return_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the product was returned, [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6).
+    - name: mode
+      type: STRING
+      REQUIRED: false
+      comment: The method that the customer used to return the product.
+    - name: receipt
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates whether customer has the return receipt.
+    - name: return_confirmation_number
+      type: STRING
+      REQUIRED: false
+      comment: The confirmation number for the item return.
+    - name: returned
+      type: BOOL
+      REQUIRED: false
+      comment: If `true`, indicates that the item was returned but the seller refused to accept the return and if `false`, indicates the item was not attempted to return.
+  service_details:
+    - name: description
+      type: STRING
+      REQUIRED: false
+      comment: The service description.
+    - name: service_started
+      type: STRING
+      REQUIRED: false
+      comment: Indicates whether the service was started or cancelled.
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The customer specified note about the service usage.
+    - name: sub_reasons
+      type: ANY
+      REQUIRED: false
+    - name: purchase_url
+      type: STRING
+      REQUIRED: false
+      comment: The URL of the merchant or marketplace site where the customer purchased the service.
+  canceled_recurring_billing:
+    - name: expected_refund
+      type: STRUCT(money)
+      REQUIRED: false
+    - name: cancellation_details
+      type: STRUCT(cancellation_details)
+      REQUIRED: false
+  communication_details:
+    - name: email
+      type: STRING
+      REQUIRED: false
+      comment: The email address that is provided by the merchant where the customer can share the evidences.
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The merchant provided notes that are visible to both the customer and PayPal.
+    - name: time_posted
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the contact details were posted, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).
+  deny_offer:
+    - name: note
+      type: STRING
+      REQUIRED: true
+      comment: The customer notes about the denial of offer. PayPal can but the merchant cannot view these notes.
+  dispute:
+    - name: dispute_id
+      type: STRING
+      REQUIRED: false
+      comment: The ID of the dispute.
+    - name: create_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the dispute was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: update_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the dispute was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: disputed_transactions
+      type: ANY
+      REQUIRED: false
+    - name: reason
+      type: STRING
+      REQUIRED: false
+    - name: status
+      type: STRING
+      REQUIRED: false
+    - name: dispute_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount in the transaction that the customer originally disputed. Because customers can sometimes dispute only part of the payment, the disputed amount might be different from the total gross or net amount of the original transaction.
+    - name: dispute_asset
+      type: STRUCT(cryptocurrency)
+      REQUIRED: false
+      comment: The asset in the transaction that the customer disputed.
+    - name: fee_policy
+      type: STRUCT(fee_policy)
+      REQUIRED: false
+      comment: Policy that determines whether the fee needs to be charged, retained or returned while moving the money as part of dispute process.
+    - name: external_reason_code
+      type: STRING
+      REQUIRED: false
+      comment: The code that identifies the reason for the credit card chargeback. Each card issuer follows their own standards for defining reason type, code, and its format. For more details about the external reason code, see the card issue site. Available for only unbranded transactions.
+    - name: dispute_outcome
+      type: STRUCT(dispute_outcome)
+      REQUIRED: false
+    - name: adjudications
+      type: ANY
+      REQUIRED: false
+    - name: money_movements
+      type: ANY
+      REQUIRED: false
+    - name: fund_movements
+      type: ANY
+      REQUIRED: false
+    - name: dispute_life_cycle_stage
+      type: STRING
+      REQUIRED: false
+    - name: dispute_channel
+      type: STRING
+      REQUIRED: false
+    - name: messages
+      type: ANY
+      REQUIRED: false
+    - name: extensions
+      type: STRUCT(extensions)
+      REQUIRED: false
+    - name: evidences
+      type: ANY
+      REQUIRED: false
+    - name: buyer_response_due_date
+      type: STRING
+      REQUIRED: false
+      comment: The date and time by when the customer must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the customer does not respond by this date and time, the dispute is closed in the merchant's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: seller_response_due_date
+      type: STRING
+      REQUIRED: false
+      comment: The date and time by when the merchant must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the merchant does not respond by this date and time, the dispute is closed in the customer's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: offer
+      type: STRUCT(offer)
+      REQUIRED: false
+    - name: refund_details
+      type: STRUCT(refund_details)
+      REQUIRED: false
+    - name: communication_details
+      type: STRUCT(communication_details)
+      REQUIRED: false
+    - name: supporting_info
+      type: ANY
+      REQUIRED: false
+    - name: allowed_response_options
+      type: STRUCT(allowed_response_options)
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  dispute_outcome:
+    - name: outcome_code
+      type: STRING
+      REQUIRED: false
+      comment: The outcome of a resolved dispute.
+    - name: outcome_reason
+      type: STRING
+      REQUIRED: false
+      comment: The justification for the adjudication outcome.
+    - name: amount_refunded
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount that either the merchant or PayPal refunds the customer.
+    - name: asset_refunded
+      type: STRUCT(cryptocurrency)
+      REQUIRED: false
+      comment: The asset that either the merchant or PayPal refunds the customer.
+  extensions:
+    - name: merchant_contacted
+      type: BOOL
+      REQUIRED: false
+      comment: Indicates that the merchant was contacted.
+    - name: merchant_contacted_outcome
+      type: STRING
+      REQUIRED: false
+    - name: merchant_contacted_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when merchant was contacted.
+    - name: merchant_contacted_mode
+      type: STRING
+      REQUIRED: false
+      comment: The method used to contact the merchant.
+    - name: buyer_contacted_time
+      type: STRING
+      REQUIRED: false
+      comment: The date and time when the buyer contacted the partner to file a dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.
+    - name: buyer_contacted_channel
+      type: STRING
+      REQUIRED: false
+      comment: The channel through which the buyer contacted the partner to file a dispute. Partners that allow buyers to create dispute from multiple channels can use this field to help identify which channel was used for each individual dispute.
+    - name: billing_dispute_properties
+      type: STRUCT(billing_disputes_properties)
+      REQUIRED: false
+    - name: merchandize_dispute_properties
+      type: STRUCT(merchandize_dispute_properties)
+      REQUIRED: false
+    - name: reported_source
+      type: STRING
+      REQUIRED: false
+  merchandize_dispute_properties:
+    - name: issue_type
+      type: STRING
+      REQUIRED: false
+      comment: The issue type.
+    - name: product_details
+      type: STRUCT(product_details)
+      REQUIRED: false
+    - name: service_details
+      type: STRUCT(service_details)
+      REQUIRED: false
+    - name: cancellation_details
+      type: STRUCT(cancellation_details)
+      REQUIRED: false
+    - name: return_shipping_address
+      type: STRUCT(address_portable)
+      REQUIRED: false
+      comment: The return address for the item. Required when the customer must return an item to the merchant for the <a href="/docs/integration/direct/customer-disputes/integration-guide/#merchandise_or_service_not_as_described"><code>MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED</code></a> dispute reason.
+  offer:
+    - name: buyer_requested_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The customer-requested refund for this dispute.
+    - name: seller_offered_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The merchant-offered refund for this dispute.
+    - name: offer_type
+      type: STRING
+      REQUIRED: false
+    - name: history
+      type: ANY
+      REQUIRED: false
+  refund_details:
+    - name: allowed_refund_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The maximum refundable amount.
+  dispute_search:
+    - name: items
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  error:
+    - name: name
+      type: STRING
+      REQUIRED: true
+      comment: The human-readable, unique name of the error.
+    - name: message
+      type: STRING
+      REQUIRED: true
+      comment: The message that describes the error.
+    - name: debug_id
+      type: STRING
+      REQUIRED: true
+      comment: The PayPal internal ID. Used for correlation purposes.
+    - name: information_link
+      type: STRING
+      REQUIRED: false
+      comment: The information link, or URI, that shows detailed information about this error for the developer.
+    - name: details
+      type: ANY
+      REQUIRED: false
+    - name: links
+      type: ANY
+      REQUIRED: false
+  escalate:
+    - name: note
+      type: STRING
+      REQUIRED: false
+      comment: The notes about the escalation of the dispute to a claim.
+    - name: buyer_escalation_reason
+      type: STRUCT(buyer_escalation_reason)
+      REQUIRED: false
+  escalate_response:
+    - name: links
+      type: ANY
+      REQUIRED: false
+  make_offer:
+    - name: note
+      type: STRING
+      REQUIRED: true
+      comment: The merchant's notes about the offer.
+    - name: offer_amount
+      type: STRUCT(money)
+      REQUIRED: false
+      comment: The amount proposed to resolve the dispute.
+    - name: return_shipping_address
+      type: STRUCT(address_portable)
+      REQUIRED: false
+      comment: The return address for the item. Required when the customer must return an item to the merchant for the <code>MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED</code> dispute reason, especially if the refund amount is less than the dispute amount.
+    - name: invoice_id
+      type: STRING
+      REQUIRED: false
+      comment: The merchant-provided ID of the invoice for the refund. This optional value maps the refund to an invoice ID in the merchant's system.
+    - name: offer_type
+      type: STRING
+      REQUIRED: true
+  require_evidence:
+    - name: action
+      type: STRING
+      REQUIRED: true
+      comment: The action. Indicates whether the state change enables the customer or merchant to submit evidence.
+  subsequent_action:
+    - name: links
+      type: ANY
+      REQUIRED: false

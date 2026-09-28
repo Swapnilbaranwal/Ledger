@@ -1,0 +1,24 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Create a new product in the catalog",
+      "canonical_id": "catalog_products.catalog.products.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get product details by product ID",
+      "canonical_id": "catalog_products.catalog.products.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List available products with pagination options",
+      "canonical_id": "catalog_products.catalog.products.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a product's details by its ID",
+      "canonical_id": "catalog_products.catalog.products.update"
+    }
+  ]
+}
